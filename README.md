@@ -45,13 +45,30 @@ prisma/
 
 Request lifecycle: HTTP → middleware → validation → route → controller → service → Prisma/PostgreSQL → centralized error handler.
 
-## Environment Variables
+## Database Schema
 
-Copy `.env.example` to `.env` and fill in real values (never commit real secrets):
+The data model (`prisma/schema.prisma`) covers the full marketplace domain:
 
-- `DATABASE_URL` — PostgreSQL connection string
-- `JWT_SECRET`, `JWT_EXPIRES_IN`
-- `PORT`, `NODE_ENV`, `CORS_ORIGIN`
+| Model | Purpose |
+|---|---|
+| `User` | Account, role (CLIENT / FREELANCER / ADMIN), status, auth |
+| `Profile` | Full name, bio, headline, portfolio, experience |
+| `Skill` / `UserSkill` / `JobSkill` | Shared skill catalogue, linked to users and jobs |
+| `Job` | Work posted by clients: title, description, budget range, deadline, status |
+| `Application` | Freelancer bid on a job (cover letter + proposed bid), one per job per freelancer |
+| `Project` | Created automatically when an application is accepted; links client + freelancer |
+| `Milestone` | Trackable deliverables inside a project |
+| `Reviews` | Bidirectional ratings on completed projects, one per reviewer per project |
+| `Report` | Abuse reports with an admin moderation workflow |
+
+Business rules enforced by the schema and services:
+
+- Unique email; one application per (job, freelancer); one review per (project, reviewer)
+- Cascade deletes: removing a user/job/project cleans up all dependent rows
+- Indexed lookup paths: email, status, budget range, foreign keys
+- Status enums for every lifecycle: `JobStatus`, `ApplicationStatus`, `ProjectStatus`, `MilestoneStatus`, `ReportStatus`, `AccountStatus`
+
+Seed data (`npm run seed`) creates one admin, one client, one freelancer and six starter skills. See `.env.example` for required environment variables.
 
 ## Setup (clean clone)
 
@@ -79,18 +96,26 @@ npm run dev                   # start in watch mode
 
 | Area | Endpoints |
 |---|---|
-| Auth | `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me` |
-| Profiles | `GET /api/users/:id`, `PATCH /api/users/me` |
-| Skills | `GET /api/skills`, `POST/PATCH/DELETE /api/skills/:id` |
+| Auth | `POST /api/auth/register`, `POST /api/auth/login`, `GET /api/auth/me` |
+| Profiles | `GET/PATCH /api/profile`, `POST /api/profile/skills`, `DELETE /api/profile/skills/:skillId`, `GET /api/users/:userId/profile` |
+| Skills | `GET /api/skills`, `POST /api/skills` |
 | Jobs | `POST /api/jobs`, `GET /api/jobs`, `GET/PATCH/DELETE /api/jobs/:id` |
-| Applications | `POST /api/jobs/:jobId/applications`, `GET /api/jobs/:jobId/applications`, `PATCH /api/applications/:id` |
+| Applications | `POST /api/applications`, `GET /api/applications`, `GET/PATCH/DELETE /api/applications/:id` |
 | Projects | `GET /api/projects`, `GET/PATCH /api/projects/:id` |
-| Milestones | `POST /api/projects/:projectId/milestones`, `PATCH /api/milestones/:id` |
-| Reviews | `POST /api/projects/:projectId/reviews`, `GET /api/users/:id/reviews` |
-| Reports | `POST /api/reports`, `GET/PATCH /api/admin/reports/...` |
+| Milestones | `POST /api/projects/:id/milestones`, `PATCH/DELETE /api/projects/milestones/:milestoneId` |
+| Reviews | `GET/POST /api/projects/:id/reviews` |
+| Reports | `POST /api/projects/reports`, `GET/PATCH /api/projects/reports/:id` (admin) |
 | Health | `GET /api/health` |
 
 Query conventions: `?page=1&limit=20` (bounded), `?search=`, `?status=`, `?skillId=`, `?minBudget=`, `?maxBudget=`, sorting via an allow-list of fields.
+
+## Testing
+
+```bash
+npm test
+```
+
+20 integration tests across 5 suites (health, auth, profiles & skills, jobs & applications, full project lifecycle). Tests run against the real PostgreSQL database, exercising register → login → post job → apply → accept → milestone → complete → review → report → admin resolve end to end.
 
 ## Error Shape
 
