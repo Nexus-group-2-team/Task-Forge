@@ -20,7 +20,7 @@ TaskForge manages identity, profiles, skills, jobs, applications, projects, mile
 - **PostgreSQL + Prisma ORM** (schema, migrations, seed)
 - **JWT** authentication, **bcrypt** password hashing
 - **Zod** runtime validation
-- **Jest / Supertest** automated tests
+- **Vitest / Supertest** automated tests
 
 ## Architecture
 
@@ -33,6 +33,7 @@ src/
 ├── controllers/      # HTTP in → service calls
 ├── services/         # Business rules & transactions
 ├── middleware/       # Auth, roles, validation, errors
+├── modules/          # Domain modules (auth, jobs, profiles, etc.)
 ├── validators/       # Zod schemas
 ├── utils/            # Shared helpers
 ├── errors/           # Typed HTTP errors
