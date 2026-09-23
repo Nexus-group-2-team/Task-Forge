@@ -9,7 +9,7 @@ app.use(express.json());
 app.get("/health", (_req, res) => {
   res.json({
     success: true,
-    message: "TaskForge API is running"
+    message: "TaskForge API is running",
   });
 });
 
