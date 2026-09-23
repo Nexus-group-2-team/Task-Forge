@@ -42,7 +42,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^26.6.2",
     "@types/supertest": "^7.2.1",
-    "prisma": "^8.0.0-rc.15",
+    "prisma": "^7.10.0",
     "supertest": "^7.2.2",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
