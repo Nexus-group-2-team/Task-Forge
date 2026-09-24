@@ -1,56 +1,42 @@
 export class AppError extends Error {
   public readonly statusCode: number;
-  public readonly isOperational: boolean;
-  public readonly errors?: unknown;
+  public readonly errors?: Record<string, string[]>;
 
-  constructor(message: string, statusCode = 500, errors?: unknown, isOperational = true) {
+  constructor(message: string, statusCode = 400, errors?: Record<string, string[]>) {
     super(message);
     this.statusCode = statusCode;
     this.errors = errors;
-    this.isOperational = isOperational;
     Object.setPrototypeOf(this, new.target.prototype);
     Error.captureStackTrace(this, this.constructor);
   }
 }
 
 export class BadRequestError extends AppError {
-  constructor(message = "Bad Request", errors?: unknown) {
+  constructor(message = "Bad request", errors?: Record<string, string[]>) {
     super(message, 400, errors);
   }
 }
 
 export class UnauthorizedError extends AppError {
-  constructor(message = "Unauthorized", errors?: unknown) {
-    super(message, 401, errors);
+  constructor(message = "Unauthorized") {
+    super(message, 401);
   }
 }
 
 export class ForbiddenError extends AppError {
-  constructor(message = "Forbidden", errors?: unknown) {
-    super(message, 403, errors);
+  constructor(message = "Forbidden access") {
+    super(message, 403);
   }
 }
 
 export class NotFoundError extends AppError {
-  constructor(message = "Resource Not Found", errors?: unknown) {
-    super(message, 404, errors);
+  constructor(message = "Resource not found") {
+    super(message, 404);
   }
 }
 
 export class ConflictError extends AppError {
-  constructor(message = "Conflict", errors?: unknown) {
-    super(message, 409, errors);
-  }
-}
-
-export class UnprocessableEntityError extends AppError {
-  constructor(message = "Unprocessable Entity", errors?: unknown) {
-    super(message, 422, errors);
-  }
-}
-
-export class InternalServerError extends AppError {
-  constructor(message = "Internal Server Error", errors?: unknown) {
-    super(message, 500, errors);
+  constructor(message = "Conflict occurred") {
+    super(message, 409);
   }
 }

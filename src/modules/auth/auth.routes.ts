@@ -1,8 +1,13 @@
 import { Router } from "express";
+import { AuthController } from "./auth.controller.js";
+import { validate } from "../../shared/middleware/validate.middleware.js";
+import { authenticate } from "../../shared/middleware/auth.middleware.js";
+import { registerSchema, loginSchema } from "./auth.schema.js";
 
-// Placeholder router: the Auth module is owned by another team member and is not
-// implemented on this branch. Kept as a valid default export so the Express app
-// boots and the reviews/reports routes can be exercised.
 const router = Router();
+
+router.post("/register", validate({ body: registerSchema }), AuthController.register);
+router.post("/login", validate({ body: loginSchema }), AuthController.login);
+router.get("/me", authenticate, AuthController.me);
 
 export default router;

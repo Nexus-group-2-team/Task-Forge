@@ -1,9 +1,14 @@
-import type { RequestUser } from "./api.types.js";
+import { Role, AccountStatus } from "@prisma/client";
 
 declare global {
   namespace Express {
     interface Request {
-      user?: RequestUser;
+      user?: {
+        id: string;
+        email: string;
+        role: Role;
+        accountStatus: AccountStatus;
+      };
     }
   }
 }
