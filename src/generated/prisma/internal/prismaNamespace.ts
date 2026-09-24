@@ -1442,9 +1442,6 @@ export const ApplicationScalarFieldEnum = {
   freelancerId: 'freelancerId',
   coverLetter: 'coverLetter',
   proposedBid: 'proposedBid',
-  estimatedDays: 'estimatedDays',
-  resumeUrl: 'resumeUrl',
-  attachmentUrls: 'attachmentUrls',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
