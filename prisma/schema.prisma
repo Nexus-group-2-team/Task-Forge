@@ -1,10 +1,11 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
 }
+
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 // ---------- Enums ----------
@@ -102,11 +103,20 @@ model Skill {
   id        String @id @default(cuid())
   name      String @unique
   createdAt DateTime @default(now())
+  categoryId String?
+  category Category? @relation(fields: [categoryId], references:[id])
 
   userSkills UserSkill[]
   jobSkills  JobSkill[]
 
   @@map("skills")
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique // e.g., "Frontend"
+  description String?  
+  skills      Skill[]  // A category has many skills
 }
 
 model UserSkill {
