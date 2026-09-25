@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "vitest run tests --exclude dist/**",
+    "seed": "tsx prisma/seed.ts",
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
@@ -27,6 +28,7 @@
   },
   "homepage": "https://github.com/Nexus-group-2-team/Task-Forge#readme",
   "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "^7.10.0",
     "argon2": "^0.45.1",
     "bcryptjs": "^3.0.3",
@@ -37,6 +39,7 @@
     "express-rate-limit": "^8.7.0",
     "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.3",
+    "pg": "^8.23.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {
@@ -45,13 +48,15 @@
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^26.6.2",
+    "@types/pg": "^8.23.1",
     "@types/supertest": "^7.2.1",
-
     "prisma": "^7.10.0",
     "supertest": "^7.3.0",
-
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "vitest": "^4.1.11"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   }
 }
