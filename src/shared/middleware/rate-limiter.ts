@@ -5,7 +5,6 @@ export const globalRateLimiter = rateLimit({
   max: 100, // Limit each IP to 100 requests per `window`
   standardHeaders: true,
   legacyHeaders: false,
-  skip: () => process.env.NODE_ENV === "test",
   message: {
     success: false,
     message: "Too many requests from this IP, please try again after 15 minutes",
@@ -17,7 +16,6 @@ export const authRateLimiter = rateLimit({
   max: 20, // Limit each IP to 20 requests per window for auth routes
   standardHeaders: true,
   legacyHeaders: false,
-  skip: () => process.env.NODE_ENV === "test",
   message: {
     success: false,
     message: "Too many authentication attempts, please try again after 15 minutes",

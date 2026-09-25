@@ -4,7 +4,7 @@ import { ProfileService } from "./profile.service.js";
 export class ProfileController {
   static async getMyProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const profile = await ProfileService.getProfileByUserId(req.user!.id);
+      const profile = await ProfileService.getProfileByUserId(req.user!.id, true);
       res.status(200).json({
         success: true,
         data: profile,
@@ -16,7 +16,11 @@ export class ProfileController {
 
   static async getProfileById(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const profile = await ProfileService.getProfileByUserId(req.params.userId as string);
+      const targetUserId = req.params.userId as string;
+      const isOwnerOrAdmin = Boolean(
+        req.user && (req.user.id === targetUserId || req.user.role === "ADMIN")
+      );
+      const profile = await ProfileService.getProfileByUserId(targetUserId, isOwnerOrAdmin);
       res.status(200).json({
         success: true,
         data: profile,
@@ -25,6 +29,7 @@ export class ProfileController {
       next(error);
     }
   }
+
 
   static async updateMyProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
