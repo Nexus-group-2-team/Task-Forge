@@ -2,11 +2,11 @@ import {z} from "zod"
 
 
 export const querySchema=z.object({
-    page:z.int().positive().default(1),
-    limit:z.int().min(3,"No less than 3 elements are alllowed!").max(100,"No more than 100 elements are allowed!").default(10),
+    page:z.coerce.number().int().positive().default(1).optional(),
+    limit:z.coerce.number().int().min(3,"No less than 3 elements are alllowed!").max(100,"No more than 100 elements are allowed!").default(10).optional(),
     status:z.enum(["OPEN","COMPLETED","IN_PROGRESS","CANCLLED","DRAFT"]).optional(),
-    minBudget:z.int().positive().optional(),
-    maxBudget:z.int().positive().optional(),
+    minBudget:z.coerce.number().int().positive().optional(),
+    maxBudget:z.coerce.number().int().positive().optional(),
     title:z.string().optional(),
     description:z.string().optional()
 })
@@ -24,6 +24,16 @@ export const createJobSchema=z.object({
     {
         message:"Deadline cannot be a  past date!"
     }).optional()
+}).refine((d) => !d.minBudget || !d.maxBudget || d.minBudget <= d.maxBudget, {
+  message: 'budgetMin must be <= budgetMax',
+  path: ['budgetMin'],
+});
+
+export const createUserSchema=z.object({
+    email:z.email(),
+    passwordHash:z.string(),
+    role:z.enum(["CLIENT","ADMIN","FREELANCER"]).default("FREELANCER"),
+    accountStatus:z.enum(["ACTIVE","SUSPENDED","DEACTIVATED"]).default("ACTIVE")
 })
 
 export const createJobSkillSchema= z.object({
