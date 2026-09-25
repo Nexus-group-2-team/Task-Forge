@@ -6,7 +6,7 @@ export class ProjectController {
   static async getMyProjects(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const status = req.query.status as ProjectStatus | undefined;
-      const projects = await ProjectService.getUserProjects(req.user!.id, status);
+      const projects = await ProjectService.getUserProjects(req.user!.id, req.user!.role, status);
       res.status(200).json({
         success: true,
         data: projects,
@@ -18,7 +18,11 @@ export class ProjectController {
 
   static async getProjectById(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const project = await ProjectService.getProjectById(req.params.id as string, req.user!.id);
+      const project = await ProjectService.getProjectById(
+        req.params.id as string,
+        req.user!.id,
+        req.user!.role
+      );
       res.status(200).json({
         success: true,
         data: project,
@@ -33,6 +37,7 @@ export class ProjectController {
       const updated = await ProjectService.updateProjectStatus(
         req.params.id as string,
         req.user!.id,
+        req.user!.role,
         req.body.status
       );
       res.status(200).json({
@@ -45,3 +50,4 @@ export class ProjectController {
     }
   }
 }
+

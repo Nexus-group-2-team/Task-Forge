@@ -1,22 +1,32 @@
 import type { Request, Response, NextFunction } from "express";
-import { z } from "zod";
+import type { ZodType } from "zod";
 
-export const validate = (schema: {
-  body?: z.ZodType;
-  query?: z.ZodType;
-  params?: z.ZodType;
-}) => {
+interface RequestValidationSchema {
+  body?: ZodType;
+  query?: ZodType;
+  params?: ZodType;
+}
+
+export const validate = (schema: RequestValidationSchema | ZodType) => {
   return async (req: Request, _res: Response, next: NextFunction): Promise<void> => {
     try {
-      if (schema.body) {
-        req.body = await schema.body.parseAsync(req.body);
+      if ("parseAsync" in schema && typeof schema.parseAsync === "function") {
+        req.body = await schema.parseAsync(req.body);
+        return next();
       }
-      if (schema.query) {
-        req.query = (await schema.query.parseAsync(req.query)) as typeof req.query;
+
+      const compositeSchema = schema as RequestValidationSchema;
+
+      if (compositeSchema.body) {
+        req.body = await compositeSchema.body.parseAsync(req.body);
       }
-      if (schema.params) {
-        req.params = (await schema.params.parseAsync(req.params)) as typeof req.params;
+      if (compositeSchema.query) {
+        req.query = (await compositeSchema.query.parseAsync(req.query)) as Request["query"];
       }
+      if (compositeSchema.params) {
+        req.params = (await compositeSchema.params.parseAsync(req.params)) as Request["params"];
+      }
+
       next();
     } catch (error) {
       next(error);

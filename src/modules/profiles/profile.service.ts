@@ -3,14 +3,14 @@ import { NotFoundError } from "../../shared/errors/app-error.js";
 import type { UpdateProfileInput, UpdateSkillsInput } from "./profile.schema.js";
 
 export class ProfileService {
-  static async getProfileByUserId(userId: string) {
+  static async getProfileByUserId(userId: string, isOwnerOrAdmin = false) {
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: {
         id: true,
-        email: true,
+        email: isOwnerOrAdmin,
         role: true,
-        accountStatus: true,
+        accountStatus: isOwnerOrAdmin,
         createdAt: true,
         profile: true,
         userSkills: {
@@ -38,15 +38,13 @@ export class ProfileService {
       throw new NotFoundError("User not found");
     }
 
-    if (input.fullName) {
-      // Keep fullName synced if user record stores it or profile stores it
-    }
+    const fallbackFullName = user.profile?.fullName ?? user.email.split("@")[0];
 
     const updatedProfile = await prisma.profile.upsert({
       where: { userId },
       create: {
         userId,
-        fullName: input.fullName || "User",
+        fullName: input.fullName || fallbackFullName,
         bio: input.bio,
         headline: input.headline,
         location: input.location,
@@ -78,25 +76,29 @@ export class ProfileService {
     });
 
     // Create or find skills and link to user
-    const skillRecords = await Promise.all(
-      input.skills.map((name) =>
-        prisma.skill.upsert({
-          where: { name: name.trim().toLowerCase() },
-          create: { name: name.trim().toLowerCase() },
-          update: {},
-        })
-      )
-    );
+    const skillRecords = [];
+    for (const name of input.skills) {
+      const trimmed = name.trim().toLowerCase();
+      const skill = await prisma.skill.upsert({
+        where: { name: trimmed },
+        create: { name: trimmed },
+        update: {},
+      });
+      skillRecords.push(skill);
+    }
 
-    await prisma.userSkill.createMany({
-      data: skillRecords.map((s) => ({
-        userId,
-        skillId: s.id,
-      })),
-    });
+    if (skillRecords.length > 0) {
+      await prisma.userSkill.createMany({
+        data: skillRecords.map((s) => ({
+          userId,
+          skillId: s.id,
+        })),
+      });
+    }
 
-    return this.getProfileByUserId(userId);
+    return this.getProfileByUserId(userId, true);
   }
+
 
   static async listFreelancers(search?: string) {
     const freelancers = await prisma.user.findMany({
@@ -122,7 +124,6 @@ export class ProfileService {
       },
       select: {
         id: true,
-        email: true,
         role: true,
         createdAt: true,
         profile: true,
@@ -138,3 +139,4 @@ export class ProfileService {
     return freelancers;
   }
 }
+

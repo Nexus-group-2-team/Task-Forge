@@ -1,15 +1,9 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { Role } from "@prisma/client";
-import { env } from "../config/env.js";
 import { UnauthorizedError, ForbiddenError } from "../errors/app-error.js";
 import { prisma } from "../db/prisma.js";
-
-export interface JwtPayload {
-  id: string;
-  email: string;
-  role: Role;
-}
+import { verifyAccessToken } from "../utils/tokens.js";
 
 export const authenticate = async (
   req: Request,
@@ -23,7 +17,7 @@ export const authenticate = async (
     }
 
     const token = authHeader.split(" ")[1];
-    const decoded = jwt.verify(token, env.JWT_SECRET) as JwtPayload;
+    const decoded = verifyAccessToken(token);
 
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
@@ -34,7 +28,21 @@ export const authenticate = async (
       throw new UnauthorizedError("User account is inactive or not found");
     }
 
-    req.user = user;
+    if (decoded.sessionId) {
+      const session = await prisma.authSession.findUnique({
+        where: { id: decoded.sessionId },
+        select: { revokedAt: true, expiresAt: true },
+      });
+
+      if (!session || session.revokedAt !== null || session.expiresAt <= new Date()) {
+        throw new UnauthorizedError("Session has been revoked or expired");
+      }
+    }
+
+    req.user = {
+      ...user,
+      sessionId: decoded.sessionId,
+    };
     next();
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError || error instanceof jwt.TokenExpiredError) {
@@ -45,7 +53,50 @@ export const authenticate = async (
   }
 };
 
+export const optionalAuthenticate = async (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return next();
+    }
+
+    const token = authHeader.split(" ")[1];
+    const decoded = verifyAccessToken(token);
+
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+      select: { id: true, email: true, role: true, accountStatus: true },
+    });
+
+    if (user && user.accountStatus === "ACTIVE") {
+      if (decoded.sessionId) {
+        const session = await prisma.authSession.findUnique({
+          where: { id: decoded.sessionId },
+          select: { revokedAt: true, expiresAt: true },
+        });
+        if (session && session.revokedAt === null && session.expiresAt > new Date()) {
+          req.user = {
+            ...user,
+            sessionId: decoded.sessionId,
+          };
+        }
+      } else {
+        req.user = user;
+      }
+    }
+    next();
+  } catch {
+    // Optional auth silently continues if token is invalid or expired
+    next();
+  }
+};
+
 export const authorize = (...allowedRoles: Role[]) => {
+
   return (req: Request, _res: Response, next: NextFunction): void => {
     if (!req.user) {
       next(new UnauthorizedError("Authentication required"));

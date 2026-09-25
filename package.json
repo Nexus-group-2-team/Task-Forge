@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "vitest run tests --exclude dist/**",
+    "seed": "tsx prisma/seed.ts",
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
@@ -54,5 +55,8 @@
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "vitest": "^4.1.11"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   }
 }
