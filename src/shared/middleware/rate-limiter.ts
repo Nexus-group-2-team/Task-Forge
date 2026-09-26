@@ -23,15 +23,3 @@ export const authRateLimiter = rateLimit({
     message: "Too many authentication attempts, please try again after 15 minutes",
   },
 });
-
-export const forgotPasswordRateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // Limit each IP to 5 reset requests per window to prevent email flooding
-  standardHeaders: true,
-  legacyHeaders: false,
-  skip: () => process.env.NODE_ENV === "test",
-  message: {
-    success: false,
-    message: "Too many password reset attempts, please try again after 15 minutes",
-  },
-});
