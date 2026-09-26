@@ -1,14 +1,14 @@
 import { prisma } from '../src/shared/db/prisma.js';
 import { Role, ProjectStatus, MilestoneStatus } from '@prisma/client';
-import bcrypt from 'bcryptjs';
+import { hashPassword } from '../src/shared/utils/password.js';
 
 async function main() {
-  const passwordHash = await bcrypt.hash('Password123!', 12);
+  const passwordHash = await hashPassword('Password123!');
 
   // 1. Users with Profiles
   const admin = await prisma.user.upsert({
     where: { email: 'admin@taskforge.dev' },
-    update: {},
+    update: { passwordHash },
     create: {
       email: 'admin@taskforge.dev',
       passwordHash,
@@ -19,7 +19,7 @@ async function main() {
 
   const client = await prisma.user.upsert({
     where: { email: 'client@taskforge.dev' },
-    update: {},
+    update: { passwordHash },
     create: {
       email: 'client@taskforge.dev',
       passwordHash,
@@ -30,7 +30,7 @@ async function main() {
 
   const freelancer = await prisma.user.upsert({
     where: { email: 'freelancer@taskforge.dev' },
-    update: {},
+    update: { passwordHash },
     create: {
       email: 'freelancer@taskforge.dev',
       passwordHash,

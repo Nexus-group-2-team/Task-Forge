@@ -112,6 +112,21 @@ export class AuthController {
     }
   }
 
+  static async logoutAll(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const result = await AuthService.logoutAll(req.user!.id);
+      res.clearCookie(REFRESH_COOKIE_NAME, refreshCookieBaseOptions);
+
+      res.status(200).json({
+        success: true,
+        message: "Logged out from all devices successfully",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async me(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const user = await AuthService.getMe(req.user!.id);

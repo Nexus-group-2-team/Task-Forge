@@ -222,6 +222,22 @@ export class AuthService {
     }
   }
 
+  static async logoutAll(userId: string) {
+    const result = await prisma.authSession.updateMany({
+      where: {
+        userId,
+        revokedAt: null,
+      },
+      data: {
+        revokedAt: new Date(),
+      },
+    });
+
+    return {
+      revokedSessionsCount: result.count,
+    };
+  }
+
   static async getMe(userId: string) {
     const user = await prisma.user.findUnique({
       where: { id: userId },

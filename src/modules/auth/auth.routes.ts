@@ -11,6 +11,8 @@ router.post("/register", validate({ body: registerSchema }), AuthController.regi
 router.post("/login", validate({ body: loginSchema }), AuthController.login);
 router.post("/refresh", validate({ body: refreshTokenSchema }), AuthController.refresh);
 router.post("/logout", AuthController.logout);
+router.post("/logout/all", authenticate, AuthController.logoutAll);
+router.post("/logout-all", authenticate, AuthController.logoutAll);
 router.get("/me", authenticate, AuthController.me);
 
 // Admin user lifecycle management (ban / suspend / activate)
