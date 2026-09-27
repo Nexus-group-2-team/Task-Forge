@@ -32,6 +32,24 @@ export class ProjectController {
     }
   }
 
+  static async updateProject(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const updated = await ProjectService.updateProject(
+        req.params.id as string,
+        req.user!.id,
+        req.user!.role,
+        req.body
+      );
+      res.status(200).json({
+        success: true,
+        message: "Project updated successfully",
+        data: updated,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async updateProjectStatus(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const updated = await ProjectService.updateProjectStatus(

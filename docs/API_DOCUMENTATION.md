@@ -77,11 +77,11 @@ Fetches the profile and skill set of the authenticated user.
 - **Access**: Authenticated
 
 #### `PATCH /api/profiles/me`
-Updates profile details (fullName, bio, headline, location, portfolioUrl, experienceYears).
+Updates profile details (fullName, bio, headline, location, portfolioUrl, experienceYears). Optional fields can be set to `null` to clear them.
 - **Access**: Authenticated
 
 #### `PUT /api/profiles/me/skills`
-Replaces the user's skill set with the provided array of skill names (upserts skills globally and connects to the user).
+Replaces the user's skill set with the provided array of skill names (upserts skills globally and connects to the user). Empty array `[]` clears all skills.
 - **Access**: Authenticated
 - **Request Body**: `{ "skills": ["TypeScript", "Node.js", "PostgreSQL"] }`
 
@@ -114,6 +114,12 @@ Lists projects relevant to the caller.
 Fetches a single project with participants, milestones, and reviews.
 - **Access**: Authenticated
 - **IDOR Protection**: If the caller is not the `clientId`, `freelancerId`, or `ADMIN`, the API returns `404 Not Found` (preventing resource enumeration attacks).
+
+#### `PATCH /api/projects/:id`
+Updates project metadata (e.g. `title`).
+- **Access**: Authenticated (`CLIENT` owner or `ADMIN`)
+- **Request Body**: `{ "title": "Updated Project Title" }`
+- **Authorization**: Freelancers or non-owners receive `403 Forbidden`; non-participants receive `404 Not Found`.
 
 #### `PATCH /api/projects/:id/status`
 Updates project lifecycle status.

@@ -140,6 +140,25 @@ describe("Projects API contract tests", { timeout: 30000 }, () => {
     expect(res.body.success).toBe(false);
   });
 
+  it("should allow client owner to update project details (title)", async () => {
+    const res = await request(app)
+      .patch(`/api/projects/${projectId}`)
+      .set("Authorization", `Bearer ${clientToken}`)
+      .send({ title: "Updated Project Title" });
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.title).toBe("Updated Project Title");
+  });
+
+  it("should reject non-client / non-admin updating project details with 403", async () => {
+    const res = await request(app)
+      .patch(`/api/projects/${projectId}`)
+      .set("Authorization", `Bearer ${freelancerToken}`)
+      .send({ title: "Freelancer Malicious Title" });
+    expect(res.status).toBe(403);
+    expect(res.body.success).toBe(false);
+  });
+
   it("should allow client owner to update project status", async () => {
     const res = await request(app)
       .patch(`/api/projects/${projectId}/status`)

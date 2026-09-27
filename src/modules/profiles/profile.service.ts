@@ -99,7 +99,6 @@ export class ProfileService {
     return this.getProfileByUserId(userId, true);
   }
 
-
   static async listFreelancers(search?: string) {
     const freelancers = await prisma.user.findMany({
       where: {
