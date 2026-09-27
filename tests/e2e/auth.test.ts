@@ -72,6 +72,25 @@ describe("Auth & Profile API contract tests", { timeout: 20000 }, () => {
     expect(response.body.success).toBe(true);
     expect(response.body.data.userSkills.length).toBe(4);
   });
+
+  it("should allow clearing individual optional profile fields via PATCH /api/profiles/me", async () => {
+    const response = await request(app)
+      .patch("/api/profiles/me")
+      .set("Authorization", `Bearer ${authToken}`)
+      .send({
+        headline: null,
+        bio: null,
+        location: null,
+        portfolioUrl: null,
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.data.headline).toBeNull();
+    expect(response.body.data.bio).toBeNull();
+    expect(response.body.data.location).toBeNull();
+    expect(response.body.data.portfolioUrl).toBeNull();
+  });
   it("should issue access token and refresh cookie on login and allow token refresh and logout", async () => {
     // Login
     const loginRes = await request(app).post("/api/auth/login").send({
