@@ -1,4 +1,4 @@
-import { BadRequestError } from '../errors/app-error';
+import { BadRequestError } from '../errors/app-error.js';
 
 export interface PaginationParams {
   page: number;
