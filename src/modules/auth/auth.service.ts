@@ -293,16 +293,8 @@ export class AuthService {
       // If user is suspended or deactivated (banned), revoke ALL active sessions immediately
       let revokedCount = 0;
       if (newStatus !== "ACTIVE") {
-        const result = await tx.authSession.updateMany({
-          where: {
-            userId: targetUserId,
-            revokedAt: null,
-          },
-          data: {
-            revokedAt: new Date(),
-          },
-        });
-        revokedCount = result.count;
+        const result = await this.logoutAll(targetUserId);
+        revokedCount = result.revokedSessionsCount;
       }
 
       return {
