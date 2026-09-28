@@ -3,9 +3,7 @@ const messageEl = document.getElementById("message");
 const submitBtn = document.getElementById("submit-btn");
 const invalidLinkEl = document.getElementById("invalid-link");
 
-const hashParams = new URLSearchParams(window.location.hash.slice(1));
-const queryParams = new URLSearchParams(window.location.search);
-const token = hashParams.get("token") || queryParams.get("token");
+const token = new URLSearchParams(window.location.search).get("token");
 
 if (!token) {
   invalidLinkEl.style.display = "block";

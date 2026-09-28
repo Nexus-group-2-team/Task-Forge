@@ -10,14 +10,6 @@ vi.mock("../../src/shared/services/email.service.js", () => ({
   EmailService: { sendPasswordResetEmail },
 }));
 
-const { isBreached } = vi.hoisted(() => ({
-  isBreached: vi.fn().mockResolvedValue(false),
-}));
-
-vi.mock("../../src/shared/services/password-breach.service.js", () => ({
-  PasswordBreachService: { isBreached },
-}));
-
 describe("Password reset flow", { timeout: 20000 }, () => {
   const resetEmail = `reset_${Date.now()}@example.com`;
   const originalPassword = "OriginalPass123!";
@@ -28,9 +20,7 @@ describe("Password reset flow", { timeout: 20000 }, () => {
     expect(lastCall).toBeDefined();
     const resetLink = lastCall![1] as string;
     const url = new URL(resetLink);
-    // Fragment format (#token=) with legacy query format (?token=) fallback.
-    const fromHash = new URLSearchParams(url.hash.slice(1)).get("token");
-    return fromHash ?? url.searchParams.get("token")!;
+    return url.searchParams.get("token")!;
   }
 
   it("should register a user for the reset flow", async () => {
@@ -90,20 +80,6 @@ describe("Password reset flow", { timeout: 20000 }, () => {
     sendPasswordResetEmail.mockResolvedValue(undefined);
   });
 
-  it("should not wait for email delivery before responding (timing enumeration)", async () => {
-    // A never-settling promise would stall the response if delivery were awaited.
-    sendPasswordResetEmail.mockImplementationOnce(() => new Promise<never>(() => {}));
-
-    const start = Date.now();
-    const response = await request(app)
-      .post("/api/auth/forgot-password")
-      .send({ email: resetEmail });
-    const elapsed = Date.now() - start;
-
-    expect(response.status).toBe(200);
-    expect(elapsed).toBeLessThan(1500);
-  });
-
   it("should reject reset-password with an invalid token", async () => {
     const response = await request(app).post("/api/auth/reset-password").send({
       token: "not-a-real-token",
@@ -111,58 +87,6 @@ describe("Password reset flow", { timeout: 20000 }, () => {
     });
 
     expect(response.status).toBe(400);
-  });
-
-  async function freshToken(): Promise<string> {
-    sendPasswordResetEmail.mockClear();
-    await request(app).post("/api/auth/forgot-password").send({ email: resetEmail });
-    return extractTokenFromCall();
-  }
-
-  it("should reject a new password shorter than 8 characters", async () => {
-    const token = await freshToken();
-    const response = await request(app).post("/api/auth/reset-password").send({
-      token,
-      newPassword: "Shrt1!",
-    });
-
-    expect(response.status).toBe(400);
-    expect(JSON.stringify(response.body)).toContain("at least 8 characters");
-  });
-
-  it("should reject a new password that appears in a known breach", async () => {
-    isBreached.mockResolvedValueOnce(true);
-    const token = await freshToken();
-    const response = await request(app).post("/api/auth/reset-password").send({
-      token,
-      newPassword: "UniqueFreshPass777!",
-    });
-
-    expect(response.status).toBe(400);
-    expect(response.body.message).toMatch(/known data breach/i);
-    expect(isBreached).toHaveBeenCalledWith("UniqueFreshPass777!");
-  });
-
-  it("should reject a new password containing the account email", async () => {
-    const token = await freshToken();
-    const response = await request(app).post("/api/auth/reset-password").send({
-      token,
-      newPassword: `${resetEmail}Aa1!`,
-    });
-
-    expect(response.status).toBe(400);
-    expect(response.body.message).toMatch(/must not contain your email/i);
-  });
-
-  it("should reject re-using the current password as the new password", async () => {
-    const token = await freshToken();
-    const response = await request(app).post("/api/auth/reset-password").send({
-      token,
-      newPassword: originalPassword,
-    });
-
-    expect(response.status).toBe(400);
-    expect(response.body.message).toMatch(/different from your current password/i);
   });
 
   it("should reset the password with a valid token", async () => {

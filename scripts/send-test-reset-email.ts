@@ -21,7 +21,7 @@ async function main() {
   }
 
   const demoToken = "a".repeat(64);
-  const resetLink = `${env.FRONTEND_URL}/reset-password#token=${demoToken}`;
+  const resetLink = `${env.FRONTEND_URL}/reset-password?token=${demoToken}`;
 
   console.log(`From   : ${env.RESEND_FROM_EMAIL}`);
   console.log(`To     : ${to}`);

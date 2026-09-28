@@ -4,15 +4,17 @@ import { env } from "../config/env.js";
 const resend = env.RESEND_API_KEY ? new Resend(env.RESEND_API_KEY) : null;
 
 export class EmailService {
+  /**
+   * Sends a password reset email via Resend.
+   * Returns the Resend message id on success.
+   * Throws with the Resend error details on failure (Resend returns
+   * `{ data, error }` instead of throwing, so we must check explicitly).
+   */
   static async sendPasswordResetEmail(to: string, resetLink: string, userName?: string): Promise<string> {
     const greeting = userName ? `Hi ${userName},` : "Hello,";
 
     if (!resend) {
-      if (env.NODE_ENV !== "production") {
-        console.warn("[EmailService] RESEND_API_KEY not configured. Password reset link:", resetLink);
-      } else {
-        console.warn("[EmailService] RESEND_API_KEY not configured.");
-      }
+      console.warn("[EmailService] RESEND_API_KEY not configured. Password reset link:", resetLink);
       throw new Error("RESEND_API_KEY is not configured");
     }
 
