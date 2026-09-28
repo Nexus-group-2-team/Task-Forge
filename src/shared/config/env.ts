@@ -11,7 +11,11 @@ const envSchema = z.object({
   JWT_REFRESH_SECRET: z.string().min(16).default("taskforge_default_jwt_refresh_secret_key_min_32_characters"),
   JWT_ACCESS_EXPIRES_IN: z.string().default("15m"),
   JWT_REFRESH_EXPIRES_IN_DAYS: z.coerce.number().default(7),
+  RESEND_API_KEY: z.string().optional(),
+  RESEND_FROM_EMAIL: z.string().default("TaskForge <onboarding@resend.dev>"),
+  FRONTEND_URL: z.string().url().default("http://localhost:4000"),
 });
+
 
 const parsed = envSchema.safeParse(process.env);
 

@@ -9,3 +9,13 @@ dist/
 .devin/
 coverage/
 *.log
+
+# Runtime artifacts (local test server)
+server.pid
+*.tsbuildinfo
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

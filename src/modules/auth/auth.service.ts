@@ -1,5 +1,9 @@
 import { prisma } from "../../shared/db/prisma.js";
 import { env } from "../../shared/config/env.js";
+import crypto from "crypto";
+import { EmailService } from "../../shared/services/email.service.js";
+import type { RegisterInput, LoginInput, ResetPasswordInput } from "./auth.schema.js";
+
 import { ConflictError, UnauthorizedError, NotFoundError, BadRequestError } from "../../shared/errors/app-error.js";
 import { hashPassword, verifyPassword } from "../../shared/utils/password.js";
 import {
@@ -7,7 +11,6 @@ import {
   generateOpaqueRefreshToken,
   hashRefreshToken,
 } from "../../shared/utils/tokens.js";
-import type { RegisterInput, LoginInput } from "./auth.schema.js";
 import type { AccountStatus } from "@prisma/client";
 
 export interface SessionContext {
@@ -302,6 +305,95 @@ export class AuthService {
         revokedSessionsCount: revokedCount,
       };
     });
+  }
+  static async forgotPassword(email: string): Promise<void> {
+    const normalizedEmail = email.toLowerCase();
+    const user = await prisma.user.findUnique({
+      where: { email: normalizedEmail },
+      include: { profile: true },
+    });
+
+    // Prevent account enumeration: return silently if user not found or inactive
+    if (!user || user.accountStatus !== "ACTIVE") {
+      return;
+    }
+
+    // Invalidate existing unused reset tokens for this user
+    await prisma.passwordResetToken.deleteMany({
+      where: { userId: user.id },
+    });
+
+    // Generate random raw token and its SHA-256 hash
+    const rawToken = crypto.randomBytes(32).toString("hex");
+    const tokenHash = crypto.createHash("sha256").update(rawToken).digest("hex");
+
+    // Token expires in 15 minutes
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+
+    await prisma.passwordResetToken.create({
+      data: {
+        userId: user.id,
+        tokenHash,
+        expiresAt,
+      },
+    });
+
+    const resetLink = `${env.FRONTEND_URL}/reset-password?token=${rawToken}`;
+
+    // Dev convenience: print the reset link so the flow can be tested
+    // locally without opening the inbox. Never logged in production.
+    if (env.NODE_ENV !== "production") {
+      console.log(`[PasswordReset] Reset link for ${user.email}: ${resetLink}`);
+    }
+
+    // Send email using Resend. A delivery failure must NOT fail the request:
+    // returning a generic 200 preserves the anti-enumeration contract (a 500
+    // here would reveal that the account exists). The link is logged above in
+    // non-production environments so failures are still debuggable.
+    try {
+      await EmailService.sendPasswordResetEmail(
+        user.email,
+        resetLink,
+        user.profile?.fullName
+      );
+    } catch (error) {
+      console.error(`[PasswordReset] Failed to send reset email to ${user.email}:`, error);
+    }
+  }
+
+  static async resetPassword(input: ResetPasswordInput): Promise<void> {
+    const tokenHash = crypto.createHash("sha256").update(input.token).digest("hex");
+
+    const record = await prisma.passwordResetToken.findUnique({
+      where: { tokenHash },
+      include: { user: true },
+    });
+
+    if (!record || record.usedAt !== null || record.expiresAt < new Date()) {
+      throw new BadRequestError("Invalid or expired password reset link");
+    }
+
+    if (record.user.accountStatus !== "ACTIVE") {
+      throw new UnauthorizedError("Account is inactive or suspended");
+    }
+
+    const passwordHash = await hashPassword(input.newPassword);
+
+    // Atomically update password, mark token as used, and terminate all active sessions
+    await prisma.$transaction([
+      prisma.user.update({
+        where: { id: record.userId },
+        data: { passwordHash },
+      }),
+      prisma.passwordResetToken.update({
+        where: { id: record.id },
+        data: { usedAt: new Date() },
+      }),
+      prisma.authSession.updateMany({
+        where: { userId: record.userId, revokedAt: null },
+        data: { revokedAt: new Date() },
+      }),
+    ]);
   }
 
   private static async createSession(userId: string, context?: SessionContext) {

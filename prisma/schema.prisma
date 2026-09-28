@@ -29,6 +29,8 @@ model User {
 
   authSessions       AuthSession[]
 
+  passwordResetTokens PasswordResetToken[]
+
   @@index([email])
   @@index([role])
   @@map("users")
@@ -259,3 +261,19 @@ model AuthSession {
   @@index([expiresAt])
   @@map("auth_sessions")
 }
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([tokenHash])
+  @@index([userId])
+  @@map("password_reset_tokens")
+}
+

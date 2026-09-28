@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskForge — Login</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #f5f7fb; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+    .card { background: #fff; padding: 40px; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,.08); max-width: 420px; width: 100%; }
+    h1 { margin-top: 0; color: #1f2937; font-size: 1.4rem; }
+    label { display: block; margin-bottom: 6px; font-weight: 600; color: #374151; font-size: .9rem; }
+    input { width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; margin-bottom: 16px; }
+    button { width: 100%; padding: 12px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+    button:disabled { background: #93c5fd; cursor: not-allowed; }
+    #message { margin-top: 16px; padding: 12px; border-radius: 6px; display: none; font-size: .9rem; }
+    #message.success { display: block; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+    #message.error { display: block; background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    a { color: #2563eb; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Log in to TaskForge</h1>
+    <form id="login-form">
+      <label for="email">Email address</label>
+      <input type="email" id="email" name="email" required autocomplete="email" />
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required autocomplete="current-password" />
+      <button type="submit" id="submit-btn">Log in</button>
+    </form>
+    <div id="message" role="alert"></div>
+    <p style="margin-top: 20px;"><a href="/forgot-password">Forgot password?</a></p>
+  </div>
+  <script src="/js/login.js"></script>
+</body>
+</html>

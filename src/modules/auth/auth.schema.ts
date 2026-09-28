@@ -36,3 +36,19 @@ export const updateUserStatusSchema = z.object({
 
 export type UpdateUserStatusInput = z.infer<typeof updateUserStatusSchema>;
 
+export const forgotPasswordSchema = z.object({
+  email: emailSchema,
+});
+
+export const resetPasswordSchema = z.object({
+  token: z.string().min(1, "Reset token is required"),
+  newPassword: z
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .max(128, "Password cannot exceed 128 characters"),
+});
+
+export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
+export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
+
+
