@@ -40,7 +40,9 @@ describe("AuthService.updateUserStatus with logoutAll unit test", () => {
 
     const result = await AuthService.updateUserStatus(targetUserId, newStatus, adminUserId);
 
-    expect(logoutAllSpy).toHaveBeenCalledWith(targetUserId);
+    // The revocation must run inside the same transaction as the status
+    // change, so logoutAll receives the tx client as its second argument.
+    expect(logoutAllSpy).toHaveBeenCalledWith(targetUserId, expect.anything());
     expect(result.revokedSessionsCount).toBe(5);
     expect(result.user.accountStatus).toBe(newStatus);
   });

@@ -31,7 +31,10 @@ app.use(
   })
 );
 app.use(globalRateLimiter);
-app.use(cors({ origin: true, credentials: true }));
+// In production pin the origin to FRONTEND_URL (credentialed requests + refresh
+// cookies must never be reflected for arbitrary origins); development keeps the
+// permissive default for convenience.
+app.use(cors({ origin: env.NODE_ENV === "production" ? env.FRONTEND_URL : true, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 
