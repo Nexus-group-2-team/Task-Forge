@@ -198,16 +198,18 @@ export type UserWhereInput = {
   accountStatus?: Prisma.EnumAccountStatusFilter<"User"> | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  profile?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
-  userSkills?: Prisma.UserSkillListRelationFilter
-  jobs?: Prisma.JobListRelationFilter
   applications?: Prisma.ApplicationListRelationFilter
+  jobs?: Prisma.JobListRelationFilter
+  profile?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
   projects?: Prisma.ProjectListRelationFilter
   freelancerProjects?: Prisma.ProjectListRelationFilter
-  reviewsGiven?: Prisma.ReviewsListRelationFilter
-  reviewsReceived?: Prisma.ReviewsListRelationFilter
   reports?: Prisma.ReportListRelationFilter
   resolvedReports?: Prisma.ReportListRelationFilter
+  reviewsReceived?: Prisma.ReviewsListRelationFilter
+  reviewsGiven?: Prisma.ReviewsListRelationFilter
+  userSkills?: Prisma.UserSkillListRelationFilter
+  authSessions?: Prisma.AuthSessionListRelationFilter
+  passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -218,16 +220,18 @@ export type UserOrderByWithRelationInput = {
   accountStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  profile?: Prisma.ProfileOrderByWithRelationInput
-  userSkills?: Prisma.UserSkillOrderByRelationAggregateInput
-  jobs?: Prisma.JobOrderByRelationAggregateInput
   applications?: Prisma.ApplicationOrderByRelationAggregateInput
+  jobs?: Prisma.JobOrderByRelationAggregateInput
+  profile?: Prisma.ProfileOrderByWithRelationInput
   projects?: Prisma.ProjectOrderByRelationAggregateInput
   freelancerProjects?: Prisma.ProjectOrderByRelationAggregateInput
-  reviewsGiven?: Prisma.ReviewsOrderByRelationAggregateInput
-  reviewsReceived?: Prisma.ReviewsOrderByRelationAggregateInput
   reports?: Prisma.ReportOrderByRelationAggregateInput
   resolvedReports?: Prisma.ReportOrderByRelationAggregateInput
+  reviewsReceived?: Prisma.ReviewsOrderByRelationAggregateInput
+  reviewsGiven?: Prisma.ReviewsOrderByRelationAggregateInput
+  userSkills?: Prisma.UserSkillOrderByRelationAggregateInput
+  authSessions?: Prisma.AuthSessionOrderByRelationAggregateInput
+  passwordResetTokens?: Prisma.PasswordResetTokenOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -241,16 +245,18 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   accountStatus?: Prisma.EnumAccountStatusFilter<"User"> | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  profile?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
-  userSkills?: Prisma.UserSkillListRelationFilter
-  jobs?: Prisma.JobListRelationFilter
   applications?: Prisma.ApplicationListRelationFilter
+  jobs?: Prisma.JobListRelationFilter
+  profile?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
   projects?: Prisma.ProjectListRelationFilter
   freelancerProjects?: Prisma.ProjectListRelationFilter
-  reviewsGiven?: Prisma.ReviewsListRelationFilter
-  reviewsReceived?: Prisma.ReviewsListRelationFilter
   reports?: Prisma.ReportListRelationFilter
   resolvedReports?: Prisma.ReportListRelationFilter
+  reviewsReceived?: Prisma.ReviewsListRelationFilter
+  reviewsGiven?: Prisma.ReviewsListRelationFilter
+  userSkills?: Prisma.UserSkillListRelationFilter
+  authSessions?: Prisma.AuthSessionListRelationFilter
+  passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -287,16 +293,18 @@ export type UserCreateInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
   resolvedReports?: Prisma.ReportCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -307,16 +315,18 @@ export type UserUncheckedCreateInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
   resolvedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -327,16 +337,18 @@ export type UserUpdateInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
   resolvedReports?: Prisma.ReportUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -347,16 +359,18 @@ export type UserUncheckedUpdateInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
   resolvedReports?: Prisma.ReportUncheckedUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -529,24 +543,16 @@ export type UserUpdateOneRequiredWithoutFreelancerProjectsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFreelancerProjectsInput, Prisma.UserUpdateWithoutFreelancerProjectsInput>, Prisma.UserUncheckedUpdateWithoutFreelancerProjectsInput>
 }
 
-export type UserCreateNestedOneWithoutReviewsGivenInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsGivenInput, Prisma.UserUncheckedCreateWithoutReviewsGivenInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsGivenInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
 export type UserCreateNestedOneWithoutReviewsReceivedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsReceivedInput, Prisma.UserUncheckedCreateWithoutReviewsReceivedInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsReceivedInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutReviewsGivenNestedInput = {
+export type UserCreateNestedOneWithoutReviewsGivenInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsGivenInput, Prisma.UserUncheckedCreateWithoutReviewsGivenInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsGivenInput
-  upsert?: Prisma.UserUpsertWithoutReviewsGivenInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsGivenInput, Prisma.UserUpdateWithoutReviewsGivenInput>, Prisma.UserUncheckedUpdateWithoutReviewsGivenInput>
 }
 
 export type UserUpdateOneRequiredWithoutReviewsReceivedNestedInput = {
@@ -555,6 +561,14 @@ export type UserUpdateOneRequiredWithoutReviewsReceivedNestedInput = {
   upsert?: Prisma.UserUpsertWithoutReviewsReceivedInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsReceivedInput, Prisma.UserUpdateWithoutReviewsReceivedInput>, Prisma.UserUncheckedUpdateWithoutReviewsReceivedInput>
+}
+
+export type UserUpdateOneRequiredWithoutReviewsGivenNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsGivenInput, Prisma.UserUncheckedCreateWithoutReviewsGivenInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsGivenInput
+  upsert?: Prisma.UserUpsertWithoutReviewsGivenInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsGivenInput, Prisma.UserUpdateWithoutReviewsGivenInput>, Prisma.UserUncheckedUpdateWithoutReviewsGivenInput>
 }
 
 export type UserCreateNestedOneWithoutReportsInput = {
@@ -587,6 +601,34 @@ export type UserUpdateOneWithoutResolvedReportsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutResolvedReportsInput, Prisma.UserUpdateWithoutResolvedReportsInput>, Prisma.UserUncheckedUpdateWithoutResolvedReportsInput>
 }
 
+export type UserCreateNestedOneWithoutAuthSessionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuthSessionsInput, Prisma.UserUncheckedCreateWithoutAuthSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuthSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAuthSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuthSessionsInput, Prisma.UserUncheckedCreateWithoutAuthSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuthSessionsInput
+  upsert?: Prisma.UserUpsertWithoutAuthSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuthSessionsInput, Prisma.UserUpdateWithoutAuthSessionsInput>, Prisma.UserUncheckedUpdateWithoutAuthSessionsInput>
+}
+
+export type UserCreateNestedOneWithoutPasswordResetTokensInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPasswordResetTokensInput, Prisma.UserUncheckedCreateWithoutPasswordResetTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPasswordResetTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPasswordResetTokensNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPasswordResetTokensInput, Prisma.UserUncheckedCreateWithoutPasswordResetTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPasswordResetTokensInput
+  upsert?: Prisma.UserUpsertWithoutPasswordResetTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPasswordResetTokensInput, Prisma.UserUpdateWithoutPasswordResetTokensInput>, Prisma.UserUncheckedUpdateWithoutPasswordResetTokensInput>
+}
+
 export type UserCreateWithoutProfileInput = {
   id?: string
   email: string
@@ -595,15 +637,17 @@ export type UserCreateWithoutProfileInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
   resolvedReports?: Prisma.ReportCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProfileInput = {
@@ -614,15 +658,17 @@ export type UserUncheckedCreateWithoutProfileInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
   resolvedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProfileInput = {
@@ -649,15 +695,17 @@ export type UserUpdateWithoutProfileInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
   resolvedReports?: Prisma.ReportUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProfileInput = {
@@ -668,15 +716,17 @@ export type UserUncheckedUpdateWithoutProfileInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
   resolvedReports?: Prisma.ReportUncheckedUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserSkillsInput = {
@@ -687,15 +737,17 @@ export type UserCreateWithoutUserSkillsInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
-  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
   resolvedReports?: Prisma.ReportCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserSkillsInput = {
@@ -706,15 +758,17 @@ export type UserUncheckedCreateWithoutUserSkillsInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
-  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
   resolvedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserSkillsInput = {
@@ -741,15 +795,17 @@ export type UserUpdateWithoutUserSkillsInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
-  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
   resolvedReports?: Prisma.ReportUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserSkillsInput = {
@@ -760,15 +816,17 @@ export type UserUncheckedUpdateWithoutUserSkillsInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
-  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
   resolvedReports?: Prisma.ReportUncheckedUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutJobsInput = {
@@ -779,15 +837,17 @@ export type UserCreateWithoutJobsInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
   resolvedReports?: Prisma.ReportCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutJobsInput = {
@@ -798,15 +858,17 @@ export type UserUncheckedCreateWithoutJobsInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
   resolvedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutJobsInput = {
@@ -833,15 +895,17 @@ export type UserUpdateWithoutJobsInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
   resolvedReports?: Prisma.ReportUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutJobsInput = {
@@ -852,15 +916,17 @@ export type UserUncheckedUpdateWithoutJobsInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
   resolvedReports?: Prisma.ReportUncheckedUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutApplicationsInput = {
@@ -871,15 +937,17 @@ export type UserCreateWithoutApplicationsInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
   resolvedReports?: Prisma.ReportCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutApplicationsInput = {
@@ -890,15 +958,17 @@ export type UserUncheckedCreateWithoutApplicationsInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
   resolvedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutApplicationsInput = {
@@ -925,15 +995,17 @@ export type UserUpdateWithoutApplicationsInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
   resolvedReports?: Prisma.ReportUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutApplicationsInput = {
@@ -944,15 +1016,17 @@ export type UserUncheckedUpdateWithoutApplicationsInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
   resolvedReports?: Prisma.ReportUncheckedUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProjectsInput = {
@@ -963,15 +1037,17 @@ export type UserCreateWithoutProjectsInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
   resolvedReports?: Prisma.ReportCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProjectsInput = {
@@ -982,15 +1058,17 @@ export type UserUncheckedCreateWithoutProjectsInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
   resolvedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProjectsInput = {
@@ -1006,15 +1084,17 @@ export type UserCreateWithoutFreelancerProjectsInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
-  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
   resolvedReports?: Prisma.ReportCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutFreelancerProjectsInput = {
@@ -1025,15 +1105,17 @@ export type UserUncheckedCreateWithoutFreelancerProjectsInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
-  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
   resolvedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutFreelancerProjectsInput = {
@@ -1060,15 +1142,17 @@ export type UserUpdateWithoutProjectsInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
   resolvedReports?: Prisma.ReportUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProjectsInput = {
@@ -1079,15 +1163,17 @@ export type UserUncheckedUpdateWithoutProjectsInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
   resolvedReports?: Prisma.ReportUncheckedUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutFreelancerProjectsInput = {
@@ -1109,15 +1195,17 @@ export type UserUpdateWithoutFreelancerProjectsInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
-  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
   resolvedReports?: Prisma.ReportUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFreelancerProjectsInput = {
@@ -1128,58 +1216,17 @@ export type UserUncheckedUpdateWithoutFreelancerProjectsInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
-  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
   resolvedReports?: Prisma.ReportUncheckedUpdateManyWithoutResolverNestedInput
-}
-
-export type UserCreateWithoutReviewsGivenInput = {
-  id?: string
-  email: string
-  passwordHash: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
-  applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
-  projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
-  freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
-  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
-  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
-  resolvedReports?: Prisma.ReportCreateNestedManyWithoutResolverInput
-}
-
-export type UserUncheckedCreateWithoutReviewsGivenInput = {
-  id?: string
-  email: string
-  passwordHash: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
-  applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
-  freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
-  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
-  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
-  resolvedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutResolverInput
-}
-
-export type UserCreateOrConnectWithoutReviewsGivenInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutReviewsGivenInput, Prisma.UserUncheckedCreateWithoutReviewsGivenInput>
+  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReviewsReceivedInput = {
@@ -1190,15 +1237,17 @@ export type UserCreateWithoutReviewsReceivedInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
   resolvedReports?: Prisma.ReportCreateNestedManyWithoutResolverInput
+  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewsReceivedInput = {
@@ -1209,15 +1258,17 @@ export type UserUncheckedCreateWithoutReviewsReceivedInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
   resolvedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutResolverInput
+  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewsReceivedInput = {
@@ -1225,53 +1276,51 @@ export type UserCreateOrConnectWithoutReviewsReceivedInput = {
   create: Prisma.XOR<Prisma.UserCreateWithoutReviewsReceivedInput, Prisma.UserUncheckedCreateWithoutReviewsReceivedInput>
 }
 
-export type UserUpsertWithoutReviewsGivenInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewsGivenInput, Prisma.UserUncheckedUpdateWithoutReviewsGivenInput>
+export type UserCreateWithoutReviewsGivenInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  role?: $Enums.Role
+  accountStatus?: $Enums.AccountStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
+  freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  resolvedReports?: Prisma.ReportCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
+  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutReviewsGivenInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  role?: $Enums.Role
+  accountStatus?: $Enums.AccountStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
+  freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  resolvedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
+  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutReviewsGivenInput = {
+  where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutReviewsGivenInput, Prisma.UserUncheckedCreateWithoutReviewsGivenInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutReviewsGivenInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewsGivenInput, Prisma.UserUncheckedUpdateWithoutReviewsGivenInput>
-}
-
-export type UserUpdateWithoutReviewsGivenInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
-  applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
-  projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
-  freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
-  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
-  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
-  resolvedReports?: Prisma.ReportUpdateManyWithoutResolverNestedInput
-}
-
-export type UserUncheckedUpdateWithoutReviewsGivenInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
-  applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
-  freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
-  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
-  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
-  resolvedReports?: Prisma.ReportUncheckedUpdateManyWithoutResolverNestedInput
 }
 
 export type UserUpsertWithoutReviewsReceivedInput = {
@@ -1293,15 +1342,17 @@ export type UserUpdateWithoutReviewsReceivedInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
   resolvedReports?: Prisma.ReportUpdateManyWithoutResolverNestedInput
+  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsReceivedInput = {
@@ -1312,15 +1363,70 @@ export type UserUncheckedUpdateWithoutReviewsReceivedInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
   resolvedReports?: Prisma.ReportUncheckedUpdateManyWithoutResolverNestedInput
+  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUpsertWithoutReviewsGivenInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewsGivenInput, Prisma.UserUncheckedUpdateWithoutReviewsGivenInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewsGivenInput, Prisma.UserUncheckedCreateWithoutReviewsGivenInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReviewsGivenInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewsGivenInput, Prisma.UserUncheckedUpdateWithoutReviewsGivenInput>
+}
+
+export type UserUpdateWithoutReviewsGivenInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
+  freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  resolvedReports?: Prisma.ReportUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
+  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReviewsGivenInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
+  freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  resolvedReports?: Prisma.ReportUncheckedUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
+  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReportsInput = {
@@ -1331,15 +1437,17 @@ export type UserCreateWithoutReportsInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   resolvedReports?: Prisma.ReportCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReportsInput = {
@@ -1350,15 +1458,17 @@ export type UserUncheckedCreateWithoutReportsInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   resolvedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReportsInput = {
@@ -1374,15 +1484,17 @@ export type UserCreateWithoutResolvedReportsInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutResolvedReportsInput = {
@@ -1393,15 +1505,17 @@ export type UserUncheckedCreateWithoutResolvedReportsInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
-  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
-  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
-  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutResolvedReportsInput = {
@@ -1428,15 +1542,17 @@ export type UserUpdateWithoutReportsInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   resolvedReports?: Prisma.ReportUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportsInput = {
@@ -1447,15 +1563,17 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   resolvedReports?: Prisma.ReportUncheckedUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutResolvedReportsInput = {
@@ -1477,15 +1595,17 @@ export type UserUpdateWithoutResolvedReportsInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutResolvedReportsInput = {
@@ -1496,15 +1616,217 @@ export type UserUncheckedUpdateWithoutResolvedReportsInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
-  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
-  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
-  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAuthSessionsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  role?: $Enums.Role
+  accountStatus?: $Enums.AccountStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
+  freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  resolvedReports?: Prisma.ReportCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAuthSessionsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  role?: $Enums.Role
+  accountStatus?: $Enums.AccountStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
+  freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  resolvedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAuthSessionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuthSessionsInput, Prisma.UserUncheckedCreateWithoutAuthSessionsInput>
+}
+
+export type UserUpsertWithoutAuthSessionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAuthSessionsInput, Prisma.UserUncheckedUpdateWithoutAuthSessionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuthSessionsInput, Prisma.UserUncheckedCreateWithoutAuthSessionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAuthSessionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAuthSessionsInput, Prisma.UserUncheckedUpdateWithoutAuthSessionsInput>
+}
+
+export type UserUpdateWithoutAuthSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
+  freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  resolvedReports?: Prisma.ReportUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAuthSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
+  freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  resolvedReports?: Prisma.ReportUncheckedUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutPasswordResetTokensInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  role?: $Enums.Role
+  accountStatus?: $Enums.AccountStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
+  freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  resolvedReports?: Prisma.ReportCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  role?: $Enums.Role
+  accountStatus?: $Enums.AccountStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
+  freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  resolvedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutResolverInput
+  reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
+  reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
+  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPasswordResetTokensInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPasswordResetTokensInput, Prisma.UserUncheckedCreateWithoutPasswordResetTokensInput>
+}
+
+export type UserUpsertWithoutPasswordResetTokensInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPasswordResetTokensInput, Prisma.UserUncheckedUpdateWithoutPasswordResetTokensInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPasswordResetTokensInput, Prisma.UserUncheckedCreateWithoutPasswordResetTokensInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPasswordResetTokensInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPasswordResetTokensInput, Prisma.UserUncheckedUpdateWithoutPasswordResetTokensInput>
+}
+
+export type UserUpdateWithoutPasswordResetTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
+  freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  resolvedReports?: Prisma.ReportUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
+  freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  resolvedReports?: Prisma.ReportUncheckedUpdateManyWithoutResolverNestedInput
+  reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
+  reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
+  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1513,27 +1835,31 @@ export type UserUncheckedUpdateWithoutResolvedReportsInput = {
  */
 
 export type UserCountOutputType = {
-  userSkills: number
-  jobs: number
   applications: number
+  jobs: number
   projects: number
   freelancerProjects: number
-  reviewsGiven: number
-  reviewsReceived: number
   reports: number
   resolvedReports: number
+  reviewsReceived: number
+  reviewsGiven: number
+  userSkills: number
+  authSessions: number
+  passwordResetTokens: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  userSkills?: boolean | UserCountOutputTypeCountUserSkillsArgs
-  jobs?: boolean | UserCountOutputTypeCountJobsArgs
   applications?: boolean | UserCountOutputTypeCountApplicationsArgs
+  jobs?: boolean | UserCountOutputTypeCountJobsArgs
   projects?: boolean | UserCountOutputTypeCountProjectsArgs
   freelancerProjects?: boolean | UserCountOutputTypeCountFreelancerProjectsArgs
-  reviewsGiven?: boolean | UserCountOutputTypeCountReviewsGivenArgs
-  reviewsReceived?: boolean | UserCountOutputTypeCountReviewsReceivedArgs
   reports?: boolean | UserCountOutputTypeCountReportsArgs
   resolvedReports?: boolean | UserCountOutputTypeCountResolvedReportsArgs
+  reviewsReceived?: boolean | UserCountOutputTypeCountReviewsReceivedArgs
+  reviewsGiven?: boolean | UserCountOutputTypeCountReviewsGivenArgs
+  userSkills?: boolean | UserCountOutputTypeCountUserSkillsArgs
+  authSessions?: boolean | UserCountOutputTypeCountAuthSessionsArgs
+  passwordResetTokens?: boolean | UserCountOutputTypeCountPasswordResetTokensArgs
 }
 
 /**
@@ -1549,8 +1875,8 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountUserSkillsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.UserSkillWhereInput
+export type UserCountOutputTypeCountApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ApplicationWhereInput
 }
 
 /**
@@ -1558,13 +1884,6 @@ export type UserCountOutputTypeCountUserSkillsArgs<ExtArgs extends runtime.Types
  */
 export type UserCountOutputTypeCountJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.JobWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ApplicationWhereInput
 }
 
 /**
@@ -1584,8 +1903,15 @@ export type UserCountOutputTypeCountFreelancerProjectsArgs<ExtArgs extends runti
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountReviewsGivenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ReviewsWhereInput
+export type UserCountOutputTypeCountReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReportWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountResolvedReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReportWhereInput
 }
 
 /**
@@ -1598,15 +1924,29 @@ export type UserCountOutputTypeCountReviewsReceivedArgs<ExtArgs extends runtime.
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ReportWhereInput
+export type UserCountOutputTypeCountReviewsGivenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewsWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountResolvedReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ReportWhereInput
+export type UserCountOutputTypeCountUserSkillsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserSkillWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAuthSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AuthSessionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPasswordResetTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PasswordResetTokenWhereInput
 }
 
 
@@ -1618,16 +1958,18 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   accountStatus?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  profile?: boolean | Prisma.User$profileArgs<ExtArgs>
-  userSkills?: boolean | Prisma.User$userSkillsArgs<ExtArgs>
-  jobs?: boolean | Prisma.User$jobsArgs<ExtArgs>
   applications?: boolean | Prisma.User$applicationsArgs<ExtArgs>
+  jobs?: boolean | Prisma.User$jobsArgs<ExtArgs>
+  profile?: boolean | Prisma.User$profileArgs<ExtArgs>
   projects?: boolean | Prisma.User$projectsArgs<ExtArgs>
   freelancerProjects?: boolean | Prisma.User$freelancerProjectsArgs<ExtArgs>
-  reviewsGiven?: boolean | Prisma.User$reviewsGivenArgs<ExtArgs>
-  reviewsReceived?: boolean | Prisma.User$reviewsReceivedArgs<ExtArgs>
   reports?: boolean | Prisma.User$reportsArgs<ExtArgs>
   resolvedReports?: boolean | Prisma.User$resolvedReportsArgs<ExtArgs>
+  reviewsReceived?: boolean | Prisma.User$reviewsReceivedArgs<ExtArgs>
+  reviewsGiven?: boolean | Prisma.User$reviewsGivenArgs<ExtArgs>
+  userSkills?: boolean | Prisma.User$userSkillsArgs<ExtArgs>
+  authSessions?: boolean | Prisma.User$authSessionsArgs<ExtArgs>
+  passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1663,16 +2005,18 @@ export type UserSelectScalar = {
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "passwordHash" | "role" | "accountStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  profile?: boolean | Prisma.User$profileArgs<ExtArgs>
-  userSkills?: boolean | Prisma.User$userSkillsArgs<ExtArgs>
-  jobs?: boolean | Prisma.User$jobsArgs<ExtArgs>
   applications?: boolean | Prisma.User$applicationsArgs<ExtArgs>
+  jobs?: boolean | Prisma.User$jobsArgs<ExtArgs>
+  profile?: boolean | Prisma.User$profileArgs<ExtArgs>
   projects?: boolean | Prisma.User$projectsArgs<ExtArgs>
   freelancerProjects?: boolean | Prisma.User$freelancerProjectsArgs<ExtArgs>
-  reviewsGiven?: boolean | Prisma.User$reviewsGivenArgs<ExtArgs>
-  reviewsReceived?: boolean | Prisma.User$reviewsReceivedArgs<ExtArgs>
   reports?: boolean | Prisma.User$reportsArgs<ExtArgs>
   resolvedReports?: boolean | Prisma.User$resolvedReportsArgs<ExtArgs>
+  reviewsReceived?: boolean | Prisma.User$reviewsReceivedArgs<ExtArgs>
+  reviewsGiven?: boolean | Prisma.User$reviewsGivenArgs<ExtArgs>
+  userSkills?: boolean | Prisma.User$userSkillsArgs<ExtArgs>
+  authSessions?: boolean | Prisma.User$authSessionsArgs<ExtArgs>
+  passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1681,16 +2025,18 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    profile: Prisma.$ProfilePayload<ExtArgs> | null
-    userSkills: Prisma.$UserSkillPayload<ExtArgs>[]
-    jobs: Prisma.$JobPayload<ExtArgs>[]
     applications: Prisma.$ApplicationPayload<ExtArgs>[]
+    jobs: Prisma.$JobPayload<ExtArgs>[]
+    profile: Prisma.$ProfilePayload<ExtArgs> | null
     projects: Prisma.$ProjectPayload<ExtArgs>[]
     freelancerProjects: Prisma.$ProjectPayload<ExtArgs>[]
-    reviewsGiven: Prisma.$ReviewsPayload<ExtArgs>[]
-    reviewsReceived: Prisma.$ReviewsPayload<ExtArgs>[]
     reports: Prisma.$ReportPayload<ExtArgs>[]
     resolvedReports: Prisma.$ReportPayload<ExtArgs>[]
+    reviewsReceived: Prisma.$ReviewsPayload<ExtArgs>[]
+    reviewsGiven: Prisma.$ReviewsPayload<ExtArgs>[]
+    userSkills: Prisma.$UserSkillPayload<ExtArgs>[]
+    authSessions: Prisma.$AuthSessionPayload<ExtArgs>[]
+    passwordResetTokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2094,16 +2440,18 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  profile<T extends Prisma.User$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$profileArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  userSkills<T extends Prisma.User$userSkillsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userSkillsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserSkillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  jobs<T extends Prisma.User$jobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$jobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   applications<T extends Prisma.User$applicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  jobs<T extends Prisma.User$jobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$jobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  profile<T extends Prisma.User$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$profileArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   projects<T extends Prisma.User$projectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   freelancerProjects<T extends Prisma.User$freelancerProjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$freelancerProjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  reviewsGiven<T extends Prisma.User$reviewsGivenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  reviewsReceived<T extends Prisma.User$reviewsReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reports<T extends Prisma.User$reportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   resolvedReports<T extends Prisma.User$resolvedReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$resolvedReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviewsReceived<T extends Prisma.User$reviewsReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviewsGiven<T extends Prisma.User$reviewsGivenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  userSkills<T extends Prisma.User$userSkillsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userSkillsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserSkillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  authSessions<T extends Prisma.User$authSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$authSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuthSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  passwordResetTokens<T extends Prisma.User$passwordResetTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passwordResetTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2533,46 +2881,27 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.profile
+ * User.applications
  */
-export type User$profileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$applicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Profile
+   * Select specific fields to fetch from the Application
    */
-  select?: Prisma.ProfileSelect<ExtArgs> | null
+  select?: Prisma.ApplicationSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Profile
+   * Omit specific fields from the Application
    */
-  omit?: Prisma.ProfileOmit<ExtArgs> | null
+  omit?: Prisma.ApplicationOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ProfileInclude<ExtArgs> | null
-  where?: Prisma.ProfileWhereInput
-}
-
-/**
- * User.userSkills
- */
-export type User$userSkillsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the UserSkill
-   */
-  select?: Prisma.UserSkillSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the UserSkill
-   */
-  omit?: Prisma.UserSkillOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserSkillInclude<ExtArgs> | null
-  where?: Prisma.UserSkillWhereInput
-  orderBy?: Prisma.UserSkillOrderByWithRelationInput | Prisma.UserSkillOrderByWithRelationInput[]
-  cursor?: Prisma.UserSkillWhereUniqueInput
+  include?: Prisma.ApplicationInclude<ExtArgs> | null
+  where?: Prisma.ApplicationWhereInput
+  orderBy?: Prisma.ApplicationOrderByWithRelationInput | Prisma.ApplicationOrderByWithRelationInput[]
+  cursor?: Prisma.ApplicationWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.UserSkillScalarFieldEnum | Prisma.UserSkillScalarFieldEnum[]
+  distinct?: Prisma.ApplicationScalarFieldEnum | Prisma.ApplicationScalarFieldEnum[]
 }
 
 /**
@@ -2600,27 +2929,22 @@ export type User$jobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 }
 
 /**
- * User.applications
+ * User.profile
  */
-export type User$applicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$profileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Application
+   * Select specific fields to fetch from the Profile
    */
-  select?: Prisma.ApplicationSelect<ExtArgs> | null
+  select?: Prisma.ProfileSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Application
+   * Omit specific fields from the Profile
    */
-  omit?: Prisma.ApplicationOmit<ExtArgs> | null
+  omit?: Prisma.ProfileOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ApplicationInclude<ExtArgs> | null
-  where?: Prisma.ApplicationWhereInput
-  orderBy?: Prisma.ApplicationOrderByWithRelationInput | Prisma.ApplicationOrderByWithRelationInput[]
-  cursor?: Prisma.ApplicationWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ApplicationScalarFieldEnum | Prisma.ApplicationScalarFieldEnum[]
+  include?: Prisma.ProfileInclude<ExtArgs> | null
+  where?: Prisma.ProfileWhereInput
 }
 
 /**
@@ -2672,54 +2996,6 @@ export type User$freelancerProjectsArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * User.reviewsGiven
- */
-export type User$reviewsGivenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Reviews
-   */
-  select?: Prisma.ReviewsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Reviews
-   */
-  omit?: Prisma.ReviewsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ReviewsInclude<ExtArgs> | null
-  where?: Prisma.ReviewsWhereInput
-  orderBy?: Prisma.ReviewsOrderByWithRelationInput | Prisma.ReviewsOrderByWithRelationInput[]
-  cursor?: Prisma.ReviewsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ReviewsScalarFieldEnum | Prisma.ReviewsScalarFieldEnum[]
-}
-
-/**
- * User.reviewsReceived
- */
-export type User$reviewsReceivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Reviews
-   */
-  select?: Prisma.ReviewsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Reviews
-   */
-  omit?: Prisma.ReviewsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ReviewsInclude<ExtArgs> | null
-  where?: Prisma.ReviewsWhereInput
-  orderBy?: Prisma.ReviewsOrderByWithRelationInput | Prisma.ReviewsOrderByWithRelationInput[]
-  cursor?: Prisma.ReviewsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ReviewsScalarFieldEnum | Prisma.ReviewsScalarFieldEnum[]
-}
-
-/**
  * User.reports
  */
 export type User$reportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2765,6 +3041,126 @@ export type User$resolvedReportsArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.ReportScalarFieldEnum | Prisma.ReportScalarFieldEnum[]
+}
+
+/**
+ * User.reviewsReceived
+ */
+export type User$reviewsReceivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Reviews
+   */
+  select?: Prisma.ReviewsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Reviews
+   */
+  omit?: Prisma.ReviewsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewsInclude<ExtArgs> | null
+  where?: Prisma.ReviewsWhereInput
+  orderBy?: Prisma.ReviewsOrderByWithRelationInput | Prisma.ReviewsOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewsScalarFieldEnum | Prisma.ReviewsScalarFieldEnum[]
+}
+
+/**
+ * User.reviewsGiven
+ */
+export type User$reviewsGivenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Reviews
+   */
+  select?: Prisma.ReviewsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Reviews
+   */
+  omit?: Prisma.ReviewsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewsInclude<ExtArgs> | null
+  where?: Prisma.ReviewsWhereInput
+  orderBy?: Prisma.ReviewsOrderByWithRelationInput | Prisma.ReviewsOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewsScalarFieldEnum | Prisma.ReviewsScalarFieldEnum[]
+}
+
+/**
+ * User.userSkills
+ */
+export type User$userSkillsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserSkill
+   */
+  select?: Prisma.UserSkillSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserSkill
+   */
+  omit?: Prisma.UserSkillOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserSkillInclude<ExtArgs> | null
+  where?: Prisma.UserSkillWhereInput
+  orderBy?: Prisma.UserSkillOrderByWithRelationInput | Prisma.UserSkillOrderByWithRelationInput[]
+  cursor?: Prisma.UserSkillWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserSkillScalarFieldEnum | Prisma.UserSkillScalarFieldEnum[]
+}
+
+/**
+ * User.authSessions
+ */
+export type User$authSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AuthSession
+   */
+  select?: Prisma.AuthSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AuthSession
+   */
+  omit?: Prisma.AuthSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthSessionInclude<ExtArgs> | null
+  where?: Prisma.AuthSessionWhereInput
+  orderBy?: Prisma.AuthSessionOrderByWithRelationInput | Prisma.AuthSessionOrderByWithRelationInput[]
+  cursor?: Prisma.AuthSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AuthSessionScalarFieldEnum | Prisma.AuthSessionScalarFieldEnum[]
+}
+
+/**
+ * User.passwordResetTokens
+ */
+export type User$passwordResetTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PasswordResetToken
+   */
+  select?: Prisma.PasswordResetTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PasswordResetToken
+   */
+  omit?: Prisma.PasswordResetTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PasswordResetTokenInclude<ExtArgs> | null
+  where?: Prisma.PasswordResetTokenWhereInput
+  orderBy?: Prisma.PasswordResetTokenOrderByWithRelationInput | Prisma.PasswordResetTokenOrderByWithRelationInput[]
+  cursor?: Prisma.PasswordResetTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PasswordResetTokenScalarFieldEnum | Prisma.PasswordResetTokenScalarFieldEnum[]
 }
 
 /**

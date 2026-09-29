@@ -62,7 +62,9 @@ export const ModelName = {
   Project: 'Project',
   Milestone: 'Milestone',
   Reviews: 'Reviews',
-  Report: 'Report'
+  Report: 'Report',
+  AuthSession: 'AuthSession',
+  PasswordResetToken: 'PasswordResetToken'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -232,6 +234,33 @@ export const ReportScalarFieldEnum = {
 } as const
 
 export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
+
+
+export const AuthSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  refreshTokenDigest: 'refreshTokenDigest',
+  expiresAt: 'expiresAt',
+  revokedAt: 'revokedAt',
+  userAgent: 'userAgent',
+  ipAddress: 'ipAddress',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AuthSessionScalarFieldEnum = (typeof AuthSessionScalarFieldEnum)[keyof typeof AuthSessionScalarFieldEnum]
+
+
+export const PasswordResetTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
 
 
 export const SortOrder = {

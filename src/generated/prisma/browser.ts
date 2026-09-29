@@ -77,3 +77,13 @@ export type Reviews = Prisma.ReviewsModel
  * 
  */
 export type Report = Prisma.ReportModel
+/**
+ * Model AuthSession
+ * 
+ */
+export type AuthSession = Prisma.AuthSessionModel
+/**
+ * Model PasswordResetToken
+ * 
+ */
+export type PasswordResetToken = Prisma.PasswordResetTokenModel

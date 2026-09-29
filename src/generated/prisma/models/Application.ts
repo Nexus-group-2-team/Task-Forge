@@ -240,8 +240,8 @@ export type ApplicationWhereInput = {
   status?: Prisma.EnumApplicationStatusFilter<"Application"> | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Application"> | Date | string
-  job?: Prisma.XOR<Prisma.JobScalarRelationFilter, Prisma.JobWhereInput>
   freelancer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  job?: Prisma.XOR<Prisma.JobScalarRelationFilter, Prisma.JobWhereInput>
   project?: Prisma.XOR<Prisma.ProjectNullableScalarRelationFilter, Prisma.ProjectWhereInput> | null
 }
 
@@ -254,8 +254,8 @@ export type ApplicationOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  job?: Prisma.JobOrderByWithRelationInput
   freelancer?: Prisma.UserOrderByWithRelationInput
+  job?: Prisma.JobOrderByWithRelationInput
   project?: Prisma.ProjectOrderByWithRelationInput
 }
 
@@ -272,8 +272,8 @@ export type ApplicationWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumApplicationStatusFilter<"Application"> | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Application"> | Date | string
-  job?: Prisma.XOR<Prisma.JobScalarRelationFilter, Prisma.JobWhereInput>
   freelancer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  job?: Prisma.XOR<Prisma.JobScalarRelationFilter, Prisma.JobWhereInput>
   project?: Prisma.XOR<Prisma.ProjectNullableScalarRelationFilter, Prisma.ProjectWhereInput> | null
 }, "id" | "jobId_freelancerId">
 
@@ -314,8 +314,8 @@ export type ApplicationCreateInput = {
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  job: Prisma.JobCreateNestedOneWithoutApplicationsInput
   freelancer: Prisma.UserCreateNestedOneWithoutApplicationsInput
+  job: Prisma.JobCreateNestedOneWithoutApplicationsInput
   project?: Prisma.ProjectCreateNestedOneWithoutApplicationInput
 }
 
@@ -338,8 +338,8 @@ export type ApplicationUpdateInput = {
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  job?: Prisma.JobUpdateOneRequiredWithoutApplicationsNestedInput
   freelancer?: Prisma.UserUpdateOneRequiredWithoutApplicationsNestedInput
+  job?: Prisma.JobUpdateOneRequiredWithoutApplicationsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutApplicationNestedInput
 }
 
@@ -666,8 +666,8 @@ export type ApplicationCreateWithoutProjectInput = {
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  job: Prisma.JobCreateNestedOneWithoutApplicationsInput
   freelancer: Prisma.UserCreateNestedOneWithoutApplicationsInput
+  job: Prisma.JobCreateNestedOneWithoutApplicationsInput
 }
 
 export type ApplicationUncheckedCreateWithoutProjectInput = {
@@ -704,8 +704,8 @@ export type ApplicationUpdateWithoutProjectInput = {
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  job?: Prisma.JobUpdateOneRequiredWithoutApplicationsNestedInput
   freelancer?: Prisma.UserUpdateOneRequiredWithoutApplicationsNestedInput
+  job?: Prisma.JobUpdateOneRequiredWithoutApplicationsNestedInput
 }
 
 export type ApplicationUncheckedUpdateWithoutProjectInput = {
@@ -814,8 +814,8 @@ export type ApplicationSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
   freelancer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
   project?: boolean | Prisma.Application$projectArgs<ExtArgs>
 }, ExtArgs["result"]["application"]>
 
@@ -828,8 +828,8 @@ export type ApplicationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
   freelancer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["application"]>
 
 export type ApplicationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -841,8 +841,8 @@ export type ApplicationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
   freelancer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["application"]>
 
 export type ApplicationSelectScalar = {
@@ -858,24 +858,24 @@ export type ApplicationSelectScalar = {
 
 export type ApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "jobId" | "freelancerId" | "coverLetter" | "proposedBid" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["application"]>
 export type ApplicationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
   freelancer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
   project?: boolean | Prisma.Application$projectArgs<ExtArgs>
 }
 export type ApplicationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
   freelancer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
 }
 export type ApplicationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
   freelancer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
 }
 
 export type $ApplicationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Application"
   objects: {
-    job: Prisma.$JobPayload<ExtArgs>
     freelancer: Prisma.$UserPayload<ExtArgs>
+    job: Prisma.$JobPayload<ExtArgs>
     project: Prisma.$ProjectPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1281,8 +1281,8 @@ readonly fields: ApplicationFieldRefs;
  */
 export interface Prisma__ApplicationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  job<T extends Prisma.JobDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.JobDefaultArgs<ExtArgs>>): Prisma.Prisma__JobClient<runtime.Types.Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   freelancer<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  job<T extends Prisma.JobDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.JobDefaultArgs<ExtArgs>>): Prisma.Prisma__JobClient<runtime.Types.Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   project<T extends Prisma.Application$projectArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Application$projectArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.

@@ -20,7 +20,7 @@ TaskForge manages identity, profiles, skills, jobs, applications, projects, mile
 - **PostgreSQL + Prisma ORM** (schema, migrations, seed)
 - **JWT** authentication, **bcrypt** password hashing
 - **Zod** runtime validation
-- **Jest / Supertest** automated tests
+- **Vitest / Supertest** automated tests
 
 ## Architecture
 
@@ -29,19 +29,32 @@ src/
 ├── app.ts            # Express app wiring
 ├── server.ts         # HTTP listener + graceful shutdown
 ├── config/           # Environment configuration
-├── routes/           # HTTP method/path mapping
-├── controllers/      # HTTP in → service calls
-├── services/         # Business rules & transactions
-├── middleware/       # Auth, roles, validation, errors
-├── validators/       # Zod schemas
-├── utils/            # Shared helpers
-├── errors/           # Typed HTTP errors
-└── types/            # Shared TypeScript types
+│   └── env.ts        # Zod validation for process.env
+├── shared/           # Global cross-cutting code
+│   ├── db/           # Prisma client singleton
+│   ├── errors/       # AppError + global error handler
+│   ├── middleware/   # auth, validate, rate-limit middlewares
+│   ├── utils/        # async-handler, api-response, pagination, logger
+│   └── types/        # Express augmentation + API response types
+└── modules/          # Domain modules (auth, jobs, profiles, etc.)
+    ├── auth/         # auth.controller/service/routes/schema/types
+    ├── jobs/         # job.controller/service/routes/schema/types
+    ├── applications/
+    ├── profiles/
+    ├── milestones/
+    ├── projects/
+    ├── reviews/
+    └── reports/
+tests/
+├── e2e/              # API integration tests
+└── setup.ts          # Shared test setup
 prisma/
 ├── schema.prisma     # Data model
 ├── migrations/       # SQL migrations
 └── seed.ts           # Reproducible seed
 ```
+
+Request lifecycle: HTTP → middleware → validation → route → controller → service → Prisma/PostgreSQL → centralized error handler.
 
 Request lifecycle: HTTP → middleware → validation → route → controller → service → Prisma/PostgreSQL → centralized error handler.
 
@@ -96,8 +109,8 @@ npm run dev                   # start in watch mode
 
 | Area | Endpoints |
 |---|---|
-| Auth | `POST /api/auth/register`, `POST /api/auth/login`, `GET /api/auth/me` |
-| Profiles | `GET/PATCH /api/profile`, `POST /api/profile/skills`, `DELETE /api/profile/skills/:skillId`, `GET /api/users/:userId/profile` |
+| Auth | `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/refresh`, `POST /api/auth/logout`, `POST /api/auth/logout/all`, `GET /api/auth/me`, `POST /api/auth/forgot-password`, `POST /api/auth/reset-password`, `PATCH /api/auth/users/:id/status` |
+| Profiles | `GET/PATCH /api/profiles/me`, `PUT /api/profiles/me/skills`, `GET /api/profiles/freelancers`, `GET /api/profiles/:userId` |
 | Skills | `GET /api/skills`, `POST /api/skills` |
 | Jobs | `POST /api/jobs`, `GET /api/jobs`, `GET/PATCH/DELETE /api/jobs/:id` |
 | Applications | `POST /api/applications`, `GET /api/applications`, `GET/PATCH/DELETE /api/applications/:id` |
@@ -105,7 +118,7 @@ npm run dev                   # start in watch mode
 | Milestones | `POST /api/projects/:id/milestones`, `PATCH/DELETE /api/projects/milestones/:milestoneId` |
 | Reviews | `GET/POST /api/projects/:id/reviews` |
 | Reports | `POST /api/projects/reports`, `GET/PATCH /api/projects/reports/:id` (admin) |
-| Health | `GET /api/health` |
+| Health | `GET /health` |
 
 Query conventions: `?page=1&limit=20` (bounded), `?search=`, `?status=`, `?skillId=`, `?minBudget=`, `?maxBudget=`, sorting via an allow-list of fields.
 
