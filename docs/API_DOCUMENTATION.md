@@ -11,20 +11,42 @@ This document provides complete technical documentation for the modules maintain
 ## 1. Authentication & Security Architecture
 
 ### Token Strategy
-- **Access Tokens**: Short-lived JWTs (15m expiry) containing `{ userId, email, role, sessionId }`. Passed in the HTTP `Authorization: Bearer <token>` header.
-- **Refresh Tokens**: Cryptographically secure random tokens stored hashed (`SHA-256`) in PostgreSQL `AuthSession`. Passed via HTTP-only cookie (`refreshToken`) or JSON body.
+- **Access Tokens**: Short-lived JWTs (15m expiry) containing the claims `{ id, email, role, sessionId }`. Passed in the HTTP `Authorization: Bearer <token>` header. The `sessionId` claim must match an unrevoked `AuthSession` row, so banned or logged-out tokens stop working immediately.
+- **Refresh Tokens**: Cryptographically secure random tokens stored hashed (`SHA-256`) in PostgreSQL `AuthSession` (looked up by an indexed digest). Passed via an HTTP-only, `SameSite=strict` cookie (`taskforge_refresh_token`, scoped to `/api/auth`) or a JSON body. Refresh **rotates**: the presented token is revoked and a new pair is issued.
 - **Session Revocation**: Every session row contains `revokedAt`. Authenticated routes verify both that `user.accountStatus === "ACTIVE"` and `session.revokedAt === null`.
 
+### Password Policy (enforced on register & reset-password)
+- **Length**: 8–128 characters.
+- **No account data**: must not be, or contain, the account email address (its local part is checked when ≥3 characters).
+- **Not the current password**: on reset, re-using the password you currently sign in with is rejected.
+- **Breach screening**: candidates are checked against known breach corpora through the Have I Been Pwned k-anonymity range API — only a 5-character SHA-1 prefix ever leaves the server. Matches are rejected with `400`. The check fails open (and is logged) when the API is unreachable, so authentication availability never depends on a third party.
+
+### Security Headers
+Every response carries Helmet's hardening headers: `Content-Security-Policy` (same-origin resources only, `frame-ancestors 'none'`, `script-src 'self'`, inline event handlers blocked), `Referrer-Policy: no-referrer` (keeps `#token=` fragments out of Referer headers), `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Cross-Origin-Opener-Policy`, `Cross-Origin-Resource-Policy`, and `Strict-Transport-Security` (production).
+
+### Rate Limits
+| Scope | Limit |
+|---|---|
+| Global (all routes) | 100 requests / 15 min / IP |
+| `/api/auth/*` | 20 requests / 15 min / IP |
+| `POST /api/auth/forgot-password` | 5 requests / 15 min / IP |
+
 ### Global Error Response Format
-All endpoints return a uniform error structure:
+All endpoints return a uniform error structure (flat `message` — there is no nested `error` object):
 ```json
 {
   "success": false,
-  "error": {
-    "message": "Error description message",
-    "statusCode": 401,
-    "details": {}
-  }
+  "message": "Error description message"
+}
+```
+Zod validation failures add field-level details:
+```json
+{
+  "success": false,
+  "message": "Validation Error",
+  "errors": [
+    { "path": "password", "message": "Password must be at least 8 characters" }
+  ]
 }
 ```
 
@@ -41,17 +63,18 @@ Creates an account and returns an access token with a refresh cookie.
   ```json
   {
     "email": "user@example.com",
-    "password": "Password123!",
+    "password": "Str0ng&Vivid-Kite-2026!",
     "fullName": "Jane Doe",
     "role": "FREELANCER"
   }
   ```
 - **Response** (`201 Created`): Returns user entity, `token`, and `refreshToken`.
+> **Password policy**: 8–128 characters, must not contain your email, and is screened against known breach corpora — common passwords like `Password123!` are rejected with `400`.
 
 #### `POST /api/auth/login`
 Authenticates credentials and establishes an active session.
 - **Access**: Public
-- **Request Body**: `{ "email": "user@example.com", "password": "Password123!" }`
+- **Request Body**: `{ "email": "user@example.com", "password": "Str0ng&Vivid-Kite-2026!" }`
 - **Response** (`200 OK`): Returns user data, `accessToken`, and `refreshToken`.
 
 #### `POST /api/auth/refresh`
@@ -62,13 +85,31 @@ Rotates the refresh token and issues a new access token.
 Revokes current session (`revokedAt = now()`) and clears refresh cookie.
 - **Access**: Public / Authenticated
 
+#### `POST /api/auth/logout/all`
+Revokes **every** active session for the authenticated user across all devices and clears the refresh cookie.
+- **Access**: Authenticated (`Bearer <token>`)
+
 #### `GET /api/auth/me`
 Retrieves authenticated user profile and account details.
 - **Access**: Authenticated (`Bearer <token>`)
 
+#### `POST /api/auth/forgot-password`
+Requests a password-reset link. **Always** returns the same generic `200` response whether or not the account exists (anti-enumeration: identical status, body, *and* response timing). The emailed link carries the token in the URL fragment (`/reset-password#token=…`), so the token never appears in server or proxy logs.
+- **Access**: Public — rate-limited to 5 requests / 15 min / IP
+- **Request Body**: `{ "email": "user@example.com" }`
+- **Response** (`200 OK`): `{ "success": true, "message": "If an account with that email exists, a password reset link has been sent." }`
+
+#### `POST /api/auth/reset-password`
+Sets a new password using a valid, unexpired (15 minutes), single-use token. On success, all sessions are revoked — the user must sign in again with the new password.
+- **Access**: Public
+- **Request Body**: `{ "token": "<token from the email link>", "newPassword": "Str0ng&Vivid-Kite-2026!" }`
+- **Response** (`200 OK`): success message. `400` for invalid, expired, or already-used tokens, or for password-policy rejections (see §1 Password Policy).
+
 #### `PATCH /api/auth/users/:id/status` (Admin Moderation & Logout-All)
 Updates user status. If set to `SUSPENDED` or `DEACTIVATED`, atomically invalidates all active sessions for that user across all devices.
 - **Access**: Restricted (`Role.ADMIN`)
+- **Request Body**: `{ "status": "SUSPENDED" }`
+- **Response** (`200 OK`): Returns updated status and `revokedSessionsCount`.
 
 ### 2.2 Profiles Module (`/api/profiles`)
 

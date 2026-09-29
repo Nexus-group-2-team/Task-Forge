@@ -204,6 +204,58 @@ describe("Auth & Profile API contract tests", { timeout: 20000 }, () => {
     expect(postLogoutRefresh.status).toBe(401);
   });
 
+  it("should revoke every session via POST /api/auth/logout/all and kill access tokens", async () => {
+    const email = `logoutall_${Date.now()}@example.com`;
+    const reg = await request(app).post("/api/auth/register").send({
+      email,
+      password: "Password123!",
+      fullName: "Logout All Tester",
+      role: "FREELANCER",
+    });
+    expect(reg.status).toBe(201);
+    const token = reg.body.data.token;
+
+    const res = await request(app)
+      .post("/api/auth/logout/all")
+      .set("Authorization", `Bearer ${token}`)
+      .send({});
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.revokedSessionsCount).toBeGreaterThanOrEqual(1);
+
+    // The access token used above must be dead now (its session was revoked).
+    const me = await request(app).get("/api/auth/me").set("Authorization", `Bearer ${token}`);
+    expect(me.status).toBe(401);
+  });
+
+  it("should revoke every session via POST /api/auth/logout/all", async () => {
+    const email = `logoutall_${Date.now()}@example.com`;
+    await request(app).post("/api/auth/register").send({
+      email,
+      password: "Password123!",
+      fullName: "Logout All Tester",
+      role: "FREELANCER",
+    });
+    const loginA = await request(app).post("/api/auth/login").send({ email, password: "Password123!" });
+    const loginB = await request(app).post("/api/auth/login").send({ email, password: "Password123!" });
+    expect(loginA.status).toBe(200);
+    expect(loginB.status).toBe(200);
+    const tokenA = loginA.body.data.token;
+    const tokenB = loginB.body.data.token;
+
+    const res = await request(app)
+      .post("/api/auth/logout/all")
+      .set("Authorization", `Bearer ${tokenB}`);
+    expect(res.status).toBe(200);
+    expect(res.body.data.revokedSessionsCount).toBeGreaterThanOrEqual(2);
+
+    // Both devices' access tokens must be dead immediately after.
+    for (const token of [tokenA, tokenB]) {
+      const me = await request(app).get("/api/auth/me").set("Authorization", `Bearer ${token}`);
+      expect(me.status).toBe(401);
+    }
+  });
+
   describe("Negative & Edge-Case Authorization Assertions", () => {
     it("should reject requests without authorization header with 401", async () => {
       const response = await request(app).get("/api/auth/me");

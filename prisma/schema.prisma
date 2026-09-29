@@ -29,7 +29,6 @@ model User {
 
   passwordResetTokens PasswordResetToken[]
 
-  @@index([email])
   @@index([role])
   @@map("users")
 }
@@ -257,6 +256,7 @@ model AuthSession {
 
   @@index([userId])
   @@index([expiresAt])
+  @@index([refreshTokenDigest])
   @@map("auth_sessions")
 }
 
@@ -270,7 +270,6 @@ model PasswordResetToken {
 
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([tokenHash])
   @@index([userId])
   @@map("password_reset_tokens")
 }
