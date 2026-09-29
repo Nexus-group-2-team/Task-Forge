@@ -11,7 +11,7 @@ export const registerSchema = z.object({
   email: emailSchema,
   password: z
     .string()
-    .min(6, "Password must be at least 6 characters")
+    .min(8, "Password must be at least 8 characters")
     .max(128, "Password cannot exceed 128 characters"),
   fullName: z.string().trim().min(2, "Full name must be at least 2 characters"),
   role: z.enum(["CLIENT", "FREELANCER"]).default("FREELANCER"),
@@ -44,7 +44,7 @@ export const resetPasswordSchema = z.object({
   token: z.string().min(1, "Reset token is required"),
   newPassword: z
     .string()
-    .min(6, "Password must be at least 6 characters")
+    .min(8, "Password must be at least 8 characters")
     .max(128, "Password cannot exceed 128 characters"),
 });
 
