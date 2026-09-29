@@ -6,6 +6,7 @@ import { globalRateLimiter, authRateLimiter } from "./shared/middleware/rate-lim
 import authRoutes from "./modules/auth/auth.routes.js";
 import profileRoutes from "./modules/profiles/profile.routes.js";
 import projectRoutes from "./modules/projects/project.routes.js";
+import milestoneRoutes from "./modules/milestones/milestone.routes.js";
 import { errorHandler } from "./shared/errors/error-handler.js";
 
 const app = express();
@@ -26,8 +27,9 @@ app.get("/health", (_req, res) => {
 app.use("/api/auth", authRateLimiter, authRoutes);
 app.use("/api/profiles", profileRoutes);
 app.use("/api/projects", projectRoutes);
+app.use("/api/v1", milestoneRoutes);
 
+// Must stay last so it catches errors forwarded by routes and middleware above.
 app.use(errorHandler);
 
 export default app;
-

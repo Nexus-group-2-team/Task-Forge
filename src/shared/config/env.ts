@@ -16,7 +16,6 @@ const envSchema = z.object({
   FRONTEND_URL: z.string().url().default("http://localhost:4000"),
 });
 
-
 const parsed = envSchema.safeParse(process.env);
 
 if (!parsed.success) {
