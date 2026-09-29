@@ -14,7 +14,14 @@ export class EmailService {
     const greeting = userName ? `Hi ${userName},` : "Hello,";
 
     if (!resend) {
-      console.warn("[EmailService] RESEND_API_KEY not configured. Password reset link:", resetLink);
+      // Never print the link itself in production — it contains the raw
+      // reset token. Outside production it is printed as a dev convenience
+      // so the flow can be tested without a configured inbox.
+      if (env.NODE_ENV !== "production") {
+        console.warn("[EmailService] RESEND_API_KEY not configured. Password reset link:", resetLink);
+      } else {
+        console.warn("[EmailService] RESEND_API_KEY not configured.");
+      }
       throw new Error("RESEND_API_KEY is not configured");
     }
 

@@ -2,6 +2,7 @@ import { prisma } from "../../shared/db/prisma.js";
 import { env } from "../../shared/config/env.js";
 import crypto from "crypto";
 import { EmailService } from "../../shared/services/email.service.js";
+import { PasswordBreachService } from "../../shared/services/password-breach.service.js";
 import type { RegisterInput, LoginInput, ResetPasswordInput } from "./auth.schema.js";
 
 import { ConflictError, UnauthorizedError, NotFoundError, BadRequestError } from "../../shared/errors/app-error.js";
@@ -12,6 +13,12 @@ import {
   hashRefreshToken,
 } from "../../shared/utils/tokens.js";
 import type { AccountStatus } from "@prisma/client";
+
+// Login timing protection: verifying against this decoy hash spends the same
+// argon2 time as a real wrong-password attempt, so response latency cannot
+// disclose whether an email is registered. Computed once, in the background,
+// at module load (not awaited, so startup is not blocked).
+const TIMING_DECOY_HASH_PROMISE = hashPassword(crypto.randomBytes(32).toString("hex"));
 
 export interface SessionContext {
   userAgent?: string;
@@ -29,6 +36,8 @@ export class AuthService {
     if (existingUser) {
       throw new ConflictError("User with this email already exists");
     }
+
+    await this.enforcePasswordPolicy(input.password, { email: normalizedEmail });
 
     const passwordHash = await hashPassword(input.password);
 
@@ -78,12 +87,23 @@ export class AuthService {
 
     const user = await prisma.user.findUnique({
       where: { email: normalizedEmail },
-      include: {
-        profile: true,
-      },
     });
 
     if (!user) {
+      // Constant work: run the same argon2 verification as the wrong-password
+      // path (against a decoy hash) so unknown-email logins take the same time
+      // as registered-email ones — closes the timing-based enumeration channel.
+      await verifyPassword(await TIMING_DECOY_HASH_PROMISE, input.password);
+      throw new UnauthorizedError("Invalid email or password");
+    }
+
+    // Verify the password BEFORE the account-status check: failed logins for
+    // existing accounts must do exactly the same work as unknown-email logins
+    // (same single user query + one argon2 verify), and the distinct
+    // "inactive or suspended" message must only ever be revealed to someone
+    // who already proved they know the password.
+    const isPasswordValid = await verifyPassword(user.passwordHash, input.password);
+    if (!isPasswordValid) {
       throw new UnauthorizedError("Invalid email or password");
     }
 
@@ -91,10 +111,11 @@ export class AuthService {
       throw new UnauthorizedError("Account is inactive or suspended");
     }
 
-    const isPasswordValid = await verifyPassword(user.passwordHash, input.password);
-    if (!isPasswordValid) {
-      throw new UnauthorizedError("Invalid email or password");
-    }
+    // Profile is intentionally fetched only after a successful verification:
+    // including it in the user lookup added a database round trip to the
+    // wrong-password path that the unknown-email path did not pay — a remote
+    // RTT-sized timing oracle for account existence.
+    const profile = await prisma.profile.findUnique({ where: { userId: user.id } });
 
     const sessionData = await this.createSession(user.id, context);
 
@@ -112,7 +133,7 @@ export class AuthService {
         role: user.role,
         accountStatus: user.accountStatus,
         createdAt: user.createdAt,
-        profile: user.profile,
+        profile,
       },
       token: accessToken,
       accessToken,
@@ -313,8 +334,25 @@ export class AuthService {
       include: { profile: true },
     });
 
-    // Prevent account enumeration: return silently if user not found or inactive
+    // Prevent account enumeration: return silently if user not found or inactive.
     if (!user || user.accountStatus !== "ACTIVE") {
+      // Timing equalization: the known-account path below performs 3 database
+      // round trips beyond the point unknown accounts reach (the profile read
+      // folded into findUnique, deleteMany, create). Mirror them here with
+      // zero-effect statements — indexed lookups/updates that match no rows —
+      // so the generic 200 response has the same latency whether or not the
+      // account exists. Without this, the gap equals ~3 remote DB round trips,
+      // which statistical averaging could turn into an enumeration oracle
+      // despite the rate limiter.
+      const phantomUserId = "00000000-0000-0000-0000-000000000000";
+      await prisma.passwordResetToken.findUnique({
+        where: { tokenHash: crypto.randomBytes(32).toString("hex") },
+      });
+      await prisma.passwordResetToken.deleteMany({ where: { userId: phantomUserId } });
+      await prisma.passwordResetToken.updateMany({
+        where: { userId: phantomUserId },
+        data: { expiresAt: new Date() },
+      });
       return;
     }
 
@@ -338,7 +376,9 @@ export class AuthService {
       },
     });
 
-    const resetLink = `${env.FRONTEND_URL}/reset-password?token=${rawToken}`;
+    // Fragment (#token=) keeps the secret out of server/proxy access logs —
+    // the browser never transmits it. The API still receives it via POST body.
+    const resetLink = `${env.FRONTEND_URL}/reset-password#token=${rawToken}`;
 
     // Dev convenience: print the reset link so the flow can be tested
     // locally without opening the inbox. Never logged in production.
@@ -346,19 +386,20 @@ export class AuthService {
       console.log(`[PasswordReset] Reset link for ${user.email}: ${resetLink}`);
     }
 
-    // Send email using Resend. A delivery failure must NOT fail the request:
-    // returning a generic 200 preserves the anti-enumeration contract (a 500
-    // here would reveal that the account exists). The link is logged above in
-    // non-production environments so failures are still debuggable.
-    try {
-      await EmailService.sendPasswordResetEmail(
-        user.email,
-        resetLink,
-        user.profile?.fullName
-      );
-    } catch (error) {
+    // Send email using Resend — deliberately NOT awaited (fire-and-forget):
+    // awaiting delivery made responses for existing accounts ~2.5s slower than
+    // for unknown ones, a timing oracle that defeated the generic-200
+    // anti-enumeration contract (response latency disclosed account existence).
+    // Delivery failures must not fail the request either — a 500 here would
+    // also reveal the account exists — so they are only logged below. The link
+    // is logged above in non-production environments for debuggability.
+    void EmailService.sendPasswordResetEmail(
+      user.email,
+      resetLink,
+      user.profile?.fullName
+    ).catch((error: unknown) => {
       console.error(`[PasswordReset] Failed to send reset email to ${user.email}:`, error);
-    }
+    });
   }
 
   static async resetPassword(input: ResetPasswordInput): Promise<void> {
@@ -377,6 +418,11 @@ export class AuthService {
       throw new UnauthorizedError("Account is inactive or suspended");
     }
 
+    await this.enforcePasswordPolicy(input.newPassword, {
+      email: record.user.email,
+      currentPasswordHash: record.user.passwordHash,
+    });
+
     const passwordHash = await hashPassword(input.newPassword);
 
     // Atomically update password, mark token as used, and terminate all active sessions
@@ -394,6 +440,44 @@ export class AuthService {
         data: { revokedAt: new Date() },
       }),
     ]);
+  }
+
+  /**
+   * Password policy beyond the Zod length check (NIST SP 800-63B / OWASP):
+   *  - must not be (or contain) the account email
+   *  - must differ from the current password (when one exists)
+   *  - must not appear in known breach corpora (k-anonymity range API — the
+   *    full password never leaves this server, see PasswordBreachService)
+   * Local checks run first so the network call is only made when needed.
+   * Throws BadRequestError.
+   */
+  private static async enforcePasswordPolicy(
+    password: string,
+    opts: { email: string; currentPasswordHash?: string }
+  ): Promise<void> {
+    const email = opts.email.toLowerCase();
+    const localPart = email.split("@")[0] ?? "";
+    const candidate = password.toLowerCase();
+
+    // Short local parts (e.g. "ab@x.co") would over-block normal passwords.
+    const containsEmail =
+      candidate.includes(email) || (localPart.length >= 3 && candidate.includes(localPart));
+    if (containsEmail) {
+      throw new BadRequestError("Password must not contain your email address");
+    }
+
+    if (
+      opts.currentPasswordHash &&
+      (await verifyPassword(opts.currentPasswordHash, password))
+    ) {
+      throw new BadRequestError("New password must be different from your current password");
+    }
+
+    if (await PasswordBreachService.isBreached(password)) {
+      throw new BadRequestError(
+        "This password has appeared in a known data breach. Please choose a different one"
+      );
+    }
   }
 
   private static async createSession(userId: string, context?: SessionContext) {
