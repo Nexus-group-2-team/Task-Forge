@@ -12,13 +12,23 @@ import {
   generateOpaqueRefreshToken,
   hashRefreshToken,
 } from "../../shared/utils/tokens.js";
-import type { AccountStatus } from "@prisma/client";
+import type { AccountStatus, Prisma } from "@prisma/client";
 
 // Login timing protection: verifying against this decoy hash spends the same
 // argon2 time as a real wrong-password attempt, so response latency cannot
 // disclose whether an email is registered. Computed once, in the background,
 // at module load (not awaited, so startup is not blocked).
-const TIMING_DECOY_HASH_PROMISE = hashPassword(crypto.randomBytes(32).toString("hex"));
+const TIMING_DECOY_HASH_PROMISE = hashPassword(crypto.randomBytes(32).toString("hex")).catch(
+  (error: unknown) => {
+    // Never let this background promise become an unhandled rejection: with no
+    // handler attached until the first unknown-email login, an argon2 failure
+    // here would kill the whole process before any request ever awaited it.
+    // Degrading to "no decoy" only weakens timing uniformity in an already
+    // broken (argon2-unusable) environment — availability wins over the probe.
+    console.error("[Auth] Failed to precompute timing decoy hash:", error);
+    return null;
+  }
+);
 
 export interface SessionContext {
   userAgent?: string;
@@ -93,7 +103,10 @@ export class AuthService {
       // Constant work: run the same argon2 verification as the wrong-password
       // path (against a decoy hash) so unknown-email logins take the same time
       // as registered-email ones — closes the timing-based enumeration channel.
-      await verifyPassword(await TIMING_DECOY_HASH_PROMISE, input.password);
+      const decoyHash = await TIMING_DECOY_HASH_PROMISE;
+      if (decoyHash) {
+        await verifyPassword(decoyHash, input.password);
+      }
       throw new UnauthorizedError("Invalid email or password");
     }
 
@@ -246,8 +259,8 @@ export class AuthService {
     }
   }
 
-  static async logoutAll(userId: string) {
-    const result = await prisma.authSession.updateMany({
+  static async logoutAll(userId: string, client: Prisma.TransactionClient | typeof prisma = prisma) {
+    const result = await client.authSession.updateMany({
       where: {
         userId,
         revokedAt: null,
@@ -314,10 +327,14 @@ export class AuthService {
         },
       });
 
-      // If user is suspended or deactivated (banned), revoke ALL active sessions immediately
+      // If user is suspended or deactivated (banned), revoke ALL active sessions immediately.
+      // Pass `tx` so the revocation commits atomically with the status change —
+      // a crash between the two statements must never leave a banned account
+      // with live sessions (and a rollback must never leave sessions revoked
+      // for a user whose status change didn't happen).
       let revokedCount = 0;
       if (newStatus !== "ACTIVE") {
-        const result = await this.logoutAll(targetUserId);
+        const result = await this.logoutAll(targetUserId, tx);
         revokedCount = result.revokedSessionsCount;
       }
 
@@ -425,21 +442,31 @@ export class AuthService {
 
     const passwordHash = await hashPassword(input.newPassword);
 
-    // Atomically update password, mark token as used, and terminate all active sessions
-    await prisma.$transaction([
-      prisma.user.update({
+    // Atomically update password, mark token as used, and terminate all active
+    // sessions. The token is consumed FIRST via an updateMany guarded by
+    // `usedAt: null`: two concurrent requests carrying the same token race on
+    // that row, only the winner's transaction sees `usedAt IS NULL`, and the
+    // loser gets `count === 0` and is rejected — closing the check-then-consume
+    // window the previous form allowed (TOCTOU double-spend of one token).
+    await prisma.$transaction(async (tx) => {
+      const consumed = await tx.passwordResetToken.updateMany({
+        where: { id: record.id, usedAt: null },
+        data: { usedAt: new Date() },
+      });
+      if (consumed.count !== 1) {
+        throw new BadRequestError("Invalid or expired password reset link");
+      }
+
+      await tx.user.update({
         where: { id: record.userId },
         data: { passwordHash },
-      }),
-      prisma.passwordResetToken.update({
-        where: { id: record.id },
-        data: { usedAt: new Date() },
-      }),
-      prisma.authSession.updateMany({
+      });
+
+      await tx.authSession.updateMany({
         where: { userId: record.userId, revokedAt: null },
         data: { revokedAt: new Date() },
-      }),
-    ]);
+      });
+    });
   }
 
   /**
