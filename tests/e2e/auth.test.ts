@@ -1,6 +1,14 @@
 import request from "supertest";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import app from "../../src/app.js";
+
+const { isBreached } = vi.hoisted(() => ({
+  isBreached: vi.fn().mockResolvedValue(false),
+}));
+
+vi.mock("../../src/shared/services/password-breach.service.js", () => ({
+  PasswordBreachService: { isBreached },
+}));
 
 describe("Auth & Profile API contract tests", { timeout: 20000 }, () => {
   const testEmail = `test_${Date.now()}@example.com`;
@@ -24,6 +32,45 @@ describe("Auth & Profile API contract tests", { timeout: 20000 }, () => {
     userId = response.body.data.user.id;
   });
 
+  it("should reject registration with a password shorter than 8 characters", async () => {
+    const response = await request(app).post("/api/auth/register").send({
+      email: `short_${Date.now()}@example.com`,
+      password: "Ab1!xy",
+      fullName: "Short Password",
+      role: "FREELANCER",
+    });
+
+    expect(response.status).toBe(400);
+    expect(JSON.stringify(response.body)).toContain("at least 8 characters");
+  });
+
+  it("should reject registration with a breached password", async () => {
+    isBreached.mockResolvedValueOnce(true);
+    const response = await request(app).post("/api/auth/register").send({
+      email: `breached_${Date.now()}@example.com`,
+      password: "BreachedPass999!",
+      fullName: "Breached User",
+      role: "FREELANCER",
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toMatch(/known data breach/i);
+    expect(isBreached).toHaveBeenCalledWith("BreachedPass999!");
+  });
+
+  it("should reject registration with a password containing the email", async () => {
+    const email = `contain_${Date.now()}@example.com`;
+    const response = await request(app).post("/api/auth/register").send({
+      email,
+      password: `${email}Aa1!`,
+      fullName: "Email Contain",
+      role: "FREELANCER",
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toMatch(/must not contain your email/i);
+  });
+
   it("should login with registered credentials", async () => {
     const response = await request(app).post("/api/auth/login").send({
       email: testEmail,
@@ -33,6 +80,24 @@ describe("Auth & Profile API contract tests", { timeout: 20000 }, () => {
     expect(response.status).toBe(200);
     expect(response.body.success).toBe(true);
     expect(response.body.data.token).toBeDefined();
+  });
+
+  it("should return an identical error for unknown email and wrong password", async () => {
+    const unknown = await request(app).post("/api/auth/login").send({
+      email: `ghost_${Date.now()}@example.com`,
+      password: "Whatever123!",
+    });
+    const wrongPassword = await request(app).post("/api/auth/login").send({
+      email: testEmail,
+      password: "WrongPass123!",
+    });
+
+    expect(unknown.status).toBe(401);
+    expect(wrongPassword.status).toBe(401);
+    // Identical bodies: no message-level account enumeration. (Latency is also
+    // equalized server-side via a decoy argon2 verify on the unknown path.)
+    expect(unknown.body.success).toBe(wrongPassword.body.success);
+    expect(unknown.body.message).toBe(wrongPassword.body.message);
   });
 
   it("should fetch current user profile via /api/auth/me", async () => {
@@ -281,6 +346,19 @@ describe("Auth & Profile API contract tests", { timeout: 20000 }, () => {
         password: "Password123!",
       });
       expect(postBanLogin.status).toBe(401);
+      // With the correct password the ban itself is communicated (needed UX
+      // for the account's real owner)…
+      expect(postBanLogin.body.message).toMatch(/inactive or suspended/i);
+
+      // …but with a wrong password the response must stay fully generic:
+      // suspension status is only revealed to someone who already proved they
+      // know the password (anti-enumeration).
+      const postBanWrongPw = await request(app).post("/api/auth/login").send({
+        email: victimEmail,
+        password: "TotallyWrong999!",
+      });
+      expect(postBanWrongPw.status).toBe(401);
+      expect(postBanWrongPw.body.message).toBe("Invalid email or password");
     }, 60000);
 
   });

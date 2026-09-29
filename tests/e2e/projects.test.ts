@@ -1,7 +1,11 @@
 import request from "supertest";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import app from "../../src/app.js";
 import { prisma } from "../../src/shared/db/prisma.js";
+
+vi.mock("../../src/shared/services/password-breach.service.js", () => ({
+  PasswordBreachService: { isBreached: vi.fn().mockResolvedValue(false) },
+}));
 
 describe("Projects API contract tests", { timeout: 30000 }, () => {
   let clientToken = "";
