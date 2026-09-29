@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import milestoneRoutes from "./modules/milestones/milestone.routes.js";
+import { errorHandler } from "./shared/errors/error-handler.js";
 
 const app = express();
 
@@ -12,5 +14,10 @@ app.get("/health", (_req, res) => {
     message: "TaskForge API is running",
   });
 });
+
+app.use("/api/v1", milestoneRoutes);
+
+// Must stay last so it catches errors forwarded by routes and middleware above.
+app.use(errorHandler);
 
 export default app;

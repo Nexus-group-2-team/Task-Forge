@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/Nexus-group-2-team/Task-Forge#readme",
   "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "^7.10.0",
     "argon2": "^0.45.1",
     "bcryptjs": "^3.0.3",
