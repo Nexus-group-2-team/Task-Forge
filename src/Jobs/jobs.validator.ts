@@ -7,8 +7,8 @@ export const querySchema=z.object({
     status:z.enum(["OPEN","COMPLETED","IN_PROGRESS","CANCLLED","DRAFT"]).optional(),
     minBudget:z.coerce.number().int().positive().optional(),
     maxBudget:z.coerce.number().int().positive().optional(),
-    title:z.string().optional(),
-    description:z.string().optional()
+    title:z.string().min(5,'No Less than 5 charatchers!').max(100,'No more than 100 Chracters!').optional(),
+    description:z.string().min(10).max(1000).optional()
 }).refine((d)=>!d.minBudget||!d.maxBudget||d.minBudget<=d.maxBudget ,{
     message:"minimu budgety is required to greater than or equal to maximum budget!",
   path: ['budgetMin'],
@@ -40,7 +40,7 @@ export const createUserSchema=z.object({
     accountStatus:z.enum(["ACTIVE","SUSPENDED","DEACTIVATED"]).default("ACTIVE")
 })
 
-export const createJobSkillSchema= z.object({
+/* export const createJobSkillSchema= z.object({
     jobId:z.string(),
     skillId:z.string()
 })
@@ -48,6 +48,16 @@ export const createJobSkillSchema= z.object({
 export const createUserSkillSchema= z.object({
     userId:z.string(),
     skillId:z.string()
+}) */
+
+export const createSkillSchema=z.object({
+    name:z.string().min(5).max(100),
+    categoryId:z.string().optional()
+})
+
+export const createCategorySchema=z.object({
+    name:z.string().min(5).max(100),
+    description:z.string().min(10).max(1000).optional()
 })
 
 
@@ -56,3 +66,5 @@ export const  updateJobSchema=createJobSchema.partial();
 export type QuerySchema=z.infer<typeof querySchema>
 export type CreateJobSchema=z.infer<typeof createJobSchema>
 export type UpdateJobSchema=z.infer<typeof updateJobSchema>
+export type CreateSkillSchema=z.infer<typeof createSkillSchema>
+export type CreateCategorySchema=z.infer<typeof createCategorySchema>
