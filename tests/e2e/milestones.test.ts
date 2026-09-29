@@ -15,7 +15,7 @@ const EMAILS = {
 } as const;
 
 const sign = (user: Pick<User, "id" | "role">) =>
-  jwt.sign({ id: user.id, email: "test@test.com", role: user.role }, env.JWT_SECRET, {
+  jwt.sign({ id: user.id, email: "test@test.com", role: user.role }, env.JWT_ACCESS_SECRET, {
     expiresIn: "1h",
   });
 

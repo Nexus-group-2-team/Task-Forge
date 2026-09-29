@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "vitest run tests --exclude dist/**",
+    "seed": "tsx prisma/seed.ts",
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
@@ -38,6 +39,8 @@
     "express-rate-limit": "^8.7.0",
     "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.3",
+    "pg": "^8.23.0",
+    "resend": "^6.30.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {
@@ -46,13 +49,15 @@
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^26.6.2",
+    "@types/pg": "^8.23.1",
     "@types/supertest": "^7.2.1",
-
     "prisma": "^7.10.0",
     "supertest": "^7.3.0",
-
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "vitest": "^4.1.11"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   }
 }
