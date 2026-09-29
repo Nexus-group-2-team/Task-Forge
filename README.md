@@ -20,7 +20,7 @@ TaskForge manages identity, profiles, skills, jobs, applications, projects, mile
 - **PostgreSQL + Prisma ORM** (schema, migrations, seed)
 - **JWT** authentication, **bcrypt** password hashing
 - **Zod** runtime validation
-- **Vitest / Supertest** automated tests
+- **Jest / Supertest** automated tests
 
 ## Architecture
 
@@ -29,32 +29,19 @@ src/
 ├── app.ts            # Express app wiring
 ├── server.ts         # HTTP listener + graceful shutdown
 ├── config/           # Environment configuration
-│   └── env.ts        # Zod validation for process.env
-├── shared/           # Global cross-cutting code
-│   ├── db/           # Prisma client singleton
-│   ├── errors/       # AppError + global error handler
-│   ├── middleware/   # auth, validate, rate-limit middlewares
-│   ├── utils/        # async-handler, api-response, pagination, logger
-│   └── types/        # Express augmentation + API response types
-└── modules/          # Domain modules (auth, jobs, profiles, etc.)
-    ├── auth/         # auth.controller/service/routes/schema/types
-    ├── jobs/         # job.controller/service/routes/schema/types
-    ├── applications/
-    ├── profiles/
-    ├── milestones/
-    ├── projects/
-    ├── reviews/
-    └── reports/
-tests/
-├── e2e/              # API integration tests
-└── setup.ts          # Shared test setup
+├── routes/           # HTTP method/path mapping
+├── controllers/      # HTTP in → service calls
+├── services/         # Business rules & transactions
+├── middleware/       # Auth, roles, validation, errors
+├── validators/       # Zod schemas
+├── utils/            # Shared helpers
+├── errors/           # Typed HTTP errors
+└── types/            # Shared TypeScript types
 prisma/
 ├── schema.prisma     # Data model
 ├── migrations/       # SQL migrations
 └── seed.ts           # Reproducible seed
 ```
-
-Request lifecycle: HTTP → middleware → validation → route → controller → service → Prisma/PostgreSQL → centralized error handler.
 
 Request lifecycle: HTTP → middleware → validation → route → controller → service → Prisma/PostgreSQL → centralized error handler.
 
