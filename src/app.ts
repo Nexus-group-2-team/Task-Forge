@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import jobsRouter from "./Jobs/jobs.routes.js";
 
 const app = express();
 
@@ -12,5 +13,7 @@ app.get("/health", (_req, res) => {
     message: "TaskForge API is running"
   });
 });
+
+app.use("/api/jobs", jobsRouter);
 
 export default app;

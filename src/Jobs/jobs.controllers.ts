@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
-import {querySchema,updateJobSchema,createJobSchema,CreateJobSchema,QuerySchema,UpdateJobSchema} from "./jobs.validator.js"
-import { GetJobs, GetJobByID,PostJob,PatchJobs,DeleteJobs} from "./jobs.services.js";
+import {querySchema,updateJobSchema,createJobSchema,createSkillSchema,createCategorySchema} from "./jobs.validator.js"
+import { GetJobs, GetJobByID,PostJob,PatchJobs,DeleteJobs,CreateSkill,CreateCategory} from "./jobs.services.js";
 
 export async function getJobs(req:Request,res:Response){
     try{
@@ -12,9 +12,7 @@ export async function getJobs(req:Request,res:Response){
         }
 
         const gotJobs=await GetJobs(validatedquery.data)
-        return res.status(200).json({message:"Succesful Operation!",
-            result:gotJobs
-        })
+        return res.status(gotJobs.status).json(gotJobs.message)
     }
     catch(error){
         console.error(error)
@@ -26,13 +24,7 @@ export async function getJobsByID(req:Request,res:Response){
         const paramID=req.params.id as string
         const job= await GetJobByID(paramID)
 
-        if(!job){
-            return res.status(404).json({message:"Job is not found!"})
-        }
-
-        return res.status(200).json({message:"Succesful Operation!",
-            result:job
-        })
+        return res.status(job.status).json(job.message)
     }
     catch(error){
         console.error(error)
@@ -49,12 +41,11 @@ export async function postJob(req:Request,res:Response){
         })
     }
 
-    try{const posted=await PostJob(validatedBody.data,"wersdf4")
+    try{
+        const posted=await PostJob(validatedBody.data,"wersdf4")
 
-    return res.status(201).json({
-        message:"Succesful Operation!",
-        result:posted
-    })}
+    return res.status(posted.status).json(posted.message)
+}
     catch(error){
         console.error(error)
     }
@@ -71,11 +62,8 @@ export async function patchJobs(req:Request,res:Response){
     }
 
     try{
-        const patched=PatchJobs(validatedBody.data,"werddfg456","wasder34","CLIENT")
-    return res.status(200).json({
-        message:"Successful Operation!",
-        result:patched
-    })
+        const patched=await PatchJobs(validatedBody.data,"werddfg456","wasder34","CLIENT")
+    return res.status(patched.status).json(patched.message)
     }
     catch(error){
         console.error(error)
@@ -86,11 +74,33 @@ export async function patchJobs(req:Request,res:Response){
 export async function deleteJobs(req:Request,res:Response){
     try{
         const deleted=await DeleteJobs("wersdf456","wersdfxcv","ADMIN")
-        return res.status(204).json({
-            message:"Successful Operation!"
-        })
+        return res.status(deleted.status).json(deleted.message)
     }
     catch(error){
         console.error(error)
     }
+}
+
+export async function createSkill(req:Request,res:Response){
+    const validatedBody=createSkillSchema.safeParse(req.body)
+    if(!validatedBody.success){
+        return res.status(400).json({message:"Invalid Input!",
+            error:validatedBody.error
+        })
+    }
+    const skill=await CreateSkill(validatedBody.data,"ADMIN")
+
+    return res.status(skill.status).json(skill.message)
+}
+
+export async function createCategory(req:Request,res:Response){
+    const validatedBody=createCategorySchema.safeParse(req.body)
+    if(!validatedBody.success){
+        return res.status(400).json({message:"Invalid Input!",
+            error:validatedBody.error
+        })
+    }
+    const category=await CreateCategory(validatedBody.data,"ADMIN");
+
+    return res.status(category.status).json(category.message)
 }
