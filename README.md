@@ -109,8 +109,8 @@ npm run dev                   # start in watch mode
 
 | Area | Endpoints |
 |---|---|
-| Auth | `POST /api/auth/register`, `POST /api/auth/login`, `GET /api/auth/me` |
-| Profiles | `GET/PATCH /api/profile`, `POST /api/profile/skills`, `DELETE /api/profile/skills/:skillId`, `GET /api/users/:userId/profile` |
+| Auth | `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/refresh`, `POST /api/auth/logout`, `POST /api/auth/logout/all`, `GET /api/auth/me`, `POST /api/auth/forgot-password`, `POST /api/auth/reset-password`, `PATCH /api/auth/users/:id/status` |
+| Profiles | `GET/PATCH /api/profiles/me`, `PUT /api/profiles/me/skills`, `GET /api/profiles/freelancers`, `GET /api/profiles/:userId` |
 | Skills | `GET /api/skills`, `POST /api/skills` |
 | Jobs | `POST /api/jobs`, `GET /api/jobs`, `GET/PATCH/DELETE /api/jobs/:id` |
 | Applications | `POST /api/applications`, `GET /api/applications`, `GET/PATCH/DELETE /api/applications/:id` |
@@ -118,7 +118,7 @@ npm run dev                   # start in watch mode
 | Milestones | `POST /api/projects/:id/milestones`, `PATCH/DELETE /api/projects/milestones/:milestoneId` |
 | Reviews | `GET/POST /api/projects/:id/reviews` |
 | Reports | `POST /api/projects/reports`, `GET/PATCH /api/projects/reports/:id` (admin) |
-| Health | `GET /api/health` |
+| Health | `GET /health` |
 
 Query conventions: `?page=1&limit=20` (bounded), `?search=`, `?status=`, `?skillId=`, `?minBudget=`, `?maxBudget=`, sorting via an allow-list of fields.
 

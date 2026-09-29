@@ -5,6 +5,7 @@ export interface RequestUser {
   email: string;
   role: Role;
   accountStatus: AccountStatus;
+  sessionId?: string;
 }
 
 export interface PaginationParams {
@@ -41,4 +42,3 @@ export interface ApiResponseError {
 }
 
 export type ApiResponse<T> = ApiResponseSuccess<T> | ApiResponseError;
-
