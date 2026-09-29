@@ -1,6 +1,7 @@
-import {QuerySchema,UpdateJobSchema,CreateJobSchema} from "./jobs.validator.js"
+import {QuerySchema,UpdateJobSchema,CreateJobSchema,CreateSkillSchema,CreateCategorySchema} from "./jobs.validator.js"
 import {parsePagination,paginated,PaginationParams} from "./jobs.pagination.js"
 import { prisma } from "../lib/prisma.js";
+import { Prisma } from '../generated/prisma/client.js';
 
 export async function GetJobs(Query:QuerySchema){   
     const {title, description, minBudget, maxBudget, status}=Query
@@ -34,7 +35,7 @@ export async function GetJobs(Query:QuerySchema){
     })
     ]) 
 
-    return paginated(retrieved,page,limit,total)
+    return { status:200, message:`Successful Operation! ${paginated(retrieved,page,limit,total)}`}
 }
 
 export async function GetJobByID(Id:string){
@@ -44,8 +45,11 @@ export async function GetJobByID(Id:string){
                 status:{not:"DRAFT"}
             }
         })
+        if(!retrived){
+            return { status:404, message:`Job Not Found!`}
+        }
 
-        return retrived;
+        return { status:200, message:`Successful Operation! ${retrived}`};
 }
 
 export async function PostJob(body:CreateJobSchema,userId:string){
@@ -78,9 +82,17 @@ export async function PostJob(body:CreateJobSchema,userId:string){
             }
         })
 
-        return post;
+        return {status:201, message:`Succesful operation! ${post}`};
     }
     catch(error){
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    
+    if (error.code === 'P2002') {
+        return {
+            status:400,
+            message:"Job already exists"
+        }
+    }}
         console.error(error)
         throw error;
     }
@@ -94,10 +106,10 @@ export async function PatchJobs(body:UpdateJobSchema,JobId:string, ownerId:strin
         }
     })
     if(!retrivedjobs){
-        throw new Error('Job not Found!')
+        return {status:404, message:"Job Not Found!"}
     }
     if(retrivedjobs.ownerId!==ownerId && role!==''){
-        throw new Error('Forbidden!')
+        return {status:403, message:"Forbidden!"}
     }
 
     const {skillIds, deadline, ...data}=body
@@ -106,7 +118,7 @@ export async function PatchJobs(body:UpdateJobSchema,JobId:string, ownerId:strin
     if (count !== skillIds.length) throw new Error('One or more skillIds do not exist');
   }
 
-  return prisma.job.update({
+  const job= prisma.job.update({
   where: { id: JobId },
   data: {
     ...data,
@@ -123,6 +135,8 @@ export async function PatchJobs(body:UpdateJobSchema,JobId:string, ownerId:strin
     }
   }
 });
+
+return { status:200, message:`Successful Operation! ${job}`}
 }
 
 
@@ -132,22 +146,90 @@ export async function DeleteJobs(JobId:string,OwnerId:string,role:string){
             id:JobId
         }
     })
-
-    if(!Job){
-        throw new Error('Job Not Found!')
+        
+        if(!Job){
+        return {status:404, message:"Job Not Found!"}
     }
     if(Job.ownerId!==OwnerId && role!=="ADMIN"){
-        throw new Error('Access Forbidden!')
+        return {status:403, message:"Forbidden!"}
     }
 
     try{
-        return await prisma.job.deleteMany({
+        
+        const deleted= await prisma.job.deleteMany({
             where:{
                 id:JobId
             }
         })
+
+        return { status:204, message:`Successful Operation! `}
     }
     catch(error){
         console.error(error)
+        throw error
     }
+}
+
+export async function CreateSkill(Body:CreateSkillSchema, Role:string){
+    const {name, categoryId}=Body
+
+    if(Role!=='ADMIN'){
+        return {status:403, message:"Forbidden!"}
+    }
+    if(categoryId){ 
+        const categoryCheck=await prisma.category.findUnique({
+        where:{
+            id:categoryId
+        }
+    })
+
+    if(!categoryCheck){
+        return {status:404, message:"Category Not Found!"}
+    }
+    }
+
+    const skillCheck= await prisma.skill.findUnique({
+        where:{
+            name:name
+        }
+    })
+
+    if(skillCheck){
+        return {status:400, message:"Skill Already Exists!"}
+    }
+
+   const newSkill = await prisma.skill.create({
+    data: {
+      name: name,
+      category: categoryId ? { connect: { id: categoryId } } : undefined,
+    },
+    include: {
+      category: true
+    }
+  });
+
+  return {status:201, message:`Successful Operation! ${newSkill}`}
+   
+}
+
+export async function CreateCategory(Body:CreateCategorySchema,Role:string){
+    const {name, description}=Body
+
+    const categoryCheck=await prisma.category.findUnique({
+        where:{
+            name:name
+        }
+    })
+
+    if(categoryCheck){
+        return {status:400, message:"Category Already Exists!"}
+    }
+    const category= await prisma.category.create({
+        data:{
+            name:name,
+            description: description ? description : undefined
+        }
+    })
+
+    return {status:201, message:`Successful Operation! ${category}`}
 }
