@@ -9,6 +9,8 @@ import { globalRateLimiter, authRateLimiter } from "./shared/middleware/rate-lim
 import authRoutes from "./modules/auth/auth.routes.js";
 import profileRoutes from "./modules/profiles/profile.routes.js";
 import projectRoutes from "./modules/projects/project.routes.js";
+import reviewRoutes from "./modules/reviews/review.routes.js";
+import reportRoutes from "./modules/reports/report.routes.js";
 import { errorHandler } from "./shared/errors/error-handler.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -48,6 +50,8 @@ app.get("/health", (_req, res) => {
 app.use("/api/auth", authRateLimiter, authRoutes);
 app.use("/api/profiles", profileRoutes);
 app.use("/api/projects", projectRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/reports", reportRoutes);
 
 // Static frontend pages (login / forgot-password / reset-password).
 // /reset-password and /forgot-password resolve to their .html files.

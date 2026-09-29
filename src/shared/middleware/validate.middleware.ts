@@ -21,7 +21,14 @@ export const validate = (schema: RequestValidationSchema | ZodType) => {
         req.body = await compositeSchema.body.parseAsync(req.body);
       }
       if (compositeSchema.query) {
-        req.query = (await compositeSchema.query.parseAsync(req.query)) as Request["query"];
+        // Express 5 exposes `req.query` as a getter-only property, so the parsed
+        // result is installed with defineProperty instead of plain assignment.
+        Object.defineProperty(req, "query", {
+          value: await compositeSchema.query.parseAsync(req.query),
+          writable: true,
+          configurable: true,
+          enumerable: true,
+        });
       }
       if (compositeSchema.params) {
         req.params = (await compositeSchema.params.parseAsync(req.params)) as Request["params"];
