@@ -29,14 +29,6 @@ model User {
   authSessions       AuthSession[]
 
   passwordResetTokens PasswordResetToken[]
-  profile             Profile?
-  projects            Project[]            @relation("client")
-  freelancerProjects  Project[]            @relation("freelancer")
-  reports             Report[]             @relation("reporter")
-  resolvedReports     Report[]             @relation("resolver")
-  reviewsReceived     Reviews[]            @relation("reviewee")
-  reviewsGiven        Reviews[]            @relation("reviewer")
-  userSkills          UserSkill[]
 
   @@index([role])
   @@map("users")
@@ -229,6 +221,8 @@ model AuthSession {
 
   @@index([userId])
   @@index([expiresAt])
+  // Refresh-token rotation looks a session up by digest on every call; without
+  // this index each refresh is a sequential scan of auth_sessions.
   @@index([refreshTokenDigest])
   @@map("auth_sessions")
 }
@@ -242,6 +236,8 @@ model PasswordResetToken {
   createdAt DateTime  @default(now())
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  // `tokenHash` is @unique (already indexed) — @@index([tokenHash]) was a
+  // redundant duplicate, dropped in the same migration.
   @@index([userId])
   @@map("password_reset_tokens")
 }
@@ -289,41 +285,5 @@ enum ReportStatus {
   PENDING
   RESOLVED
   DISMISSED
-}
-
-model AuthSession {
-  id                 String    @id @default(cuid())
-  userId             String
-  refreshTokenDigest String
-  expiresAt          DateTime
-  revokedAt          DateTime?
-  userAgent          String?
-  ipAddress          String?
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
-  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([expiresAt])
-  // Refresh-token rotation looks a session up by digest on every call; without
-  // this index each refresh is a sequential scan of auth_sessions.
-  @@index([refreshTokenDigest])
-  @@map("auth_sessions")
-}
-
-model PasswordResetToken {
-  id        String    @id @default(cuid())
-  userId    String
-  tokenHash String    @unique
-  expiresAt DateTime
-  usedAt    DateTime?
-  createdAt DateTime  @default(now())
-
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  // `tokenHash` is @unique (already indexed) — @@index([tokenHash]) was a
-  // redundant duplicate, dropped in the same migration.
-  @@index([userId])
-  @@map("password_reset_tokens")
 }
 
