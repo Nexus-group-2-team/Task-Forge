@@ -2,12 +2,17 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
+    globals: true,
+    environment: "node",
     include: ["tests/**/*.test.ts"],
-    // The suite runs against a remote Postgres instance, so every request pays
-    // real network round-trips (auth lookup + authorization lookup per call) and
-    // a single multi-request test can legitimately take tens of seconds.
+
+    // Integration tests use PostgreSQL and perform real authentication,
+    // authorization, and database operations.
     testTimeout: 60000,
     hookTimeout: 120000,
     teardownTimeout: 60000,
+
+    // Tests share database state, so avoid running test files in parallel.
+    fileParallelism: false,
   },
 });
