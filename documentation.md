@@ -21,7 +21,7 @@ I also contributed to backend integration, authorization, error handling, testin
 
 The Milestones module allows a project to divide larger work into smaller, trackable stages.
 
-### Main Features
+### Milestones — Main Features
 
 - Create project milestones
 - Add milestone titles and descriptions
@@ -35,13 +35,13 @@ The Milestones module allows a project to divide larger work into smaller, track
 - `IN_PROGRESS`
 - `COMPLETED`
 
-### My Contribution
+### Milestones — My Contribution
 
 I worked on implementing and integrating the Milestones functionality with the existing TaskForge backend and database structure.
 
 The module was integrated into the main development branch so that it works with the other project modules.
 
-### Important Code
+### Milestones — Important Code
 
 The Milestone model and its status enum live in `prisma/schema.prisma`:
 
@@ -94,7 +94,7 @@ async function requireProjectAccess(projectId: string, userId: string, userRole:
 
 The Reviews module provides functionality for reviewing project or work-related activities and handling feedback.
 
-### Main Features
+### Reviews — Main Features
 
 - Review relevant project/work information
 - Validate review requests
@@ -102,13 +102,13 @@ The Reviews module provides functionality for reviewing project or work-related 
 - Return structured API responses
 - Handle invalid requests and errors
 
-### My Contribution
+### Reviews — My Contribution
 
 I worked on the Reviews implementation and its integration with the existing backend architecture.
 
 This included validation, authorization, API responses, and testing.
 
-### Important Code
+### Reviews — Important Code
 
 The Routes in `src/modules/reviews/review.routes.ts` show the pattern used across
 the modules: authenticate, validate the incoming payload, then hand off to the
@@ -129,20 +129,20 @@ router.post(
 
 The Reports module organizes project information into useful report data.
 
-### Main Features
+### Reports — Main Features
 
 - Retrieve project-related information
 - Organize project data for reporting
 - Apply authorization rules
 - Integrate reports with the existing API
 
-### My Contribution
+### Reports — My Contribution
 
 I worked on implementing and integrating the Reports functionality with the rest of TaskForge.
 
 The reporting functionality follows the same backend conventions used throughout the project.
 
-### Important Code
+### Reports — Important Code
 
 In `src/modules/reports/report.service.ts`, a single report is only returned to an
 admin or to the user who filed it:
@@ -163,7 +163,7 @@ The Jobs module was my major recent implementation.
 
 It provides functionality for creating, viewing, filtering, and managing jobs in TaskForge.
 
-### Main Features
+### Jobs — Main Features
 
 - Public job listing
 - Job creation
@@ -217,7 +217,7 @@ I worked on:
 - Prisma queries
 - E2E tests
 
-### Important Code
+### Jobs — Important Code
 
 #### 1. Validation
 
