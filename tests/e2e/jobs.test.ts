@@ -26,13 +26,6 @@ import { prisma as appPrisma } from "../../src/shared/db/prisma.js";
  *   DELETE /api/jobs/:id          - owner or ADMIN
  *   POST   /api/jobs/skills       - ADMIN
  *   POST   /api/jobs/categories   - ADMIN
-<<<<<<< HEAD
- *   GET    /api/jobs/skills       - public catalog listing
- *   GET    /api/jobs/skills/:id   - public single skill with its jobs
- *   GET    /api/jobs/categories   - public category listing
- *   GET    /api/skills, /api/skills/:id - same catalog reads, documented path
-=======
->>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
  *
  * Every write route is authenticated, so these tests assert real authorization
  * outcomes rather than the previous hardcoded-identity behaviour.
@@ -79,20 +72,10 @@ const seedJob = async (
   return job.id;
 };
 
-<<<<<<< HEAD
-const seedSkill = async (categoryId?: string): Promise<string> => {
-  const name = `Skill ${unique()}`;
-  createdSkillNames.push(name);
-  const skill = await appPrisma.skill.create({
-    data: { name, ...(categoryId && { categoryId }) },
-    select: { id: true },
-  });
-=======
 const seedSkill = async (): Promise<string> => {
   const name = `Skill ${unique()}`;
   createdSkillNames.push(name);
   const skill = await appPrisma.skill.create({ data: { name }, select: { id: true } });
->>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
   return skill.id;
 };
 
@@ -759,158 +742,5 @@ describe("Jobs API", () => {
 
       expect(response.status).toBe(403);
     });
-<<<<<<< HEAD
-  });
-
-  describe("GET /api/jobs/skills", () => {
-    it("serves the catalog without authentication", async () => {
-      const response = await request(app).get("/api/jobs/skills");
-
-      expect(response.status).toBe(200);
-      expect(response.body.success).toBe(true);
-      expect(Array.isArray(response.body.data)).toBe(true);
-      expect(response.body.meta).toMatchObject({
-        page: 1,
-        limit: 20,
-      });
-    });
-
-    // Regression: "/skills" is registered ahead of "/:id", so it must resolve to
-    // the catalog instead of being read as a job id and answering "Job not found".
-    it("is not swallowed by the /:id job route", async () => {
-      const response = await request(app).get("/api/jobs/skills");
-
-      expect(response.status).toBe(200);
-      expect(response.body.message).not.toBe("Job not found");
-    });
-
-    it("carries the category and the job/user usage counts for each skill", async () => {
-      const skillId = await seedSkill();
-      const response = await request(app).get("/api/jobs/skills?limit=100");
-
-      expect(response.status).toBe(200);
-      const skill = response.body.data.find(
-        (entry: { id: string }) => entry.id === skillId
-      );
-      expect(skill).toMatchObject({
-        id: skillId,
-        name: expect.any(String),
-        category: null,
-        _count: { jobSkills: expect.any(Number), userSkills: expect.any(Number) },
-      });
-    });
-
-    it("returns the skills that belong to a category when filtering by categoryId", async () => {
-      const categoryId = await seedCategory();
-      const skillId = await seedSkill(categoryId);
-
-      const response = await request(app).get(`/api/jobs/skills?categoryId=${categoryId}`);
-
-      expect(response.status).toBe(200);
-      expect(response.body.data).toHaveLength(1);
-      expect(response.body.data[0].id).toBe(skillId);
-      expect(response.body.data[0].category).toMatchObject({ id: categoryId });
-    });
-
-    it("narrows the catalog by a case-insensitive name filter", async () => {
-      const marker = unique();
-      const name = `Skill ${marker}`;
-      await appPrisma.skill.create({ data: { name } });
-      createdSkillNames.push(name);
-
-      const response = await request(app).get(`/api/jobs/skills?name=${marker}`);
-
-      expect(response.status).toBe(200);
-      expect(response.body.data.map((skill: { name: string }) => skill.name)).toEqual([name]);
-    });
-
-    it("honours an explicit page and limit", async () => {
-      const response = await request(app).get("/api/jobs/skills?page=1&limit=3");
-
-      expect(response.status).toBe(200);
-      expect(response.body.meta).toMatchObject({ page: 1, limit: 3 });
-      expect(response.body.data.length).toBeLessThanOrEqual(3);
-    });
-
-    it("rejects a limit below the minimum of 3", async () => {
-      const response = await request(app).get("/api/jobs/skills?limit=1");
-
-      expect(response.status).toBe(400);
-      expect(response.body.errors).toBeDefined();
-    });
-
-    it("rejects a limit above the maximum of 100", async () => {
-      const response = await request(app).get("/api/jobs/skills?limit=101");
-
-      expect(response.status).toBe(400);
-      expect(response.body.errors).toBeDefined();
-    });
-  });
-
-  describe("GET /api/jobs/skills/:id", () => {
-    it("returns one skill together with the jobs it is attached to", async () => {
-      const skillId = await seedSkill();
-      const jobId = await seedJob(client.id, { status: "OPEN" });
-      await appPrisma.jobSkill.create({ data: { jobId, skillId } });
-
-      const response = await request(app).get(`/api/jobs/skills/${skillId}`);
-
-      expect(response.status).toBe(200);
-      expect(response.body.data.id).toBe(skillId);
-      expect(response.body.data._count.jobSkills).toBe(1);
-      expect(response.body.data.jobSkills).toHaveLength(1);
-      expect(response.body.data.jobSkills[0].job).toMatchObject({ id: jobId });
-    });
-
-    it("answers 404 for an unknown skill id", async () => {
-      const response = await request(app).get("/api/jobs/skills/no-such-skill");
-
-      expect(response.status).toBe(404);
-      expect(response.body.message).toBe("Skill not found");
-    });
-  });
-
-  describe("GET /api/jobs/categories", () => {
-    it("serves the category listing without authentication", async () => {
-      await seedCategory();
-      const response = await request(app).get("/api/jobs/categories");
-
-      expect(response.status).toBe(200);
-      expect(response.body.success).toBe(true);
-      expect(response.body.data.length).toBeGreaterThan(0);
-      expect(response.body.data[0]).toMatchObject({
-        id: expect.any(String),
-        name: expect.any(String),
-        _count: { skills: expect.any(Number) },
-      });
-    });
-  });
-
-  describe("GET /api/skills", () => {
-    it("serves the catalog at the documented path", async () => {
-      const response = await request(app).get("/api/skills");
-
-      expect(response.status).toBe(200);
-      expect(Array.isArray(response.body.data)).toBe(true);
-      expect(response.body.meta).toMatchObject({ page: 1, limit: 20 });
-    });
-
-    it("serves a single skill at the documented path", async () => {
-      const skillId = await seedSkill();
-
-      const response = await request(app).get(`/api/skills/${skillId}`);
-
-      expect(response.status).toBe(200);
-      expect(response.body.data.id).toBe(skillId);
-    });
-
-    it("answers 404 for an unknown skill id", async () => {
-      const response = await request(app).get("/api/skills/no-such-skill");
-
-      expect(response.status).toBe(404);
-      expect(response.body.message).toBe("Skill not found");
-    });
-=======
->>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
   });
 });

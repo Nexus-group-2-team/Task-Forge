@@ -13,28 +13,12 @@ import type {
   CreateJobInput,
   CreateSkillInput,
   JobListQuery,
-<<<<<<< HEAD
-  SkillListQuery,
-=======
->>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
   UpdateJobInput,
 } from "./jobs.validator.js";
 
 /** Every read of a job returns its attached skills in one round trip. */
 const jobInclude = { jobSkills: { include: { skill: true } } } as const;
 
-<<<<<<< HEAD
-/**
- * Taxonomy reads ship the category plus the two usage counts, so a catalog
- * table can render "used by N jobs / N freelancers" without extra round trips.
- */
-const skillInclude = {
-  category: true,
-  _count: { select: { jobSkills: true, userSkills: true } },
-} as const;
-
-=======
->>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
 const assertAdmin = (actor: RequestUser, action: string): void => {
   if (actor.role !== "ADMIN") {
     throw new ForbiddenError(`Only administrators are allowed to ${action}`);
@@ -222,61 +206,4 @@ export async function CreateCategory(body: CreateCategoryInput, actor: RequestUs
   return prisma.category.create({
     data: { name, description: description ?? null },
   });
-<<<<<<< HEAD
-}
-
-/** Public catalog listing: optional name/category narrowing, paginated. */
-export async function GetSkills(query: SkillListQuery) {
-  const where: Prisma.SkillWhereInput = {};
-
-  if (query.name) {
-    where.name = { contains: query.name, mode: "insensitive" };
-  }
-  if (query.categoryId) {
-    where.categoryId = query.categoryId;
-  }
-
-  const { page, limit, skip } = parsePagination(query);
-
-  const [total, skills] = await Promise.all([
-    prisma.skill.count({ where }),
-    prisma.skill.findMany({
-      where,
-      skip,
-      take: limit,
-      include: skillInclude,
-      orderBy: { name: "asc" },
-    }),
-  ]);
-
-  return paginated(skills, page, limit, total);
-}
-
-/** A single skill together with the jobs it is attached to. */
-export async function GetSkillByID(id: string) {
-  const skill = await prisma.skill.findUnique({
-    where: { id },
-    include: {
-      ...skillInclude,
-      jobSkills: {
-        include: { job: { select: { id: true, title: true, status: true } } },
-        orderBy: { job: { createdAt: "desc" } },
-      },
-    },
-  });
-
-  if (!skill) {
-    throw new NotFoundError("Skill not found");
-  }
-
-  return skill;
-}
-
-export async function GetCategories() {
-  return prisma.category.findMany({
-    include: { _count: { select: { skills: true } } },
-    orderBy: { name: "asc" },
-  });
-=======
->>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
 }
