@@ -20,6 +20,7 @@ import reportRoutes from "./modules/reports/report.routes.js";
 import { errorHandler } from "./shared/errors/error-handler.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import jobsRouter from "./Jobs/jobs.routes.js";
 
 const app = express();
 
@@ -81,5 +82,7 @@ app.use(
 );
 
 app.use(errorHandler);
+
+app.use("/api/jobs", jobsRouter);
 
 export default app;
