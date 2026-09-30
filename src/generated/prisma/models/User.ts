@@ -199,7 +199,9 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   applications?: Prisma.ApplicationListRelationFilter
+  authSessions?: Prisma.AuthSessionListRelationFilter
   jobs?: Prisma.JobListRelationFilter
+  passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
   profile?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
   projects?: Prisma.ProjectListRelationFilter
   freelancerProjects?: Prisma.ProjectListRelationFilter
@@ -208,8 +210,6 @@ export type UserWhereInput = {
   reviewsReceived?: Prisma.ReviewsListRelationFilter
   reviewsGiven?: Prisma.ReviewsListRelationFilter
   userSkills?: Prisma.UserSkillListRelationFilter
-  authSessions?: Prisma.AuthSessionListRelationFilter
-  passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -221,7 +221,9 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   applications?: Prisma.ApplicationOrderByRelationAggregateInput
+  authSessions?: Prisma.AuthSessionOrderByRelationAggregateInput
   jobs?: Prisma.JobOrderByRelationAggregateInput
+  passwordResetTokens?: Prisma.PasswordResetTokenOrderByRelationAggregateInput
   profile?: Prisma.ProfileOrderByWithRelationInput
   projects?: Prisma.ProjectOrderByRelationAggregateInput
   freelancerProjects?: Prisma.ProjectOrderByRelationAggregateInput
@@ -230,8 +232,6 @@ export type UserOrderByWithRelationInput = {
   reviewsReceived?: Prisma.ReviewsOrderByRelationAggregateInput
   reviewsGiven?: Prisma.ReviewsOrderByRelationAggregateInput
   userSkills?: Prisma.UserSkillOrderByRelationAggregateInput
-  authSessions?: Prisma.AuthSessionOrderByRelationAggregateInput
-  passwordResetTokens?: Prisma.PasswordResetTokenOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -246,7 +246,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   applications?: Prisma.ApplicationListRelationFilter
+  authSessions?: Prisma.AuthSessionListRelationFilter
   jobs?: Prisma.JobListRelationFilter
+  passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
   profile?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
   projects?: Prisma.ProjectListRelationFilter
   freelancerProjects?: Prisma.ProjectListRelationFilter
@@ -255,8 +257,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   reviewsReceived?: Prisma.ReviewsListRelationFilter
   reviewsGiven?: Prisma.ReviewsListRelationFilter
   userSkills?: Prisma.UserSkillListRelationFilter
-  authSessions?: Prisma.AuthSessionListRelationFilter
-  passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -294,7 +294,9 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
@@ -303,8 +305,6 @@ export type UserCreateInput = {
   reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -316,7 +316,9 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
@@ -325,8 +327,6 @@ export type UserUncheckedCreateInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -338,7 +338,9 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
@@ -347,8 +349,6 @@ export type UserUpdateInput = {
   reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -360,7 +360,9 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
@@ -369,8 +371,6 @@ export type UserUncheckedUpdateInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -638,7 +638,9 @@ export type UserCreateWithoutProfileInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
@@ -646,8 +648,6 @@ export type UserCreateWithoutProfileInput = {
   reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProfileInput = {
@@ -659,7 +659,9 @@ export type UserUncheckedCreateWithoutProfileInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
@@ -667,8 +669,6 @@ export type UserUncheckedCreateWithoutProfileInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProfileInput = {
@@ -696,7 +696,9 @@ export type UserUpdateWithoutProfileInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
@@ -704,8 +706,6 @@ export type UserUpdateWithoutProfileInput = {
   reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProfileInput = {
@@ -717,7 +717,9 @@ export type UserUncheckedUpdateWithoutProfileInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
@@ -725,8 +727,6 @@ export type UserUncheckedUpdateWithoutProfileInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserSkillsInput = {
@@ -738,7 +738,9 @@ export type UserCreateWithoutUserSkillsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
@@ -746,8 +748,6 @@ export type UserCreateWithoutUserSkillsInput = {
   resolvedReports?: Prisma.ReportCreateNestedManyWithoutResolverInput
   reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserSkillsInput = {
@@ -759,7 +759,9 @@ export type UserUncheckedCreateWithoutUserSkillsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
@@ -767,8 +769,6 @@ export type UserUncheckedCreateWithoutUserSkillsInput = {
   resolvedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutResolverInput
   reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserSkillsInput = {
@@ -796,7 +796,9 @@ export type UserUpdateWithoutUserSkillsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
@@ -804,8 +806,6 @@ export type UserUpdateWithoutUserSkillsInput = {
   resolvedReports?: Prisma.ReportUpdateManyWithoutResolverNestedInput
   reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserSkillsInput = {
@@ -817,7 +817,9 @@ export type UserUncheckedUpdateWithoutUserSkillsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
@@ -825,8 +827,6 @@ export type UserUncheckedUpdateWithoutUserSkillsInput = {
   resolvedReports?: Prisma.ReportUncheckedUpdateManyWithoutResolverNestedInput
   reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutJobsInput = {
@@ -838,6 +838,8 @@ export type UserCreateWithoutJobsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
@@ -846,8 +848,6 @@ export type UserCreateWithoutJobsInput = {
   reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutJobsInput = {
@@ -859,6 +859,8 @@ export type UserUncheckedCreateWithoutJobsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
@@ -867,8 +869,6 @@ export type UserUncheckedCreateWithoutJobsInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutJobsInput = {
@@ -896,6 +896,8 @@ export type UserUpdateWithoutJobsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
@@ -904,8 +906,6 @@ export type UserUpdateWithoutJobsInput = {
   reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutJobsInput = {
@@ -917,6 +917,8 @@ export type UserUncheckedUpdateWithoutJobsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
@@ -925,8 +927,6 @@ export type UserUncheckedUpdateWithoutJobsInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutApplicationsInput = {
@@ -937,7 +937,9 @@ export type UserCreateWithoutApplicationsInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
@@ -946,8 +948,6 @@ export type UserCreateWithoutApplicationsInput = {
   reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutApplicationsInput = {
@@ -958,7 +958,9 @@ export type UserUncheckedCreateWithoutApplicationsInput = {
   accountStatus?: $Enums.AccountStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
@@ -967,8 +969,6 @@ export type UserUncheckedCreateWithoutApplicationsInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutApplicationsInput = {
@@ -995,7 +995,9 @@ export type UserUpdateWithoutApplicationsInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
@@ -1004,8 +1006,6 @@ export type UserUpdateWithoutApplicationsInput = {
   reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutApplicationsInput = {
@@ -1016,7 +1016,9 @@ export type UserUncheckedUpdateWithoutApplicationsInput = {
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
@@ -1025,8 +1027,6 @@ export type UserUncheckedUpdateWithoutApplicationsInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProjectsInput = {
@@ -1038,7 +1038,9 @@ export type UserCreateWithoutProjectsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
@@ -1046,8 +1048,6 @@ export type UserCreateWithoutProjectsInput = {
   reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProjectsInput = {
@@ -1059,7 +1059,9 @@ export type UserUncheckedCreateWithoutProjectsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
@@ -1067,8 +1069,6 @@ export type UserUncheckedCreateWithoutProjectsInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProjectsInput = {
@@ -1085,7 +1085,9 @@ export type UserCreateWithoutFreelancerProjectsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
@@ -1093,8 +1095,6 @@ export type UserCreateWithoutFreelancerProjectsInput = {
   reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutFreelancerProjectsInput = {
@@ -1106,7 +1106,9 @@ export type UserUncheckedCreateWithoutFreelancerProjectsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
@@ -1114,8 +1116,6 @@ export type UserUncheckedCreateWithoutFreelancerProjectsInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutFreelancerProjectsInput = {
@@ -1143,7 +1143,9 @@ export type UserUpdateWithoutProjectsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
@@ -1151,8 +1153,6 @@ export type UserUpdateWithoutProjectsInput = {
   reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProjectsInput = {
@@ -1164,7 +1164,9 @@ export type UserUncheckedUpdateWithoutProjectsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
@@ -1172,8 +1174,6 @@ export type UserUncheckedUpdateWithoutProjectsInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutFreelancerProjectsInput = {
@@ -1196,7 +1196,9 @@ export type UserUpdateWithoutFreelancerProjectsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
@@ -1204,8 +1206,6 @@ export type UserUpdateWithoutFreelancerProjectsInput = {
   reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFreelancerProjectsInput = {
@@ -1217,7 +1217,9 @@ export type UserUncheckedUpdateWithoutFreelancerProjectsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
@@ -1225,8 +1227,6 @@ export type UserUncheckedUpdateWithoutFreelancerProjectsInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReviewsReceivedInput = {
@@ -1238,7 +1238,9 @@ export type UserCreateWithoutReviewsReceivedInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
@@ -1246,8 +1248,6 @@ export type UserCreateWithoutReviewsReceivedInput = {
   resolvedReports?: Prisma.ReportCreateNestedManyWithoutResolverInput
   reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewsReceivedInput = {
@@ -1259,7 +1259,9 @@ export type UserUncheckedCreateWithoutReviewsReceivedInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
@@ -1267,8 +1269,6 @@ export type UserUncheckedCreateWithoutReviewsReceivedInput = {
   resolvedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutResolverInput
   reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewsReceivedInput = {
@@ -1285,7 +1285,9 @@ export type UserCreateWithoutReviewsGivenInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
@@ -1293,8 +1295,6 @@ export type UserCreateWithoutReviewsGivenInput = {
   resolvedReports?: Prisma.ReportCreateNestedManyWithoutResolverInput
   reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewsGivenInput = {
@@ -1306,7 +1306,9 @@ export type UserUncheckedCreateWithoutReviewsGivenInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
@@ -1314,8 +1316,6 @@ export type UserUncheckedCreateWithoutReviewsGivenInput = {
   resolvedReports?: Prisma.ReportUncheckedCreateNestedManyWithoutResolverInput
   reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewsGivenInput = {
@@ -1343,7 +1343,9 @@ export type UserUpdateWithoutReviewsReceivedInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
@@ -1351,8 +1353,6 @@ export type UserUpdateWithoutReviewsReceivedInput = {
   resolvedReports?: Prisma.ReportUpdateManyWithoutResolverNestedInput
   reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsReceivedInput = {
@@ -1364,7 +1364,9 @@ export type UserUncheckedUpdateWithoutReviewsReceivedInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
@@ -1372,8 +1374,6 @@ export type UserUncheckedUpdateWithoutReviewsReceivedInput = {
   resolvedReports?: Prisma.ReportUncheckedUpdateManyWithoutResolverNestedInput
   reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReviewsGivenInput = {
@@ -1396,7 +1396,9 @@ export type UserUpdateWithoutReviewsGivenInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
@@ -1404,8 +1406,6 @@ export type UserUpdateWithoutReviewsGivenInput = {
   resolvedReports?: Prisma.ReportUpdateManyWithoutResolverNestedInput
   reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsGivenInput = {
@@ -1417,7 +1417,9 @@ export type UserUncheckedUpdateWithoutReviewsGivenInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
@@ -1425,8 +1427,6 @@ export type UserUncheckedUpdateWithoutReviewsGivenInput = {
   resolvedReports?: Prisma.ReportUncheckedUpdateManyWithoutResolverNestedInput
   reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReportsInput = {
@@ -1438,7 +1438,9 @@ export type UserCreateWithoutReportsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
@@ -1446,8 +1448,6 @@ export type UserCreateWithoutReportsInput = {
   reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReportsInput = {
@@ -1459,7 +1459,9 @@ export type UserUncheckedCreateWithoutReportsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
@@ -1467,8 +1469,6 @@ export type UserUncheckedCreateWithoutReportsInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReportsInput = {
@@ -1485,7 +1485,9 @@ export type UserCreateWithoutResolvedReportsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
@@ -1493,8 +1495,6 @@ export type UserCreateWithoutResolvedReportsInput = {
   reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutResolvedReportsInput = {
@@ -1506,7 +1506,9 @@ export type UserUncheckedCreateWithoutResolvedReportsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
@@ -1514,8 +1516,6 @@ export type UserUncheckedCreateWithoutResolvedReportsInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutResolvedReportsInput = {
@@ -1543,7 +1543,9 @@ export type UserUpdateWithoutReportsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
@@ -1551,8 +1553,6 @@ export type UserUpdateWithoutReportsInput = {
   reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportsInput = {
@@ -1564,7 +1564,9 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
@@ -1572,8 +1574,6 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutResolvedReportsInput = {
@@ -1596,7 +1596,9 @@ export type UserUpdateWithoutResolvedReportsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
@@ -1604,8 +1606,6 @@ export type UserUpdateWithoutResolvedReportsInput = {
   reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutResolvedReportsInput = {
@@ -1617,7 +1617,9 @@ export type UserUncheckedUpdateWithoutResolvedReportsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
@@ -1625,8 +1627,6 @@ export type UserUncheckedUpdateWithoutResolvedReportsInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAuthSessionsInput = {
@@ -1639,6 +1639,7 @@ export type UserCreateWithoutAuthSessionsInput = {
   updatedAt?: Date | string
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
   jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectCreateNestedManyWithoutFreelancerInput
@@ -1647,7 +1648,6 @@ export type UserCreateWithoutAuthSessionsInput = {
   reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAuthSessionsInput = {
@@ -1660,6 +1660,7 @@ export type UserUncheckedCreateWithoutAuthSessionsInput = {
   updatedAt?: Date | string
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
   freelancerProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutFreelancerInput
@@ -1668,7 +1669,6 @@ export type UserUncheckedCreateWithoutAuthSessionsInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAuthSessionsInput = {
@@ -1697,6 +1697,7 @@ export type UserUpdateWithoutAuthSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
   jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUpdateManyWithoutFreelancerNestedInput
@@ -1705,7 +1706,6 @@ export type UserUpdateWithoutAuthSessionsInput = {
   reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuthSessionsInput = {
@@ -1718,6 +1718,7 @@ export type UserUncheckedUpdateWithoutAuthSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
   freelancerProjects?: Prisma.ProjectUncheckedUpdateManyWithoutFreelancerNestedInput
@@ -1726,7 +1727,6 @@ export type UserUncheckedUpdateWithoutAuthSessionsInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPasswordResetTokensInput = {
@@ -1738,6 +1738,7 @@ export type UserCreateWithoutPasswordResetTokensInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutOwnerInput
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectCreateNestedManyWithoutClientInput
@@ -1747,7 +1748,6 @@ export type UserCreateWithoutPasswordResetTokensInput = {
   reviewsReceived?: Prisma.ReviewsCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
@@ -1759,6 +1759,7 @@ export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutFreelancerInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutOwnerInput
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
@@ -1768,7 +1769,6 @@ export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedCreateNestedManyWithoutRevieweeInput
   reviewsGiven?: Prisma.ReviewsUncheckedCreateNestedManyWithoutReviewerInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPasswordResetTokensInput = {
@@ -1796,6 +1796,7 @@ export type UserUpdateWithoutPasswordResetTokensInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutOwnerNestedInput
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
@@ -1805,7 +1806,6 @@ export type UserUpdateWithoutPasswordResetTokensInput = {
   reviewsReceived?: Prisma.ReviewsUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
@@ -1817,6 +1817,7 @@ export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutFreelancerNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutOwnerNestedInput
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
@@ -1826,7 +1827,6 @@ export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
   reviewsReceived?: Prisma.ReviewsUncheckedUpdateManyWithoutRevieweeNestedInput
   reviewsGiven?: Prisma.ReviewsUncheckedUpdateManyWithoutReviewerNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1836,7 +1836,9 @@ export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
 
 export type UserCountOutputType = {
   applications: number
+  authSessions: number
   jobs: number
+  passwordResetTokens: number
   projects: number
   freelancerProjects: number
   reports: number
@@ -1844,13 +1846,13 @@ export type UserCountOutputType = {
   reviewsReceived: number
   reviewsGiven: number
   userSkills: number
-  authSessions: number
-  passwordResetTokens: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   applications?: boolean | UserCountOutputTypeCountApplicationsArgs
+  authSessions?: boolean | UserCountOutputTypeCountAuthSessionsArgs
   jobs?: boolean | UserCountOutputTypeCountJobsArgs
+  passwordResetTokens?: boolean | UserCountOutputTypeCountPasswordResetTokensArgs
   projects?: boolean | UserCountOutputTypeCountProjectsArgs
   freelancerProjects?: boolean | UserCountOutputTypeCountFreelancerProjectsArgs
   reports?: boolean | UserCountOutputTypeCountReportsArgs
@@ -1858,8 +1860,6 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   reviewsReceived?: boolean | UserCountOutputTypeCountReviewsReceivedArgs
   reviewsGiven?: boolean | UserCountOutputTypeCountReviewsGivenArgs
   userSkills?: boolean | UserCountOutputTypeCountUserSkillsArgs
-  authSessions?: boolean | UserCountOutputTypeCountAuthSessionsArgs
-  passwordResetTokens?: boolean | UserCountOutputTypeCountPasswordResetTokensArgs
 }
 
 /**
@@ -1882,8 +1882,22 @@ export type UserCountOutputTypeCountApplicationsArgs<ExtArgs extends runtime.Typ
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountAuthSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AuthSessionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.JobWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPasswordResetTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PasswordResetTokenWhereInput
 }
 
 /**
@@ -1935,20 +1949,6 @@ export type UserCountOutputTypeCountUserSkillsArgs<ExtArgs extends runtime.Types
   where?: Prisma.UserSkillWhereInput
 }
 
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountAuthSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AuthSessionWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountPasswordResetTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PasswordResetTokenWhereInput
-}
-
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1959,7 +1959,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   applications?: boolean | Prisma.User$applicationsArgs<ExtArgs>
+  authSessions?: boolean | Prisma.User$authSessionsArgs<ExtArgs>
   jobs?: boolean | Prisma.User$jobsArgs<ExtArgs>
+  passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
   profile?: boolean | Prisma.User$profileArgs<ExtArgs>
   projects?: boolean | Prisma.User$projectsArgs<ExtArgs>
   freelancerProjects?: boolean | Prisma.User$freelancerProjectsArgs<ExtArgs>
@@ -1968,8 +1970,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   reviewsReceived?: boolean | Prisma.User$reviewsReceivedArgs<ExtArgs>
   reviewsGiven?: boolean | Prisma.User$reviewsGivenArgs<ExtArgs>
   userSkills?: boolean | Prisma.User$userSkillsArgs<ExtArgs>
-  authSessions?: boolean | Prisma.User$authSessionsArgs<ExtArgs>
-  passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2006,7 +2006,9 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "passwordHash" | "role" | "accountStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   applications?: boolean | Prisma.User$applicationsArgs<ExtArgs>
+  authSessions?: boolean | Prisma.User$authSessionsArgs<ExtArgs>
   jobs?: boolean | Prisma.User$jobsArgs<ExtArgs>
+  passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
   profile?: boolean | Prisma.User$profileArgs<ExtArgs>
   projects?: boolean | Prisma.User$projectsArgs<ExtArgs>
   freelancerProjects?: boolean | Prisma.User$freelancerProjectsArgs<ExtArgs>
@@ -2015,8 +2017,6 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   reviewsReceived?: boolean | Prisma.User$reviewsReceivedArgs<ExtArgs>
   reviewsGiven?: boolean | Prisma.User$reviewsGivenArgs<ExtArgs>
   userSkills?: boolean | Prisma.User$userSkillsArgs<ExtArgs>
-  authSessions?: boolean | Prisma.User$authSessionsArgs<ExtArgs>
-  passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2026,7 +2026,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     applications: Prisma.$ApplicationPayload<ExtArgs>[]
+    authSessions: Prisma.$AuthSessionPayload<ExtArgs>[]
     jobs: Prisma.$JobPayload<ExtArgs>[]
+    passwordResetTokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
     profile: Prisma.$ProfilePayload<ExtArgs> | null
     projects: Prisma.$ProjectPayload<ExtArgs>[]
     freelancerProjects: Prisma.$ProjectPayload<ExtArgs>[]
@@ -2035,8 +2037,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     reviewsReceived: Prisma.$ReviewsPayload<ExtArgs>[]
     reviewsGiven: Prisma.$ReviewsPayload<ExtArgs>[]
     userSkills: Prisma.$UserSkillPayload<ExtArgs>[]
-    authSessions: Prisma.$AuthSessionPayload<ExtArgs>[]
-    passwordResetTokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2441,7 +2441,9 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   applications<T extends Prisma.User$applicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  authSessions<T extends Prisma.User$authSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$authSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuthSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   jobs<T extends Prisma.User$jobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$jobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  passwordResetTokens<T extends Prisma.User$passwordResetTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passwordResetTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   profile<T extends Prisma.User$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$profileArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   projects<T extends Prisma.User$projectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   freelancerProjects<T extends Prisma.User$freelancerProjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$freelancerProjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2450,8 +2452,6 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   reviewsReceived<T extends Prisma.User$reviewsReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviewsGiven<T extends Prisma.User$reviewsGivenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   userSkills<T extends Prisma.User$userSkillsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userSkillsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserSkillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  authSessions<T extends Prisma.User$authSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$authSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuthSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  passwordResetTokens<T extends Prisma.User$passwordResetTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passwordResetTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2905,6 +2905,30 @@ export type User$applicationsArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * User.authSessions
+ */
+export type User$authSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AuthSession
+   */
+  select?: Prisma.AuthSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AuthSession
+   */
+  omit?: Prisma.AuthSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthSessionInclude<ExtArgs> | null
+  where?: Prisma.AuthSessionWhereInput
+  orderBy?: Prisma.AuthSessionOrderByWithRelationInput | Prisma.AuthSessionOrderByWithRelationInput[]
+  cursor?: Prisma.AuthSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AuthSessionScalarFieldEnum | Prisma.AuthSessionScalarFieldEnum[]
+}
+
+/**
  * User.jobs
  */
 export type User$jobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2926,6 +2950,30 @@ export type User$jobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   take?: number
   skip?: number
   distinct?: Prisma.JobScalarFieldEnum | Prisma.JobScalarFieldEnum[]
+}
+
+/**
+ * User.passwordResetTokens
+ */
+export type User$passwordResetTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PasswordResetToken
+   */
+  select?: Prisma.PasswordResetTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PasswordResetToken
+   */
+  omit?: Prisma.PasswordResetTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PasswordResetTokenInclude<ExtArgs> | null
+  where?: Prisma.PasswordResetTokenWhereInput
+  orderBy?: Prisma.PasswordResetTokenOrderByWithRelationInput | Prisma.PasswordResetTokenOrderByWithRelationInput[]
+  cursor?: Prisma.PasswordResetTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PasswordResetTokenScalarFieldEnum | Prisma.PasswordResetTokenScalarFieldEnum[]
 }
 
 /**
@@ -3113,54 +3161,6 @@ export type User$userSkillsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.UserSkillScalarFieldEnum | Prisma.UserSkillScalarFieldEnum[]
-}
-
-/**
- * User.authSessions
- */
-export type User$authSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the AuthSession
-   */
-  select?: Prisma.AuthSessionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the AuthSession
-   */
-  omit?: Prisma.AuthSessionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AuthSessionInclude<ExtArgs> | null
-  where?: Prisma.AuthSessionWhereInput
-  orderBy?: Prisma.AuthSessionOrderByWithRelationInput | Prisma.AuthSessionOrderByWithRelationInput[]
-  cursor?: Prisma.AuthSessionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.AuthSessionScalarFieldEnum | Prisma.AuthSessionScalarFieldEnum[]
-}
-
-/**
- * User.passwordResetTokens
- */
-export type User$passwordResetTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PasswordResetToken
-   */
-  select?: Prisma.PasswordResetTokenSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the PasswordResetToken
-   */
-  omit?: Prisma.PasswordResetTokenOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PasswordResetTokenInclude<ExtArgs> | null
-  where?: Prisma.PasswordResetTokenWhereInput
-  orderBy?: Prisma.PasswordResetTokenOrderByWithRelationInput | Prisma.PasswordResetTokenOrderByWithRelationInput[]
-  cursor?: Prisma.PasswordResetTokenWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PasswordResetTokenScalarFieldEnum | Prisma.PasswordResetTokenScalarFieldEnum[]
 }
 
 /**

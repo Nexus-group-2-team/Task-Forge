@@ -17,6 +17,8 @@ import projectRoutes from "./modules/projects/project.routes.js";
 import milestoneRoutes from "./modules/milestones/milestone.routes.js";
 import reviewRoutes from "./modules/reviews/review.routes.js";
 import reportRoutes from "./modules/reports/report.routes.js";
+import applicationRoutes from "./modules/applications/application.routes.js";
+import uploadRoutes from "./modules/uploads/upload.routes.js";
 import { errorHandler } from "./shared/errors/error-handler.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -42,9 +44,7 @@ app.use(
 );
 
 app.use(globalRateLimiter);
-// In production pin the origin to FRONTEND_URL (credentialed requests + refresh
-// cookies must never be reflected for arbitrary origins); development keeps the
-// permissive default for convenience.
+
 app.use(
   cors({
     origin: env.NODE_ENV === "production" ? env.FRONTEND_URL : true,
@@ -65,24 +65,20 @@ app.get("/health", (_req, res) => {
 app.use("/api/auth", authRateLimiter, authRoutes);
 app.use("/api/profiles", profileRoutes);
 app.use("/api/projects", projectRoutes);
+app.use("/api/applications", applicationRoutes);
+app.use("/api/uploads", uploadRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/jobs", jobsRouter);
 
-// Milestones module (teammates'): its router paths are mount-relative
-// (/projects/:projectId/milestones, /milestones/:id) and its e2e suite targets
-// /api/v1/..., so the /api/v1 prefix is required here.
 app.use("/api/v1", milestoneRoutes);
 
-// Static frontend pages (login / forgot-password / reset-password).
-// /reset-password and /forgot-password resolve to their .html files.
 app.use(
   express.static(path.join(__dirname, "..", "public"), {
     extensions: ["html"],
   })
 );
 
-// Mounted last so every router above is reached before error handling starts.
 app.use(errorHandler);
 
 export default app;

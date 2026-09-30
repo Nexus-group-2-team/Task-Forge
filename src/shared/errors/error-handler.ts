@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction, ErrorRequestHandler } from "express";
+import multer from "multer";
 import { ZodError } from "zod";
 import { Prisma } from "../../generated/prisma/client.js";
 import { AppError } from "./app-error.js";
@@ -11,6 +12,21 @@ export const errorHandler: ErrorRequestHandler = (
   res: Response,
   _next: NextFunction
 ): void => {
+  // Multer rejects bad uploads (oversized files, unexpected form-data fields)
+  // before any controller runs, so translate those into useful 400s here.
+  if (err instanceof multer.MulterError) {
+    res.status(400).json({
+      success: false,
+      message:
+        err.code === "LIMIT_FILE_SIZE"
+          ? "File upload rejected: maximum allowed file size is 5MB"
+          : err.code === "LIMIT_UNEXPECTED_FILE"
+            ? `Unexpected form-data field: '${err.field}' is not allowed`
+            : `Upload error: ${err.message}`,
+    });
+    return;
+  }
+
   if (err instanceof AppError) {
     res.status(err.statusCode).json({
       success: false,
