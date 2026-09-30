@@ -14,7 +14,9 @@ export const querySchema=z.object({
   path: ['budgetMin'],
 })
 
-export const createJobSchema=z.object({
+// Unrefined base so partial updates can reuse it: in Zod v4 `.partial()` throws
+// on object schemas carrying refinements.
+export const baseJobSchema=z.object({
     ownerId:z.string(),
     title:z.string().min(3,"Title should atleast be 3 characters long!").max(100,"Title must not exceed 100 characters!"),
     description:z.string().min(25,"Tiltle should atleast be 25 characters long!"),
@@ -28,7 +30,9 @@ export const createJobSchema=z.object({
     {
         message:"Deadline cannot be a  past date!"
     }).optional()
-}).refine((d) => !d.minBudget || !d.maxBudget || d.minBudget <= d.maxBudget, {
+});
+
+export const createJobSchema=baseJobSchema.refine((d) => !d.minBudget || !d.maxBudget || d.minBudget <= d.maxBudget, {
   message: 'budgetMin must be <= budgetMax',
   path: ['budgetMin'],
 });
@@ -61,7 +65,10 @@ export const createCategorySchema=z.object({
 })
 
 
-export const  updateJobSchema=createJobSchema.partial();
+export const  updateJobSchema=baseJobSchema.partial().refine((d) => !d.minBudget || !d.maxBudget || d.minBudget <= d.maxBudget, {
+  message: 'budgetMin must be <= budgetMax',
+  path: ['budgetMin'],
+});
 
 export type QuerySchema=z.infer<typeof querySchema>
 export type CreateJobSchema=z.infer<typeof createJobSchema>
