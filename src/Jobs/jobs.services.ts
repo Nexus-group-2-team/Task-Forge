@@ -66,7 +66,7 @@ export async function PostJob(body:CreateJobSchema,userId:string){
                 budgetMax:maxBudget ?? null,
                 deadline:deadline ?? null,
 
-                jobSkill:{
+                jobSkills:{
                     create: skillIds?.map((skillId)=>({
                         skillId:skillId
                     })) || []
