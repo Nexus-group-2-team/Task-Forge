@@ -14,6 +14,15 @@ const envSchema = z.object({
   RESEND_API_KEY: z.string().optional(),
   RESEND_FROM_EMAIL: z.string().default("TaskForge <onboarding@resend.dev>"),
   FRONTEND_URL: z.string().url().default("http://localhost:4000"),
+
+  // Supabase Storage — cloud object storage for resumes and application
+  // attachments. Optional so the server and test suite boot without storage
+  // credentials; StorageService throws a clear 500 if an upload is attempted
+  // while these are unset. The service role key is backend-only — never ship
+  // it to a browser or mobile client.
+  SUPABASE_URL: z.url().optional(),
+  SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
+  SUPABASE_STORAGE_BUCKET: z.string().default("taskforge-assets"),
 });
 
 
