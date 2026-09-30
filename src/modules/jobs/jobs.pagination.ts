@@ -1,4 +1,4 @@
-import { BadRequestError } from '../shared/errors/app-error.js';
+import { BadRequestError } from '../../shared/errors/app-error.js';
 
 export interface PaginationParams {
   page: number;
