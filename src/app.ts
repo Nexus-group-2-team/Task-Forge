@@ -20,7 +20,7 @@ import reportRoutes from "./modules/reports/report.routes.js";
 import { errorHandler } from "./shared/errors/error-handler.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-import jobsRouter from "./Jobs/jobs.routes.js";
+import jobsRouter from "./modules/jobs/jobs.routes.js";
 
 const app = express();
 
@@ -67,6 +67,7 @@ app.use("/api/profiles", profileRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/jobs", jobsRouter);
 
 // Milestones module (teammates'): its router paths are mount-relative
 // (/projects/:projectId/milestones, /milestones/:id) and its e2e suite targets
@@ -81,8 +82,7 @@ app.use(
   })
 );
 
+// Mounted last so every router above is reached before error handling starts.
 app.use(errorHandler);
-
-app.use("/api/jobs", jobsRouter);
 
 export default app;
