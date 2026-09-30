@@ -11,11 +11,16 @@ import {
   createCategory,
   createSkill,
   deleteJobs,
+<<<<<<< HEAD
   getCategories,
   getJobs,
   getJobsByID,
   getSkillByID,
   getSkills,
+=======
+  getJobs,
+  getJobsByID,
+>>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
   patchJobs,
   postJob,
 } from "./jobs.controllers.js";
@@ -25,13 +30,17 @@ import {
   createSkillSchema,
   jobIdParamSchema,
   querySchema,
+<<<<<<< HEAD
   skillIdParamSchema,
   skillsQuerySchema,
+=======
+>>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
   updateJobSchema,
 } from "./jobs.validator.js";
 
 const router = Router();
 
+<<<<<<< HEAD
 // ------------------------------------------------- taxonomy (public reads) ---
 // Declared before "/:id" on purpose: Express matches in registration order, so
 // a literal segment registered later would be swallowed by the id param and
@@ -44,6 +53,8 @@ router.get(
 );
 router.get("/categories", asyncHandler(getCategories));
 
+=======
+>>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
 // ---------------------------------------------------------------- listings --
 // Public. Optional auth lets an owner or admin still resolve their own draft.
 router.get("/", validate({ query: querySchema }), asyncHandler(getJobs));
@@ -96,6 +107,7 @@ router.post(
   asyncHandler(createCategory)
 );
 
+<<<<<<< HEAD
 /**
  * The catalog is additionally reachable at /api/skills, the path the documented
  * API scope advertises. Same controllers, mounted separately in app.ts, so a
@@ -110,4 +122,6 @@ skillsRouter.get(
   asyncHandler(getSkillByID)
 );
 
+=======
+>>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
 export default router;

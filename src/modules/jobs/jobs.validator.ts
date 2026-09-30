@@ -94,6 +94,7 @@ export const jobIdParamSchema = z.object({
   id: z.string().trim().min(1, "id is required").max(64, "id is too long"),
 });
 
+<<<<<<< HEAD
 export const skillIdParamSchema = z.object({
   id: z.string().trim().min(1, "id is required").max(64, "id is too long"),
 });
@@ -115,9 +116,15 @@ export const skillsQuerySchema = z.object({
   categoryId: z.string().trim().min(1).max(64).optional(),
 });
 
+=======
+>>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
 export type CreateJobInput = z.infer<typeof createJobSchema>;
 export type UpdateJobInput = z.infer<typeof updateJobSchema>;
 export type JobListQuery = z.infer<typeof querySchema>;
 export type CreateSkillInput = z.infer<typeof createSkillSchema>;
+<<<<<<< HEAD
 export type CreateCategoryInput = z.infer<typeof createCategorySchema>;
 export type SkillListQuery = z.infer<typeof skillsQuerySchema>;
+=======
+export type CreateCategoryInput = z.infer<typeof createCategorySchema>;
+>>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)

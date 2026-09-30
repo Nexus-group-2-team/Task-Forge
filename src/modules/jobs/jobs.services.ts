@@ -13,13 +13,17 @@ import type {
   CreateJobInput,
   CreateSkillInput,
   JobListQuery,
+<<<<<<< HEAD
   SkillListQuery,
+=======
+>>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
   UpdateJobInput,
 } from "./jobs.validator.js";
 
 /** Every read of a job returns its attached skills in one round trip. */
 const jobInclude = { jobSkills: { include: { skill: true } } } as const;
 
+<<<<<<< HEAD
 /**
  * Taxonomy reads ship the category plus the two usage counts, so a catalog
  * table can render "used by N jobs / N freelancers" without extra round trips.
@@ -29,6 +33,8 @@ const skillInclude = {
   _count: { select: { jobSkills: true, userSkills: true } },
 } as const;
 
+=======
+>>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
 const assertAdmin = (actor: RequestUser, action: string): void => {
   if (actor.role !== "ADMIN") {
     throw new ForbiddenError(`Only administrators are allowed to ${action}`);
@@ -216,6 +222,7 @@ export async function CreateCategory(body: CreateCategoryInput, actor: RequestUs
   return prisma.category.create({
     data: { name, description: description ?? null },
   });
+<<<<<<< HEAD
 }
 
 /** Public catalog listing: optional name/category narrowing, paginated. */
@@ -270,4 +277,6 @@ export async function GetCategories() {
     include: { _count: { select: { skills: true } } },
     orderBy: { name: "asc" },
   });
+=======
+>>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
 }

@@ -3,11 +3,16 @@ import {
   CreateCategory,
   CreateSkill,
   DeleteJobs,
+<<<<<<< HEAD
   GetCategories,
   GetJobByID,
   GetJobs,
   GetSkillByID,
   GetSkills,
+=======
+  GetJobByID,
+  GetJobs,
+>>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
   PatchJobs,
   PostJob,
 } from "./jobs.services.js";
@@ -16,7 +21,10 @@ import type {
   CreateJobInput,
   CreateSkillInput,
   JobListQuery,
+<<<<<<< HEAD
   SkillListQuery,
+=======
+>>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
   UpdateJobInput,
 } from "./jobs.validator.js";
 
@@ -64,6 +72,7 @@ export async function createCategory(req: Request, res: Response): Promise<void>
   const category = await CreateCategory(req.body as CreateCategoryInput, req.user!);
 
   res.status(201).json({ success: true, data: category });
+<<<<<<< HEAD
 }
 
 export async function getSkills(req: Request, res: Response): Promise<void> {
@@ -82,4 +91,6 @@ export async function getCategories(req: Request, res: Response): Promise<void> 
   const categories = await GetCategories();
 
   res.status(200).json({ success: true, data: categories });
+=======
+>>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
 }

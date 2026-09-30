@@ -14,6 +14,10 @@ import reportRoutes from "./modules/reports/report.routes.js";
 import { errorHandler } from "./shared/errors/error-handler.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+<<<<<<< HEAD
+=======
+import jobsRouter from "./modules/jobs/jobs.routes.js";
+>>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
 
 const app = express();
 
@@ -52,11 +56,13 @@ app.use("/api/profiles", profileRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/jobs", jobsRouter);
 
 // Static frontend pages (login / forgot-password / reset-password).
 // /reset-password and /forgot-password resolve to their .html files.
 app.use(express.static(path.join(__dirname, "..", "public"), { extensions: ["html"] }));
 
+// Mounted last so every router above is reached before error handling starts.
 app.use(errorHandler);
 
 export default app;

@@ -26,10 +26,13 @@ import { prisma as appPrisma } from "../../src/shared/db/prisma.js";
  *   DELETE /api/jobs/:id          - owner or ADMIN
  *   POST   /api/jobs/skills       - ADMIN
  *   POST   /api/jobs/categories   - ADMIN
+<<<<<<< HEAD
  *   GET    /api/jobs/skills       - public catalog listing
  *   GET    /api/jobs/skills/:id   - public single skill with its jobs
  *   GET    /api/jobs/categories   - public category listing
  *   GET    /api/skills, /api/skills/:id - same catalog reads, documented path
+=======
+>>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
  *
  * Every write route is authenticated, so these tests assert real authorization
  * outcomes rather than the previous hardcoded-identity behaviour.
@@ -76,6 +79,7 @@ const seedJob = async (
   return job.id;
 };
 
+<<<<<<< HEAD
 const seedSkill = async (categoryId?: string): Promise<string> => {
   const name = `Skill ${unique()}`;
   createdSkillNames.push(name);
@@ -83,6 +87,12 @@ const seedSkill = async (categoryId?: string): Promise<string> => {
     data: { name, ...(categoryId && { categoryId }) },
     select: { id: true },
   });
+=======
+const seedSkill = async (): Promise<string> => {
+  const name = `Skill ${unique()}`;
+  createdSkillNames.push(name);
+  const skill = await appPrisma.skill.create({ data: { name }, select: { id: true } });
+>>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
   return skill.id;
 };
 
@@ -749,6 +759,7 @@ describe("Jobs API", () => {
 
       expect(response.status).toBe(403);
     });
+<<<<<<< HEAD
   });
 
   describe("GET /api/jobs/skills", () => {
@@ -899,5 +910,7 @@ describe("Jobs API", () => {
       expect(response.status).toBe(404);
       expect(response.body.message).toBe("Skill not found");
     });
+=======
+>>>>>>> df1f762 (fix(jobs): complete jobs module and e2e coverage)
   });
 });
