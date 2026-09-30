@@ -19,6 +19,14 @@ model User {
   authSessions        AuthSession[]
   jobs                Job[]
   passwordResetTokens PasswordResetToken[]
+  profile             Profile?
+  projects            Project[]            @relation("client")
+  freelancerProjects  Project[]            @relation("freelancer")
+  reports             Report[]             @relation("reporter")
+  resolvedReports     Report[]             @relation("resolver")
+  reviewsReceived     Reviews[]            @relation("reviewee")
+  reviewsGiven        Reviews[]            @relation("reviewer")
+  userSkills          UserSkill[]
 
   @@index([role])
   @@map("users")
@@ -202,8 +210,6 @@ model AuthSession {
 
   @@index([userId])
   @@index([expiresAt])
-  // Refresh-token rotation looks a session up by digest on every call; without
-  // this index each refresh is a sequential scan of auth_sessions.
   @@index([refreshTokenDigest])
   @@map("auth_sessions")
 }
@@ -217,8 +223,6 @@ model PasswordResetToken {
   createdAt DateTime  @default(now())
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  // `tokenHash` is @unique (already indexed) — @@index([tokenHash]) was a
-  // redundant duplicate, dropped in the same migration.
   @@index([userId])
   @@map("password_reset_tokens")
 }
@@ -267,4 +271,3 @@ enum ReportStatus {
   RESOLVED
   DISMISSED
 }
-

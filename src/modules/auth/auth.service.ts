@@ -12,7 +12,7 @@ import {
   generateOpaqueRefreshToken,
   hashRefreshToken,
 } from "../../shared/utils/tokens.js";
-import type { AccountStatus, Prisma } from "@prisma/client";
+import type { AccountStatus, Prisma } from "../../generated/prisma/client.js";
 
 // Login timing protection: verifying against this decoy hash spends the same
 // argon2 time as a real wrong-password attempt, so response latency cannot
