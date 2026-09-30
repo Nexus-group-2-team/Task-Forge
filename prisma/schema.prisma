@@ -8,27 +8,25 @@ datasource db {
 }
 
 model User {
-  id                 String        @id @default(cuid())
-  email              String        @unique
-  passwordHash       String
-  role               Role          @default(FREELANCER)
-  accountStatus      AccountStatus @default(ACTIVE)
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt
-  applications       Application[]
-  jobs               Job[]
-  profile            Profile?
-  projects           Project[]     @relation("client")
-  freelancerProjects Project[]     @relation("freelancer")
-  reports            Report[]      @relation("reporter")
-  resolvedReports    Report[]      @relation("resolver")
-  reviewsReceived    Reviews[]     @relation("reviewee")
-  reviewsGiven       Reviews[]     @relation("reviewer")
-  userSkills         UserSkill[]
-
-  authSessions AuthSession[]
-
+  id                  String               @id @default(cuid())
+  email               String               @unique
+  passwordHash        String
+  role                Role                 @default(FREELANCER)
+  accountStatus       AccountStatus        @default(ACTIVE)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  applications        Application[]
+  authSessions        AuthSession[]
+  jobs                Job[]
   passwordResetTokens PasswordResetToken[]
+  profile             Profile?
+  projects            Project[]            @relation("client")
+  freelancerProjects  Project[]            @relation("freelancer")
+  reports             Report[]             @relation("reporter")
+  resolvedReports     Report[]             @relation("resolver")
+  reviewsReceived     Reviews[]            @relation("reviewee")
+  reviewsGiven        Reviews[]            @relation("reviewer")
+  userSkills          UserSkill[]
 
   @@index([role])
   @@map("users")
@@ -198,6 +196,37 @@ model Report {
   @@map("reports")
 }
 
+model AuthSession {
+  id                 String    @id @default(cuid())
+  userId             String
+  refreshTokenDigest String
+  expiresAt          DateTime
+  revokedAt          DateTime?
+  userAgent          String?
+  ipAddress          String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@index([refreshTokenDigest])
+  @@map("auth_sessions")
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("password_reset_tokens")
+}
+
 enum Role {
   CLIENT
   FREELANCER
@@ -241,36 +270,4 @@ enum ReportStatus {
   PENDING
   RESOLVED
   DISMISSED
-}
-
-model AuthSession {
-  id                 String    @id @default(cuid())
-  userId             String
-  refreshTokenDigest String
-  expiresAt          DateTime
-  revokedAt          DateTime?
-  userAgent          String?
-  ipAddress          String?
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
-  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([expiresAt])
-  @@index([refreshTokenDigest])
-  @@map("auth_sessions")
-}
-
-model PasswordResetToken {
-  id        String    @id @default(cuid())
-  userId    String
-  tokenHash String    @unique
-  expiresAt DateTime
-  usedAt    DateTime?
-  createdAt DateTime  @default(now())
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@map("password_reset_tokens")
 }
