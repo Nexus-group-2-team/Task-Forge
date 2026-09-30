@@ -3,9 +3,6 @@ const messageEl = document.getElementById("message");
 const submitBtn = document.getElementById("submit-btn");
 const invalidLinkEl = document.getElementById("invalid-link");
 
-// Primary: fragment (#token=) — never sent to the server, so it cannot leak
-// into access logs or Referer headers. Fallback: legacy ?token= query links
-// that may still be sitting in inboxes when this change shipped.
 const hashParams = new URLSearchParams(window.location.hash.slice(1));
 const queryParams = new URLSearchParams(window.location.search);
 const token = hashParams.get("token") || queryParams.get("token");

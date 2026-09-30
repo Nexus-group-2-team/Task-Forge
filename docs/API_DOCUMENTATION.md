@@ -170,6 +170,72 @@ Updates project lifecycle status.
 
 ---
 
+### 2.4 Applications Module (`/api/applications`)
+
+#### `POST /api/applications`
+Submits a job proposal/application for an open job posting.
+- **Access**: Authenticated (`FREELANCER`)
+- **Request Body**: `{ "jobId": "job-id", "coverLetter": "Detailed cover letter...", "proposedBid": 1200, "estimatedDays": 14, "resumeUrl": "https://...", "attachmentUrls": ["https://..."] }`
+- **Rules**: Rejects duplicate applications for the same job (`409 Conflict`) and prevents job owners from applying to their own postings (`403 Forbidden`).
+- **File workflow**: `resumeUrl` and `attachmentUrls` are public URLs returned by the Uploads Module (`/api/uploads/*`). Files are uploaded to cloud storage first, then the application is submitted as plain JSON.
+
+#### `GET /api/applications`
+Lists applications filtered by caller role and status.
+- **Access**: Authenticated
+- **Access Filtering**:
+  - `FREELANCER`: Returns applications submitted by the caller.
+  - `CLIENT`: Returns applications for jobs owned by the caller.
+  - `ADMIN`: Returns all platform applications.
+- **Query Params**: `?status=PENDING` (`PENDING`, `ACCEPTED`, `REJECTED`, `WITHDRAWN`), `?jobId=...`
+
+#### `GET /api/applications/:id` (IDOR Protection)
+Retrieves a single application.
+- **Access**: Authenticated
+- **IDOR Protection**: Returns `404 Not Found` if the caller is not the applicant freelancer, job owner client, or an admin.
+
+#### `PATCH /api/applications/:id/withdraw`
+Withdraws a pending application.
+- **Access**: Authenticated (`FREELANCER` applicant or `ADMIN`)
+
+#### `PATCH /api/applications/:id/reject`
+Rejects a pending application.
+- **Access**: Authenticated (`CLIENT` owner or `ADMIN`)
+
+#### `PATCH /api/applications/:id/accept`
+Accepts a pending application and creates a project contract.
+- **Access**: Authenticated (`CLIENT` owner or `ADMIN`)
+- **Atomic Transaction**:
+  1. Sets application status to `ACCEPTED`.
+  2. Sets all competing pending applications for the job to `REJECTED`.
+  3. Transitions job status to `IN_PROGRESS`.
+  4. Calls `ProjectService.createProjectFromApplication(...)` to instantiate the `Project` entity.
+
+---
+
+### 2.5 Uploads Module (`/api/uploads`)
+
+Cloud file uploads (Supabase Storage) using `multipart/form-data`. Files are streamed into server memory by Multer (never written to local disk), validated with Zod, then uploaded to the configured Supabase bucket under a collision-proof `<folder>/<uuid><ext>` object path. The API returns a public URL that clients pass to `POST /api/applications` as `resumeUrl` / `attachmentUrls`.
+
+- **Access**: All routes require authentication and the `FREELANCER` role.
+- **Limits**: 5MB per file (Multer `LIMIT_FILE_SIZE` → `400`), max 5 attachments per request.
+- **Errors**: wrong form-data field name → `400` (`LIMIT_UNEXPECTED_FILE`), missing file → `400`, disallowed MIME type → `400`, oversize → `400`.
+
+#### `POST /api/uploads/resume`
+Uploads a resume document to cloud storage.
+- **Content-Type**: `multipart/form-data` — form-data field `resume` (File)
+- **Accepted types**: `application/pdf`, `application/msword`, DOCX (`...wordprocessingml.document`)
+- **Response (201)**: `{ "fileName", "fileSize", "mimetype", "url", "objectPath" }`
+
+#### `POST /api/uploads/attachments`
+Uploads portfolio links, case studies, or design previews (up to 5 files).
+- **Content-Type**: `multipart/form-data` — form-data field `attachments` (File, repeatable)
+- **Accepted types**: `application/pdf`, `image/jpeg`, `image/png`, `image/webp`
+- **Response (201)**: `{ "files": [{ "fileName", "fileSize", "mimetype", "url", "objectPath" }] }`
+
+**Configuration**: requires `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (backend-only secret), and `SUPABASE_STORAGE_BUCKET` (default `taskforge-assets`, public bucket). If unset, upload routes fail with a clear `500` stating uploads are not configured.
+
+---
+
 ## 3. Automated Contract Testing Suite
 
 The test suite runs against PostgreSQL (Neon) using Vitest and Supertest:
@@ -185,11 +251,13 @@ The test suite runs against PostgreSQL (Neon) using Vitest and Supertest:
   - Query parameter status filtering.
   - IDOR isolation returning 404 for unauthorized users.
   - Role-based transition permissions (`403` for freelancer, `200` for client owner).
+- `tests/e2e/applications.test.ts`:
+  - Proposal submission, duplicate application rejection, and owner application prevention.
+  - Role-scoped application listing.
+  - Application withdrawal.
+  - Atomic acceptance workflow & automatic `Project` contract creation.
 
 Run all tests:
 ```bash
 npm test
 ```
-
-- **Request Body**: `{ "status": "SUSPENDED" }`
-- **Response** (`200 OK`): Returns updated status and `revokedSessionsCount`.

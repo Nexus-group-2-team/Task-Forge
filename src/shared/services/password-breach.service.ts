@@ -1,18 +1,5 @@
 import { createHash } from "crypto";
 
-/**
- * Screens passwords against the Have I Been Pwned password corpus using the
- * official k-anonymity range API (https://haveibeenpwned.com/API/v3#PwnedPasswords):
- * only the first 5 hex characters of the SHA-1 hash leave this server — the
- * password itself (and the rest of the hash) never travels anywhere.
- *
- * NIST SP 800-63B and OWASP ASVS both recommend rejecting passwords that
- * appear in known breach corpora; this is the standard implementation.
- *
- * Fails OPEN on network errors, timeouts, or API outages: availability of the
- * registration/reset flow takes precedence and all local policy checks still
- * apply. The skipped check is logged so an outage stays visible.
- */
 const RANGE_API_BASE = "https://api.pwnedpasswords.com/range";
 const TIMEOUT_MS = 3000;
 

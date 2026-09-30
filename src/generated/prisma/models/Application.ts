@@ -28,10 +28,12 @@ export type AggregateApplication = {
 
 export type ApplicationAvgAggregateOutputType = {
   proposedBid: number | null
+  estimatedDays: number | null
 }
 
 export type ApplicationSumAggregateOutputType = {
   proposedBid: number | null
+  estimatedDays: number | null
 }
 
 export type ApplicationMinAggregateOutputType = {
@@ -40,6 +42,8 @@ export type ApplicationMinAggregateOutputType = {
   freelancerId: string | null
   coverLetter: string | null
   proposedBid: number | null
+  estimatedDays: number | null
+  resumeUrl: string | null
   status: $Enums.ApplicationStatus | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -51,6 +55,8 @@ export type ApplicationMaxAggregateOutputType = {
   freelancerId: string | null
   coverLetter: string | null
   proposedBid: number | null
+  estimatedDays: number | null
+  resumeUrl: string | null
   status: $Enums.ApplicationStatus | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -62,6 +68,9 @@ export type ApplicationCountAggregateOutputType = {
   freelancerId: number
   coverLetter: number
   proposedBid: number
+  estimatedDays: number
+  resumeUrl: number
+  attachmentUrls: number
   status: number
   createdAt: number
   updatedAt: number
@@ -71,10 +80,12 @@ export type ApplicationCountAggregateOutputType = {
 
 export type ApplicationAvgAggregateInputType = {
   proposedBid?: true
+  estimatedDays?: true
 }
 
 export type ApplicationSumAggregateInputType = {
   proposedBid?: true
+  estimatedDays?: true
 }
 
 export type ApplicationMinAggregateInputType = {
@@ -83,6 +94,8 @@ export type ApplicationMinAggregateInputType = {
   freelancerId?: true
   coverLetter?: true
   proposedBid?: true
+  estimatedDays?: true
+  resumeUrl?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -94,6 +107,8 @@ export type ApplicationMaxAggregateInputType = {
   freelancerId?: true
   coverLetter?: true
   proposedBid?: true
+  estimatedDays?: true
+  resumeUrl?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -105,6 +120,9 @@ export type ApplicationCountAggregateInputType = {
   freelancerId?: true
   coverLetter?: true
   proposedBid?: true
+  estimatedDays?: true
+  resumeUrl?: true
+  attachmentUrls?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -203,6 +221,9 @@ export type ApplicationGroupByOutputType = {
   freelancerId: string
   coverLetter: string
   proposedBid: number | null
+  estimatedDays: number | null
+  resumeUrl: string | null
+  attachmentUrls: string[]
   status: $Enums.ApplicationStatus
   createdAt: Date
   updatedAt: Date
@@ -237,6 +258,9 @@ export type ApplicationWhereInput = {
   freelancerId?: Prisma.StringFilter<"Application"> | string
   coverLetter?: Prisma.StringFilter<"Application"> | string
   proposedBid?: Prisma.FloatNullableFilter<"Application"> | number | null
+  estimatedDays?: Prisma.IntNullableFilter<"Application"> | number | null
+  resumeUrl?: Prisma.StringNullableFilter<"Application"> | string | null
+  attachmentUrls?: Prisma.StringNullableListFilter<"Application">
   status?: Prisma.EnumApplicationStatusFilter<"Application"> | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Application"> | Date | string
@@ -251,6 +275,9 @@ export type ApplicationOrderByWithRelationInput = {
   freelancerId?: Prisma.SortOrder
   coverLetter?: Prisma.SortOrder
   proposedBid?: Prisma.SortOrderInput | Prisma.SortOrder
+  estimatedDays?: Prisma.SortOrderInput | Prisma.SortOrder
+  resumeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  attachmentUrls?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -269,6 +296,9 @@ export type ApplicationWhereUniqueInput = Prisma.AtLeast<{
   freelancerId?: Prisma.StringFilter<"Application"> | string
   coverLetter?: Prisma.StringFilter<"Application"> | string
   proposedBid?: Prisma.FloatNullableFilter<"Application"> | number | null
+  estimatedDays?: Prisma.IntNullableFilter<"Application"> | number | null
+  resumeUrl?: Prisma.StringNullableFilter<"Application"> | string | null
+  attachmentUrls?: Prisma.StringNullableListFilter<"Application">
   status?: Prisma.EnumApplicationStatusFilter<"Application"> | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Application"> | Date | string
@@ -283,6 +313,9 @@ export type ApplicationOrderByWithAggregationInput = {
   freelancerId?: Prisma.SortOrder
   coverLetter?: Prisma.SortOrder
   proposedBid?: Prisma.SortOrderInput | Prisma.SortOrder
+  estimatedDays?: Prisma.SortOrderInput | Prisma.SortOrder
+  resumeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  attachmentUrls?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -302,6 +335,9 @@ export type ApplicationScalarWhereWithAggregatesInput = {
   freelancerId?: Prisma.StringWithAggregatesFilter<"Application"> | string
   coverLetter?: Prisma.StringWithAggregatesFilter<"Application"> | string
   proposedBid?: Prisma.FloatNullableWithAggregatesFilter<"Application"> | number | null
+  estimatedDays?: Prisma.IntNullableWithAggregatesFilter<"Application"> | number | null
+  resumeUrl?: Prisma.StringNullableWithAggregatesFilter<"Application"> | string | null
+  attachmentUrls?: Prisma.StringNullableListFilter<"Application">
   status?: Prisma.EnumApplicationStatusWithAggregatesFilter<"Application"> | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Application"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Application"> | Date | string
@@ -311,6 +347,9 @@ export type ApplicationCreateInput = {
   id?: string
   coverLetter: string
   proposedBid?: number | null
+  estimatedDays?: number | null
+  resumeUrl?: string | null
+  attachmentUrls?: Prisma.ApplicationCreateattachmentUrlsInput | string[]
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -325,6 +364,9 @@ export type ApplicationUncheckedCreateInput = {
   freelancerId: string
   coverLetter: string
   proposedBid?: number | null
+  estimatedDays?: number | null
+  resumeUrl?: string | null
+  attachmentUrls?: Prisma.ApplicationCreateattachmentUrlsInput | string[]
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -335,6 +377,9 @@ export type ApplicationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   coverLetter?: Prisma.StringFieldUpdateOperationsInput | string
   proposedBid?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  estimatedDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  attachmentUrls?: Prisma.ApplicationUpdateattachmentUrlsInput | string[]
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -349,6 +394,9 @@ export type ApplicationUncheckedUpdateInput = {
   freelancerId?: Prisma.StringFieldUpdateOperationsInput | string
   coverLetter?: Prisma.StringFieldUpdateOperationsInput | string
   proposedBid?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  estimatedDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  attachmentUrls?: Prisma.ApplicationUpdateattachmentUrlsInput | string[]
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -361,6 +409,9 @@ export type ApplicationCreateManyInput = {
   freelancerId: string
   coverLetter: string
   proposedBid?: number | null
+  estimatedDays?: number | null
+  resumeUrl?: string | null
+  attachmentUrls?: Prisma.ApplicationCreateattachmentUrlsInput | string[]
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -370,6 +421,9 @@ export type ApplicationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   coverLetter?: Prisma.StringFieldUpdateOperationsInput | string
   proposedBid?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  estimatedDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  attachmentUrls?: Prisma.ApplicationUpdateattachmentUrlsInput | string[]
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -381,6 +435,9 @@ export type ApplicationUncheckedUpdateManyInput = {
   freelancerId?: Prisma.StringFieldUpdateOperationsInput | string
   coverLetter?: Prisma.StringFieldUpdateOperationsInput | string
   proposedBid?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  estimatedDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  attachmentUrls?: Prisma.ApplicationUpdateattachmentUrlsInput | string[]
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -396,6 +453,14 @@ export type ApplicationOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type ApplicationJobIdFreelancerIdCompoundUniqueInput = {
   jobId: string
   freelancerId: string
@@ -407,6 +472,9 @@ export type ApplicationCountOrderByAggregateInput = {
   freelancerId?: Prisma.SortOrder
   coverLetter?: Prisma.SortOrder
   proposedBid?: Prisma.SortOrder
+  estimatedDays?: Prisma.SortOrder
+  resumeUrl?: Prisma.SortOrder
+  attachmentUrls?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -414,6 +482,7 @@ export type ApplicationCountOrderByAggregateInput = {
 
 export type ApplicationAvgOrderByAggregateInput = {
   proposedBid?: Prisma.SortOrder
+  estimatedDays?: Prisma.SortOrder
 }
 
 export type ApplicationMaxOrderByAggregateInput = {
@@ -422,6 +491,8 @@ export type ApplicationMaxOrderByAggregateInput = {
   freelancerId?: Prisma.SortOrder
   coverLetter?: Prisma.SortOrder
   proposedBid?: Prisma.SortOrder
+  estimatedDays?: Prisma.SortOrder
+  resumeUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -433,6 +504,8 @@ export type ApplicationMinOrderByAggregateInput = {
   freelancerId?: Prisma.SortOrder
   coverLetter?: Prisma.SortOrder
   proposedBid?: Prisma.SortOrder
+  estimatedDays?: Prisma.SortOrder
+  resumeUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -440,6 +513,7 @@ export type ApplicationMinOrderByAggregateInput = {
 
 export type ApplicationSumOrderByAggregateInput = {
   proposedBid?: Prisma.SortOrder
+  estimatedDays?: Prisma.SortOrder
 }
 
 export type ApplicationScalarRelationFilter = {
@@ -531,6 +605,23 @@ export type ApplicationUncheckedUpdateManyWithoutJobNestedInput = {
   deleteMany?: Prisma.ApplicationScalarWhereInput | Prisma.ApplicationScalarWhereInput[]
 }
 
+export type ApplicationCreateattachmentUrlsInput = {
+  set: string[]
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type ApplicationUpdateattachmentUrlsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
 export type EnumApplicationStatusFieldUpdateOperationsInput = {
   set?: $Enums.ApplicationStatus
 }
@@ -553,6 +644,9 @@ export type ApplicationCreateWithoutFreelancerInput = {
   id?: string
   coverLetter: string
   proposedBid?: number | null
+  estimatedDays?: number | null
+  resumeUrl?: string | null
+  attachmentUrls?: Prisma.ApplicationCreateattachmentUrlsInput | string[]
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -565,6 +659,9 @@ export type ApplicationUncheckedCreateWithoutFreelancerInput = {
   jobId: string
   coverLetter: string
   proposedBid?: number | null
+  estimatedDays?: number | null
+  resumeUrl?: string | null
+  attachmentUrls?: Prisma.ApplicationCreateattachmentUrlsInput | string[]
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -606,6 +703,9 @@ export type ApplicationScalarWhereInput = {
   freelancerId?: Prisma.StringFilter<"Application"> | string
   coverLetter?: Prisma.StringFilter<"Application"> | string
   proposedBid?: Prisma.FloatNullableFilter<"Application"> | number | null
+  estimatedDays?: Prisma.IntNullableFilter<"Application"> | number | null
+  resumeUrl?: Prisma.StringNullableFilter<"Application"> | string | null
+  attachmentUrls?: Prisma.StringNullableListFilter<"Application">
   status?: Prisma.EnumApplicationStatusFilter<"Application"> | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Application"> | Date | string
@@ -615,6 +715,9 @@ export type ApplicationCreateWithoutJobInput = {
   id?: string
   coverLetter: string
   proposedBid?: number | null
+  estimatedDays?: number | null
+  resumeUrl?: string | null
+  attachmentUrls?: Prisma.ApplicationCreateattachmentUrlsInput | string[]
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -627,6 +730,9 @@ export type ApplicationUncheckedCreateWithoutJobInput = {
   freelancerId: string
   coverLetter: string
   proposedBid?: number | null
+  estimatedDays?: number | null
+  resumeUrl?: string | null
+  attachmentUrls?: Prisma.ApplicationCreateattachmentUrlsInput | string[]
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -663,6 +769,9 @@ export type ApplicationCreateWithoutProjectInput = {
   id?: string
   coverLetter: string
   proposedBid?: number | null
+  estimatedDays?: number | null
+  resumeUrl?: string | null
+  attachmentUrls?: Prisma.ApplicationCreateattachmentUrlsInput | string[]
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -676,6 +785,9 @@ export type ApplicationUncheckedCreateWithoutProjectInput = {
   freelancerId: string
   coverLetter: string
   proposedBid?: number | null
+  estimatedDays?: number | null
+  resumeUrl?: string | null
+  attachmentUrls?: Prisma.ApplicationCreateattachmentUrlsInput | string[]
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -701,6 +813,9 @@ export type ApplicationUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   coverLetter?: Prisma.StringFieldUpdateOperationsInput | string
   proposedBid?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  estimatedDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  attachmentUrls?: Prisma.ApplicationUpdateattachmentUrlsInput | string[]
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -714,6 +829,9 @@ export type ApplicationUncheckedUpdateWithoutProjectInput = {
   freelancerId?: Prisma.StringFieldUpdateOperationsInput | string
   coverLetter?: Prisma.StringFieldUpdateOperationsInput | string
   proposedBid?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  estimatedDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  attachmentUrls?: Prisma.ApplicationUpdateattachmentUrlsInput | string[]
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -724,6 +842,9 @@ export type ApplicationCreateManyFreelancerInput = {
   jobId: string
   coverLetter: string
   proposedBid?: number | null
+  estimatedDays?: number | null
+  resumeUrl?: string | null
+  attachmentUrls?: Prisma.ApplicationCreateattachmentUrlsInput | string[]
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -733,6 +854,9 @@ export type ApplicationUpdateWithoutFreelancerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   coverLetter?: Prisma.StringFieldUpdateOperationsInput | string
   proposedBid?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  estimatedDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  attachmentUrls?: Prisma.ApplicationUpdateattachmentUrlsInput | string[]
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -745,6 +869,9 @@ export type ApplicationUncheckedUpdateWithoutFreelancerInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   coverLetter?: Prisma.StringFieldUpdateOperationsInput | string
   proposedBid?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  estimatedDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  attachmentUrls?: Prisma.ApplicationUpdateattachmentUrlsInput | string[]
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -756,6 +883,9 @@ export type ApplicationUncheckedUpdateManyWithoutFreelancerInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   coverLetter?: Prisma.StringFieldUpdateOperationsInput | string
   proposedBid?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  estimatedDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  attachmentUrls?: Prisma.ApplicationUpdateattachmentUrlsInput | string[]
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -766,6 +896,9 @@ export type ApplicationCreateManyJobInput = {
   freelancerId: string
   coverLetter: string
   proposedBid?: number | null
+  estimatedDays?: number | null
+  resumeUrl?: string | null
+  attachmentUrls?: Prisma.ApplicationCreateattachmentUrlsInput | string[]
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -775,6 +908,9 @@ export type ApplicationUpdateWithoutJobInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   coverLetter?: Prisma.StringFieldUpdateOperationsInput | string
   proposedBid?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  estimatedDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  attachmentUrls?: Prisma.ApplicationUpdateattachmentUrlsInput | string[]
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -787,6 +923,9 @@ export type ApplicationUncheckedUpdateWithoutJobInput = {
   freelancerId?: Prisma.StringFieldUpdateOperationsInput | string
   coverLetter?: Prisma.StringFieldUpdateOperationsInput | string
   proposedBid?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  estimatedDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  attachmentUrls?: Prisma.ApplicationUpdateattachmentUrlsInput | string[]
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -798,6 +937,9 @@ export type ApplicationUncheckedUpdateManyWithoutJobInput = {
   freelancerId?: Prisma.StringFieldUpdateOperationsInput | string
   coverLetter?: Prisma.StringFieldUpdateOperationsInput | string
   proposedBid?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  estimatedDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  attachmentUrls?: Prisma.ApplicationUpdateattachmentUrlsInput | string[]
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -811,6 +953,9 @@ export type ApplicationSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   freelancerId?: boolean
   coverLetter?: boolean
   proposedBid?: boolean
+  estimatedDays?: boolean
+  resumeUrl?: boolean
+  attachmentUrls?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -825,6 +970,9 @@ export type ApplicationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   freelancerId?: boolean
   coverLetter?: boolean
   proposedBid?: boolean
+  estimatedDays?: boolean
+  resumeUrl?: boolean
+  attachmentUrls?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -838,6 +986,9 @@ export type ApplicationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   freelancerId?: boolean
   coverLetter?: boolean
   proposedBid?: boolean
+  estimatedDays?: boolean
+  resumeUrl?: boolean
+  attachmentUrls?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -851,12 +1002,15 @@ export type ApplicationSelectScalar = {
   freelancerId?: boolean
   coverLetter?: boolean
   proposedBid?: boolean
+  estimatedDays?: boolean
+  resumeUrl?: boolean
+  attachmentUrls?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "jobId" | "freelancerId" | "coverLetter" | "proposedBid" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["application"]>
+export type ApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "jobId" | "freelancerId" | "coverLetter" | "proposedBid" | "estimatedDays" | "resumeUrl" | "attachmentUrls" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["application"]>
 export type ApplicationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
   freelancer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -884,6 +1038,9 @@ export type $ApplicationPayload<ExtArgs extends runtime.Types.Extensions.Interna
     freelancerId: string
     coverLetter: string
     proposedBid: number | null
+    estimatedDays: number | null
+    resumeUrl: string | null
+    attachmentUrls: string[]
     status: $Enums.ApplicationStatus
     createdAt: Date
     updatedAt: Date
@@ -1318,6 +1475,9 @@ export interface ApplicationFieldRefs {
   readonly freelancerId: Prisma.FieldRef<"Application", 'String'>
   readonly coverLetter: Prisma.FieldRef<"Application", 'String'>
   readonly proposedBid: Prisma.FieldRef<"Application", 'Float'>
+  readonly estimatedDays: Prisma.FieldRef<"Application", 'Int'>
+  readonly resumeUrl: Prisma.FieldRef<"Application", 'String'>
+  readonly attachmentUrls: Prisma.FieldRef<"Application", 'String[]'>
   readonly status: Prisma.FieldRef<"Application", 'ApplicationStatus'>
   readonly createdAt: Prisma.FieldRef<"Application", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Application", 'DateTime'>

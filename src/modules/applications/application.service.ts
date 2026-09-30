@@ -5,44 +5,11 @@ import {
   ConflictError,
   BadRequestError,
 } from "../../shared/errors/app-error.js";
-import { env } from "../../shared/config/env.js";
 import { ProjectService } from "../projects/project.service.js";
 import type { Role } from "@prisma/client";
 import type { CreateApplicationInput, ListApplicationsQuery } from "./application.schema.js";
 
 export class ApplicationService {
-  private static assertStorageOrigin(input: CreateApplicationInput) {
-    if (!env.STRICT_UPLOAD_URLS) return;
-
-    const bucketPrefix = env.SUPABASE_URL
-      ? `${env.SUPABASE_URL}/storage/v1/object/public/${encodeURIComponent(
-        env.SUPABASE_STORAGE_BUCKET
-      )}/`
-      : null;
-    const urls: Array<{ field: string; url: string }> = [
-      ...(input.resumeUrl ? [{ field: "resumeUrl", url: input.resumeUrl }] : []),
-      ...(input.attachmentUrls ?? []).map((url, index) => ({
-        field: `attachmentUrls.${index}`,
-        url,
-      })),
-    ];
-    if (urls.length === 0) return;
-
-    const foreign = bucketPrefix
-      ? urls.filter((entry) => !entry.url.startsWith(bucketPrefix))
-      : urls;
-    if (foreign.length > 0) {
-      const reason = bucketPrefix
-        ? "must point to the project's storage bucket"
-        : "cannot be verified because storage is not configured (set SUPABASE_URL)";
-      throw new BadRequestError(
-        `File URLs ${reason} when STRICT_UPLOAD_URLS is enabled (offending: ${foreign
-          .map((entry) => entry.field)
-          .join(", ")})`
-      );
-    }
-  }
-
   static async createApplication(freelancerId: string, input: CreateApplicationInput) {
     const job = await prisma.job.findUnique({
       where: { id: input.jobId },
@@ -60,8 +27,6 @@ export class ApplicationService {
       throw new ForbiddenError("You cannot apply to your own job posting");
     }
 
-    this.assertStorageOrigin(input);
-
     const existingApplication = await prisma.application.findUnique({
       where: {
         jobId_freelancerId: {
@@ -71,41 +36,33 @@ export class ApplicationService {
       },
     });
 
-    if (existingApplication && existingApplication.status !== "WITHDRAWN") {
+    if (existingApplication) {
       throw new ConflictError("You have already applied to this job");
     }
 
-    const application = await prisma.$transaction(async (tx) => {
-      if (existingApplication) {
-        await tx.application.deleteMany({
-          where: { id: existingApplication.id, status: "WITHDRAWN" },
-        });
-      }
-
-      return tx.application.create({
-        data: {
-          jobId: input.jobId,
-          freelancerId,
-          coverLetter: input.coverLetter,
-          proposedBid: input.proposedBid ?? null,
-          estimatedDays: input.estimatedDays ?? null,
-          resumeUrl: input.resumeUrl ?? null,
-          attachmentUrls: input.attachmentUrls ?? [],
-          status: "PENDING",
+    const application = await prisma.application.create({
+      data: {
+        jobId: input.jobId,
+        freelancerId,
+        coverLetter: input.coverLetter,
+        proposedBid: input.proposedBid ?? null,
+        estimatedDays: input.estimatedDays ?? null,
+        resumeUrl: input.resumeUrl ?? null,
+        attachmentUrls: input.attachmentUrls ?? [],
+        status: "PENDING",
+      },
+      include: {
+        job: {
+          select: { id: true, title: true, status: true, ownerId: true },
         },
-        include: {
-          job: {
-            select: { id: true, title: true, status: true, ownerId: true },
-          },
-          freelancer: {
-            select: {
-              id: true,
-              email: true,
-              profile: { select: { fullName: true, headline: true } },
-            },
+        freelancer: {
+          select: {
+            id: true,
+            email: true,
+            profile: { select: { fullName: true, headline: true } },
           },
         },
-      });
+      },
     });
 
     return application;
@@ -205,9 +162,6 @@ export class ApplicationService {
 
     const application = await prisma.application.findUnique({
       where: { id: applicationId },
-      include: {
-        job: { select: { id: true, title: true, status: true } },
-      },
     });
 
     if (!application) {
@@ -222,19 +176,17 @@ export class ApplicationService {
       throw new BadRequestError("Only pending applications can be withdrawn");
     }
 
-    const { count } = await prisma.application.deleteMany({
-      where: { id: applicationId, status: "PENDING" },
+    const updated = await prisma.application.update({
+      where: { id: applicationId },
+      data: { status: "WITHDRAWN" },
+      include: {
+        job: {
+          select: { id: true, title: true, status: true },
+        },
+      },
     });
 
-    if (count === 0) {
-      // The record changed state (or vanished) between our read and the delete.
-      throw new ConflictError(
-        "Application was updated concurrently; refresh and try again"
-      );
-    }
-
-    // contract (status: "WITHDRAWN") stays stable for API consumers.
-    return { ...application, status: "WITHDRAWN" as const };
+    return updated;
   }
 
   static async rejectApplication(applicationId: string, userId: string, role: Role) {
@@ -257,19 +209,9 @@ export class ApplicationService {
       throw new BadRequestError("Only pending applications can be rejected");
     }
 
-    const { count } = await prisma.application.updateMany({
-      where: { id: applicationId, status: "PENDING" },
-      data: { status: "REJECTED" },
-    });
-
-    if (count === 0) {
-      throw new ConflictError(
-        "Application was updated concurrently; refresh and try again"
-      );
-    }
-
-    const updated = await prisma.application.findUniqueOrThrow({
+    const updated = await prisma.application.update({
       where: { id: applicationId },
+      data: { status: "REJECTED" },
       include: {
         job: {
           select: { id: true, title: true, status: true },
@@ -306,26 +248,9 @@ export class ApplicationService {
 
     // Atomic transaction: accept application, reject competing pending applications, transition job, create project contract
     const result = await prisma.$transaction(async (tx) => {
-      const jobTransitioned = await tx.job.updateMany({
-        where: { id: application.jobId, status: "OPEN" },
-        data: { status: "IN_PROGRESS" },
-      });
-      if (jobTransitioned.count === 0) {
-        throw new BadRequestError("Cannot accept an application for a job that is not open");
-      }
-
-      const appTransitioned = await tx.application.updateMany({
-        where: { id: applicationId, status: "PENDING" },
-        data: { status: "ACCEPTED" },
-      });
-      if (appTransitioned.count === 0) {
-        throw new ConflictError(
-          "Application was updated concurrently; refresh and try again"
-        );
-      }
-
-      const acceptedApp = await tx.application.findUniqueOrThrow({
+      const acceptedApp = await tx.application.update({
         where: { id: applicationId },
+        data: { status: "ACCEPTED" },
       });
 
       // Reject all other pending applications for this job
@@ -337,6 +262,13 @@ export class ApplicationService {
         },
         data: { status: "REJECTED" },
       });
+
+      // Transition job state to IN_PROGRESS
+      await tx.job.update({
+        where: { id: application.jobId },
+        data: { status: "IN_PROGRESS" },
+      });
+
       // Domain factory method creating the Project contract
       const project = await ProjectService.createProjectFromApplication(
         {

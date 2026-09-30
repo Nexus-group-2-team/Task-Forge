@@ -112,17 +112,20 @@ model JobSkill {
 }
 
 model Application {
-  id           String            @id @default(cuid())
-  jobId        String
-  freelancerId String
-  coverLetter  String
-  proposedBid  Float?
-  status       ApplicationStatus @default(PENDING)
-  createdAt    DateTime          @default(now())
-  updatedAt    DateTime          @updatedAt
-  freelancer   User              @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
-  job          Job               @relation(fields: [jobId], references: [id], onDelete: Cascade)
-  project      Project?
+  id             String            @id @default(cuid())
+  jobId          String
+  freelancerId   String
+  coverLetter    String
+  proposedBid    Float?
+  estimatedDays  Int?
+  resumeUrl      String?
+  attachmentUrls String[]
+  status         ApplicationStatus @default(PENDING)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  freelancer     User              @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+  job            Job               @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  project        Project?
 
   @@unique([jobId, freelancerId])
   @@index([jobId])

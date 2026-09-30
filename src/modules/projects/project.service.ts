@@ -11,10 +11,6 @@ export interface CreateProjectFromApplicationInput {
 }
 
 export class ProjectService {
-  /**
-   * Domain service method to instantiate a Project when an Application is accepted.
-   * Can be invoked within an existing Prisma transaction or standalone.
-   */
   static async createProjectFromApplication(
     input: CreateProjectFromApplicationInput,
     tx: Prisma.TransactionClient | typeof prisma = prisma
