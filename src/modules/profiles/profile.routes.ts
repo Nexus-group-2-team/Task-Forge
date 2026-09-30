@@ -1,8 +1,17 @@
 import { Router } from "express";
+import { ProfileController } from "./profile.controller.js";
+import { authenticate, optionalAuthenticate } from "../../shared/middleware/auth.middleware.js";
+import { validate } from "../../shared/middleware/validate.middleware.js";
+import { updateProfileSchema, updateSkillsSchema } from "./profile.schema.js";
 
-// Placeholder router: the Profiles module is owned by another team member and is
-// not implemented on this branch. Kept as a valid default export so the Express
-// app boots and the reviews/reports routes can be exercised.
 const router = Router();
 
+router.get("/me", authenticate, ProfileController.getMyProfile);
+router.patch("/me", authenticate, validate({ body: updateProfileSchema }), ProfileController.updateMyProfile);
+router.put("/me/skills", authenticate, validate({ body: updateSkillsSchema }), ProfileController.updateMySkills);
+
+router.get("/freelancers", ProfileController.listFreelancers);
+router.get("/:userId", optionalAuthenticate, ProfileController.getProfileById);
+
 export default router;
+

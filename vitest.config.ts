@@ -4,10 +4,15 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "node",
-    // Integration tests provision real fixtures against a live PostgreSQL
-    // database, so individual cases legitimately take longer than the 5s default.
-    testTimeout: 30_000,
-    hookTimeout: 60_000,
+    include: ["tests/**/*.test.ts"],
+
+    // Integration tests use PostgreSQL and perform real authentication,
+    // authorization, and database operations.
+    testTimeout: 60000,
+    hookTimeout: 120000,
+    teardownTimeout: 60000,
+
+    // Tests share database state, so avoid running test files in parallel.
     fileParallelism: false,
   },
 });
