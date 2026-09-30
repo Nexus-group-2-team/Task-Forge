@@ -1,6 +1,6 @@
 import { prisma } from "../../shared/db/prisma.js";
 import { NotFoundError, ForbiddenError } from "../../shared/errors/app-error.js";
-import type { Prisma, ProjectStatus, Role } from "@prisma/client";
+import type { Prisma, ProjectStatus, Role } from "../../generated/prisma/client.js";
 import type { UpdateProjectInput } from "./project.schema.js";
 
 export interface CreateProjectFromApplicationInput {
