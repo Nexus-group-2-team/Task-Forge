@@ -11,8 +11,11 @@ import {
   createCategory,
   createSkill,
   deleteJobs,
+  getCategories,
   getJobs,
   getJobsByID,
+  getSkillByID,
+  getSkills,
   patchJobs,
   postJob,
 } from "./jobs.controllers.js";
@@ -22,10 +25,24 @@ import {
   createSkillSchema,
   jobIdParamSchema,
   querySchema,
+  skillIdParamSchema,
+  skillsQuerySchema,
   updateJobSchema,
 } from "./jobs.validator.js";
 
 const router = Router();
+
+// ------------------------------------------------- taxonomy (public reads) ---
+// Declared before "/:id" on purpose: Express matches in registration order, so
+// a literal segment registered later would be swallowed by the id param and
+// answer with a misleading 404 instead of the catalog.
+router.get("/skills", validate({ query: skillsQuerySchema }), asyncHandler(getSkills));
+router.get(
+  "/skills/:id",
+  validate({ params: skillIdParamSchema }),
+  asyncHandler(getSkillByID)
+);
+router.get("/categories", asyncHandler(getCategories));
 
 // ---------------------------------------------------------------- listings --
 // Public. Optional auth lets an owner or admin still resolve their own draft.
@@ -77,6 +94,20 @@ router.post(
   authorize(Role.ADMIN),
   validate({ body: createCategorySchema }),
   asyncHandler(createCategory)
+);
+
+/**
+ * The catalog is additionally reachable at /api/skills, the path the documented
+ * API scope advertises. Same controllers, mounted separately in app.ts, so a
+ * client built from the README stops 404ing on the read endpoints.
+ */
+export const skillsRouter = Router();
+
+skillsRouter.get("/", validate({ query: skillsQuerySchema }), asyncHandler(getSkills));
+skillsRouter.get(
+  "/:id",
+  validate({ params: skillIdParamSchema }),
+  asyncHandler(getSkillByID)
 );
 
 export default router;
