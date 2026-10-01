@@ -94,8 +94,30 @@ export const jobIdParamSchema = z.object({
   id: z.string().trim().min(1, "id is required").max(64, "id is too long"),
 });
 
+export const skillIdParamSchema = z.object({
+  id: z.string().trim().min(1, "id is required").max(64, "id is too long"),
+});
+
+/** Bounded page/limit shared by every taxonomy listing. */
+const paginationShape = {
+  page: z.coerce.number().int().positive("page must be 1 or greater").default(1),
+  limit: z.coerce
+    .number()
+    .int()
+    .min(3, "No less than 3 elements are allowed!")
+    .max(100, "No more than 100 elements are allowed!")
+    .default(20),
+};
+
+export const skillsQuerySchema = z.object({
+  ...paginationShape,
+  name: z.string().trim().min(1).max(100).optional(),
+  categoryId: z.string().trim().min(1).max(64).optional(),
+});
+
 export type CreateJobInput = z.infer<typeof createJobSchema>;
 export type UpdateJobInput = z.infer<typeof updateJobSchema>;
 export type JobListQuery = z.infer<typeof querySchema>;
 export type CreateSkillInput = z.infer<typeof createSkillSchema>;
 export type CreateCategoryInput = z.infer<typeof createCategorySchema>;
+export type SkillListQuery = z.infer<typeof skillsQuerySchema>;

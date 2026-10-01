@@ -111,7 +111,7 @@ npm run dev                   # start in watch mode
 |---|---|
 | Auth | `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/refresh`, `POST /api/auth/logout`, `POST /api/auth/logout/all`, `GET /api/auth/me`, `POST /api/auth/forgot-password`, `POST /api/auth/reset-password`, `PATCH /api/auth/users/:id/status` |
 | Profiles | `GET/PATCH /api/profiles/me`, `PUT /api/profiles/me/skills`, `GET /api/profiles/freelancers`, `GET /api/profiles/:userId` |
-| Skills | `GET /api/skills`, `POST /api/skills` |
+| Skills | `GET /api/skills`, `GET /api/skills/:id`, `POST /api/skills`, `GET /api/jobs/skills`, `GET /api/jobs/skills/:id`, `GET /api/jobs/categories`, `POST /api/jobs/categories` |
 | Jobs | `POST /api/jobs`, `GET /api/jobs`, `GET/PATCH/DELETE /api/jobs/:id` |
 | Applications | `POST /api/applications`, `GET /api/applications`, `GET/PATCH/DELETE /api/applications/:id` |
 | Projects | `GET /api/projects`, `GET/PATCH /api/projects/:id` |
@@ -122,7 +122,7 @@ npm run dev                   # start in watch mode
 | Reviews | `POST /api/reviews`, `GET /api/reviews/project/:projectId`, `GET /api/reviews/user/:userId`, `PATCH/DELETE /api/reviews/:id` |
 | Reports | `POST /api/reports`, `GET /api/reports` (admin), `GET /api/reports/:id`, `PATCH /api/reports/:id/resolve` (admin) |
 | Health | `GET /health` |
-Query conventions: `?page=1&limit=20` (bounded), `?search=`, `?status=`, `?skillId=`, `?minBudget=`, `?maxBudget=`, sorting via an allow-list of fields.
+Query conventions: `?page=1&limit=20` (bounded), `?search=`, `?status=`, `?minBudget=`, `?maxBudget=`, sorting via an allow-list of fields. The skill catalog narrows by `?name=` and `?categoryId=`.
 
 ## Testing
 
