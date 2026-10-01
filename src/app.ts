@@ -22,7 +22,7 @@ import uploadRoutes from "./modules/uploads/upload.routes.js";
 import { errorHandler } from "./shared/errors/error-handler.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-import jobsRouter from "./modules/jobs/jobs.routes.js";
+import jobsRouter, { skillsRouter } from "./modules/jobs/jobs.routes.js";
 
 const app = express();
 
@@ -70,6 +70,8 @@ app.use("/api/uploads", uploadRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/jobs", jobsRouter);
+// Skill catalog reads, also reachable as /api/jobs/skills.
+app.use("/api/skills", skillsRouter);
 
 app.use("/api/v1", milestoneRoutes);
 

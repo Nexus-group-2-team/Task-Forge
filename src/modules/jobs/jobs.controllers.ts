@@ -3,8 +3,11 @@ import {
   CreateCategory,
   CreateSkill,
   DeleteJobs,
+  GetCategories,
   GetJobByID,
   GetJobs,
+  GetSkillByID,
+  GetSkills,
   PatchJobs,
   PostJob,
 } from "./jobs.services.js";
@@ -13,6 +16,7 @@ import type {
   CreateJobInput,
   CreateSkillInput,
   JobListQuery,
+  SkillListQuery,
   UpdateJobInput,
 } from "./jobs.validator.js";
 
@@ -60,4 +64,22 @@ export async function createCategory(req: Request, res: Response): Promise<void>
   const category = await CreateCategory(req.body as CreateCategoryInput, req.user!);
 
   res.status(201).json({ success: true, data: category });
+}
+
+export async function getSkills(req: Request, res: Response): Promise<void> {
+  const { data, meta } = await GetSkills(req.query as unknown as SkillListQuery);
+
+  res.status(200).json({ success: true, data, meta });
+}
+
+export async function getSkillByID(req: Request, res: Response): Promise<void> {
+  const skill = await GetSkillByID(req.params.id as string);
+
+  res.status(200).json({ success: true, data: skill });
+}
+
+export async function getCategories(req: Request, res: Response): Promise<void> {
+  const categories = await GetCategories();
+
+  res.status(200).json({ success: true, data: categories });
 }
