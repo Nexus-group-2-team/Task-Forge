@@ -2,6 +2,7 @@ import request from "supertest";
 import { describe, expect, it, vi } from "vitest";
 import app from "../../src/app.js";
 import { prisma } from "../../src/shared/db/prisma.js";
+import { env } from "../../src/shared/config/env.js";
 
 vi.mock("../../src/shared/services/password-breach.service.js", () => ({
   PasswordBreachService: { isBreached: vi.fn().mockResolvedValue(false) },
@@ -167,6 +168,125 @@ describe("Applications API contract & integration tests", { timeout: 30000 }, ()
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
     expect(res.body.data.status).toBe("WITHDRAWN");
+
+    // Industry standard: withdrawal removes the proposal outright so the
+    // (job, freelancer) slot is freed for a future re-application.
+    const row = await prisma.application.findUnique({
+      where: { id: applicationBId },
+    });
+    expect(row).toBeNull();
+  });
+
+  it("should allow Freelancer B to re-apply to the same job after withdrawal", async () => {
+    const res = await request(app)
+      .post("/api/applications")
+      .set("Authorization", `Bearer ${freelancerBToken}`)
+      .send({
+        jobId,
+        coverLetter: "Freelancer B updated proposal after withdrawing",
+        proposedBid: 1500,
+        estimatedDays: 21,
+        resumeUrl: "https://cdn.example.com/resume-b.pdf",
+        attachmentUrls: ["https://example.com/portfolio-b"],
+      });
+
+    expect(res.status).toBe(201);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.status).toBe("PENDING");
+    expect(res.body.data.estimatedDays).toBe(21);
+    expect(res.body.data.resumeUrl).toBe("https://cdn.example.com/resume-b.pdf");
+    applicationBId = res.body.data.id; // later tests must use the fresh proposal
+  });
+
+  it("should still block duplicate applications while a PENDING one exists", async () => {
+    const res = await request(app)
+      .post("/api/applications")
+      .set("Authorization", `Bearer ${freelancerBToken}`)
+      .send({
+        jobId,
+        coverLetter: "Second simultaneous application attempt should conflict",
+      });
+
+    expect(res.status).toBe(409);
+    expect(res.body.success).toBe(false);
+  });
+
+  it("should reject external file URLs when STRICT_UPLOAD_URLS is enabled", async () => {
+    const previous = env.STRICT_UPLOAD_URLS;
+    env.STRICT_UPLOAD_URLS = true;
+    try {
+      const res = await request(app)
+        .post("/api/applications")
+        .set("Authorization", `Bearer ${freelancerAToken}`)
+        .send({
+          jobId,
+          coverLetter: "Testing strict origin enforcement",
+          resumeUrl: "https://evil.example.com/resume.pdf",
+        });
+
+      // URL policy is validated before duplicate/state checks (fail fast 400).
+      expect(res.status).toBe(400);
+      expect(res.body.message).toContain("STRICT_UPLOAD_URLS");
+    } finally {
+      env.STRICT_UPLOAD_URLS = previous;
+    }
+
+    // With the flag back off (default), external links remain allowed — the
+    // URL check passes and we reach the duplicate check instead.
+    const allowed = await request(app)
+      .post("/api/applications")
+      .set("Authorization", `Bearer ${freelancerAToken}`)
+      .send({
+        jobId,
+        coverLetter: "External link should be fine by default",
+        resumeUrl: "https://cdn.example.com/portfolio/resume.pdf",
+      });
+
+    expect(allowed.status).toBe(409);
+    expect(allowed.body.message).toBe("You have already applied to this job");
+  });
+
+  it("should fail closed for file URLs when strict mode is on but storage is unconfigured", async () => {
+    const previousStrict = env.STRICT_UPLOAD_URLS;
+    const previousUrl = env.SUPABASE_URL;
+    env.STRICT_UPLOAD_URLS = true;
+    env.SUPABASE_URL = undefined;
+    try {
+      const res = await request(app)
+        .post("/api/applications")
+        .set("Authorization", `Bearer ${freelancerAToken}`)
+        .send({
+          jobId,
+          coverLetter: "Strict mode with no storage configured",
+          resumeUrl: "https://cdn.example.com/resume.pdf",
+        });
+
+      // No origin can be verified without a bucket → reject rather than allow.
+      expect(res.status).toBe(400);
+      expect(res.body.message).toContain("storage is not configured");
+      expect(res.body.message).toContain("STRICT_UPLOAD_URLS");
+    } finally {
+      env.SUPABASE_URL = previousUrl;
+      env.STRICT_UPLOAD_URLS = previousStrict;
+    }
+  });
+
+  it("should allow Client to reject a pending application exactly once", async () => {
+    const res = await request(app)
+      .patch(`/api/applications/${applicationBId}/reject`)
+      .set("Authorization", `Bearer ${clientToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.status).toBe("REJECTED");
+
+    // Compare-and-set guard: the second reject sees a non-PENDING row.
+    const again = await request(app)
+      .patch(`/api/applications/${applicationBId}/reject`)
+      .set("Authorization", `Bearer ${clientToken}`);
+
+    expect(again.status).toBe(400);
+    expect(again.body.message).toBe("Only pending applications can be rejected");
   });
 
   it("should allow Client to ACCEPT Freelancer A's application and automatically instantiate Project contract", async () => {
@@ -194,5 +314,72 @@ describe("Applications API contract & integration tests", { timeout: 30000 }, ()
 
     expect(res.status).toBe(400);
     expect(res.body.success).toBe(false);
+  });
+
+  it("should let exactly one of two concurrent ACCEPT requests win (race guard)", async () => {
+    // Fresh OPEN job with two PENDING applications, set up directly in the DB
+    // (mirrors the suite's own setup style and avoids route-schema coupling).
+    const raceJob = await prisma.job.create({
+      data: {
+        title: "Race-guard concurrency job",
+        description: "Exercises the in-transaction compare-and-set on accept",
+        budgetMin: 100,
+        budgetMax: 500,
+        ownerId: clientId,
+        status: "OPEN",
+      },
+    });
+
+    const appARes = await request(app)
+      .post("/api/applications")
+      .set("Authorization", `Bearer ${freelancerAToken}`)
+      .send({ jobId: raceJob.id, coverLetter: "Race applicant A" });
+    expect(appARes.status).toBe(201);
+
+    const appBRes = await request(app)
+      .post("/api/applications")
+      .set("Authorization", `Bearer ${freelancerBToken}`)
+      .send({ jobId: raceJob.id, coverLetter: "Race applicant B" });
+    expect(appBRes.status).toBe(201);
+
+    const raceAppAId = appARes.body.data.id;
+    const raceAppBId = appBRes.body.data.id;
+
+    // Both accepts fire simultaneously. Under READ COMMITTED the job row lock
+    // serializes the two CAS updates: whoever commits first flips OPEN ->
+    // IN_PROGRESS, so the loser's guarded updateMany matches 0 rows and its
+    // whole transaction rolls back.
+    const [first, second] = await Promise.all([
+      request(app)
+        .patch(`/api/applications/${raceAppAId}/accept`)
+        .set("Authorization", `Bearer ${clientToken}`),
+      request(app)
+        .patch(`/api/applications/${raceAppBId}/accept`)
+        .set("Authorization", `Bearer ${clientToken}`),
+    ]);
+
+    const responses = [first, second];
+    const winners = responses.filter((r) => r.status === 200);
+    expect(winners).toHaveLength(1);
+
+    // Loser fails via the job CAS (400) or the application CAS (409).
+    const losers = responses.filter((r) => r.status !== 200);
+    expect(losers).toHaveLength(1);
+    expect([400, 409]).toContain(losers[0].status);
+
+    // Exactly one project contract exists for the two applications.
+    const projectCount = await prisma.project.count({
+      where: { applicationId: { in: [raceAppAId, raceAppBId] } },
+    });
+    expect(projectCount).toBe(1);
+
+    // Job settled IN_PROGRESS with exactly one ACCEPTED application.
+    const finalJob = await prisma.job.findUnique({ where: { id: raceJob.id } });
+    expect(finalJob?.status).toBe("IN_PROGRESS");
+
+    const acceptedCount = await prisma.application.count({
+      where: { id: { in: [raceAppAId, raceAppBId] }, status: "ACCEPTED" },
+    });
+    expect(acceptedCount).toBe(1);
   });
 });
