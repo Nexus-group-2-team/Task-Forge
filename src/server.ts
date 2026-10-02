@@ -8,8 +8,6 @@ const server = app.listen(PORT, () => {
   console.log(`TaskForge API running on http://localhost:${PORT}`);
 });
 
-// Fail fast with a clear message instead of an opaque EADDRINUSE stack
-// (common when a previous dev server never exited).
 server.on("error", (error: NodeJS.ErrnoException) => {
   console.error(
     error.code === "EADDRINUSE"
