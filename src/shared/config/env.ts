@@ -5,15 +5,15 @@ dotenv.config();
 
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
-  PORT: z.coerce.number().default(4000),
+  PORT: z.coerce.number(),
   DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
   JWT_ACCESS_SECRET: z.string().min(16),
   JWT_REFRESH_SECRET: z.string().min(16),
-  JWT_ACCESS_EXPIRES_IN: z.string().default("15m"),
-  JWT_REFRESH_EXPIRES_IN_DAYS: z.coerce.number().default(7),
+  JWT_ACCESS_EXPIRES_IN: z.string(),
+  JWT_REFRESH_EXPIRES_IN_DAYS: z.coerce.number(),
   RESEND_API_KEY: z.string().optional(),
-  RESEND_FROM_EMAIL: z.string().default("TaskForge <onboarding@resend.dev>"),
-  FRONTEND_URL: z.string().url().default("http://localhost:4000"),
+  RESEND_FROM_EMAIL: z.string(),
+  FRONTEND_URL: z.string().url(),
 
   // Supabase Storage — cloud object storage for resumes and application attachments. 
   SUPABASE_URL: z.url().optional(),
