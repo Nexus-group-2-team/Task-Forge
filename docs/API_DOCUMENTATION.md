@@ -176,8 +176,8 @@ Updates project lifecycle status.
 Submits a job proposal/application for an open job posting.
 - **Access**: Authenticated (`FREELANCER`)
 - **Request Body**: `{ "jobId": "job-id", "coverLetter": "Detailed cover letter...", "proposedBid": 1200, "estimatedDays": 14, "resumeUrl": "https://...", "attachmentUrls": ["https://..."] }`
-- **Rules**: Rejects duplicate applications for the same job (`409 Conflict`) and prevents job owners from applying to their own postings (`403 Forbidden`).
-- **File workflow**: `resumeUrl` and `attachmentUrls` are public URLs returned by the Uploads Module (`/api/uploads/*`). Files are uploaded to cloud storage first, then the application is submitted as plain JSON.
+- **Rules**: Rejects duplicate applications for the same job (`409 Conflict`) and prevents job owners from applying to their own postings (`403 Forbidden`). Proposals cannot be edited after submission — withdraw and re-apply to submit a new one.
+- **File workflow**: `resumeUrl` and `attachmentUrls` are public URLs returned by the Uploads Module (`/api/uploads/*`). Files are uploaded to cloud storage first, then the application is submitted as plain JSON. Validated to `http(s)` URLs only, with at most **5 attachments**. External (non-bucket) links are allowed by default; set `STRICT_UPLOAD_URLS=true` to require every file URL to live in the project's own storage bucket (fails closed with `400` if storage is unconfigured).
 
 #### `GET /api/applications`
 Lists applications filtered by caller role and status.
@@ -194,8 +194,9 @@ Retrieves a single application.
 - **IDOR Protection**: Returns `404 Not Found` if the caller is not the applicant freelancer, job owner client, or an admin.
 
 #### `PATCH /api/applications/:id/withdraw`
-Withdraws a pending application.
+Withdraws a pending application. The proposal is **removed from the system** (hard delete), freeing the applicant to re-apply to the same job later with a fresh proposal.
 - **Access**: Authenticated (`FREELANCER` applicant or `ADMIN`)
+- **Response**: `200` with the withdrawn snapshot (`status: "WITHDRAWN"`); a subsequent `GET` returns `404`.
 
 #### `PATCH /api/applications/:id/reject`
 Rejects a pending application.
@@ -233,6 +234,8 @@ Uploads portfolio links, case studies, or design previews (up to 5 files).
 - **Response (201)**: `{ "files": [{ "fileName", "fileSize", "mimetype", "url", "objectPath" }] }`
 
 **Configuration**: requires `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (backend-only secret), and `SUPABASE_STORAGE_BUCKET` (default `taskforge-assets`, public bucket). If unset, upload routes fail with a clear `500` stating uploads are not configured.
+
+**Orphan cleanup**: withdrawn applications are hard-deleted, which can leave their uploaded files unreferenced. Run `npm run cleanup:orphans` to sweep the bucket — it is a **dry-run by default** (pass `--prune` to delete) and honours a 24h grace period (`--grace-hours=N`) so in-flight uploads and quick re-applications are never destroyed. Only objects no application row references are eligible.
 
 ---
 

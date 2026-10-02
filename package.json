@@ -14,6 +14,7 @@
     "start": "node dist/server.js",
     "test:watch": "vitest",
     "smoke:uploads": "tsx scripts/smoke-upload.ts",
+    "cleanup:orphans": "tsx scripts/cleanup-orphans.ts",
     "postinstall": "prisma skills sync || exit 0"
   },
   "repository": {
