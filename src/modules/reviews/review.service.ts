@@ -1,5 +1,5 @@
 import { Role } from "../../generated/prisma/enums.js";
-import type { Prisma } from "../../generated/prisma/client.js";
+import { Prisma } from "../../generated/prisma/client.js";
 import { prisma } from "../../shared/db/prisma.js";
 import {
   BadRequestError,
