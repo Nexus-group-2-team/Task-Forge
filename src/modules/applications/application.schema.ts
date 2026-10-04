@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ApplicationStatus } from "@prisma/client";
+import { ApplicationStatus } from "../../generated/prisma/enums.js";
 
 // Only http(s) URLs are accepted: blocks javascript:, data:, ftp: schemes that
 // could become an XSS/content-spoofing vector when rendered as links.

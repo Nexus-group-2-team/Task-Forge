@@ -1,7 +1,7 @@
-import { MilestoneStatus, type Prisma } from "@prisma/client";
+import { MilestoneStatus } from "../../generated/prisma/enums.js";
+import type { Prisma, Role } from "../../generated/prisma/client.js";
 import { prisma } from "../../shared/db/prisma.js";
 import { NotFoundError, ForbiddenError } from "../../shared/errors/app-error.js";
-import type { Role } from "@prisma/client";
 
 export interface CreateMilestoneInput {
   title: string;

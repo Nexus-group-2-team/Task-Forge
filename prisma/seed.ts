@@ -1,5 +1,5 @@
 import { prisma } from '../src/shared/db/prisma.js';
-import { Role, ProjectStatus, MilestoneStatus } from '@prisma/client';
+import { Role, ProjectStatus, MilestoneStatus } from '../src/generated/prisma/enums.js';
 import { hashPassword } from '../src/shared/utils/password.js';
 
 async function main() {

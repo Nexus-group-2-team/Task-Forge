@@ -7,7 +7,7 @@ import {
 } from "../../shared/errors/app-error.js";
 import { env } from "../../shared/config/env.js";
 import { ProjectService } from "../projects/project.service.js";
-import type { Role } from "@prisma/client";
+import type { Role } from "../../generated/prisma/client.js";
 import type { CreateApplicationInput, ListApplicationsQuery } from "./application.schema.js";
 
 export class ApplicationService {

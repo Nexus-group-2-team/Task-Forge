@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { Role } from "@prisma/client";
+import { Role } from "../../generated/prisma/enums.js";
 import { UnauthorizedError, ForbiddenError } from "../errors/app-error.js";
 import { prisma } from "../db/prisma.js";
 import { verifyAccessToken } from "../utils/tokens.js";

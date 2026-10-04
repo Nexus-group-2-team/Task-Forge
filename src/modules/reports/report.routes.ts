@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Role } from "@prisma/client";
+import { Role } from "../../generated/prisma/enums.js";
 import { authenticate, authorize } from "../../shared/middleware/auth.middleware.js";
 import { validate } from "../../shared/middleware/validate.middleware.js";
 import { asyncHandler } from "../../shared/utils/async-handler.js";

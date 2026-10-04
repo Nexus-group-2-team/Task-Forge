@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import { ProjectService } from "./project.service.js";
-import type { ProjectStatus } from "@prisma/client";
+import type { ProjectStatus } from "../../generated/prisma/client.js";
 
 export class ProjectController {
   static async getMyProjects(req: Request, res: Response, next: NextFunction): Promise<void> {

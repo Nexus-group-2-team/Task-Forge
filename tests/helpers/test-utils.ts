@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import jwt from "jsonwebtoken";
-import { AccountStatus, PrismaClient, Role } from "@prisma/client";
+import { PrismaClient } from "../../src/generated/prisma/client.js";
+import { AccountStatus, Role } from "../../src/generated/prisma/enums.js";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { env } from "../../src/shared/config/env.js";
 

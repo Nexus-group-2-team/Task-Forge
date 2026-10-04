@@ -2,7 +2,7 @@
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import type { CookieOptions } from "express";
-import { Role } from "@prisma/client";
+import type { Role } from "../../generated/prisma/client.js";
 import { env } from "../config/env.js";
 
 export const REFRESH_COOKIE_NAME = "taskforge_refresh_token";

@@ -1,4 +1,5 @@
-import { Prisma, ReportStatus, Role } from "@prisma/client";
+import { ReportStatus, Role } from "../../generated/prisma/enums.js";
+import type { Prisma } from "../../generated/prisma/client.js";
 import { prisma } from "../../shared/db/prisma.js";
 import { BadRequestError, ConflictError, ForbiddenError, NotFoundError } from "../../shared/errors/app-error.js";
 import { createPaginatedResponse, getPaginationOptions } from "../../shared/utils/pagination.js";

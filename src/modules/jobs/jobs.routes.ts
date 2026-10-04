@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Role } from "@prisma/client";
+import { Role } from "../../generated/prisma/enums.js";
 import {
   authenticate,
   authorize,

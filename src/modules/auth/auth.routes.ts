@@ -4,7 +4,7 @@ import { validate } from "../../shared/middleware/validate.middleware.js";
 import { authenticate, authorize } from "../../shared/middleware/auth.middleware.js";
 import { registerSchema, loginSchema, refreshTokenSchema, updateUserStatusSchema, forgotPasswordSchema, resetPasswordSchema } from "./auth.schema.js";
 import { forgotPasswordRateLimiter } from "../../shared/middleware/rate-limiter.js";
-import { Role } from "@prisma/client";
+import { Role } from "../../generated/prisma/enums.js";
 
 const router = Router();
 
