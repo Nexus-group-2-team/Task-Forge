@@ -3,7 +3,10 @@ dist/
 .env
 .env.*
 !.env.example
-
+.agents/
+.claude/
+.cursor/
+.devin/
 coverage/
 *.log
 

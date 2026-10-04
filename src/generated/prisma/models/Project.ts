@@ -206,10 +206,10 @@ export type ProjectWhereInput = {
   status?: Prisma.EnumProjectStatusFilter<"Project"> | $Enums.ProjectStatus
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
+  milestones?: Prisma.MilestoneListRelationFilter
   application?: Prisma.XOR<Prisma.ApplicationScalarRelationFilter, Prisma.ApplicationWhereInput>
   client?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   freelancer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  milestones?: Prisma.MilestoneListRelationFilter
   reviews?: Prisma.ReviewsListRelationFilter
 }
 
@@ -222,10 +222,10 @@ export type ProjectOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  milestones?: Prisma.MilestoneOrderByRelationAggregateInput
   application?: Prisma.ApplicationOrderByWithRelationInput
   client?: Prisma.UserOrderByWithRelationInput
   freelancer?: Prisma.UserOrderByWithRelationInput
-  milestones?: Prisma.MilestoneOrderByRelationAggregateInput
   reviews?: Prisma.ReviewsOrderByRelationAggregateInput
 }
 
@@ -241,10 +241,10 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumProjectStatusFilter<"Project"> | $Enums.ProjectStatus
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
+  milestones?: Prisma.MilestoneListRelationFilter
   application?: Prisma.XOR<Prisma.ApplicationScalarRelationFilter, Prisma.ApplicationWhereInput>
   client?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   freelancer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  milestones?: Prisma.MilestoneListRelationFilter
   reviews?: Prisma.ReviewsListRelationFilter
 }, "id" | "applicationId">
 
@@ -282,10 +282,10 @@ export type ProjectCreateInput = {
   status?: $Enums.ProjectStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutProjectInput
   application: Prisma.ApplicationCreateNestedOneWithoutProjectInput
   client: Prisma.UserCreateNestedOneWithoutProjectsInput
   freelancer: Prisma.UserCreateNestedOneWithoutFreelancerProjectsInput
-  milestones?: Prisma.MilestoneCreateNestedManyWithoutProjectInput
   reviews?: Prisma.ReviewsCreateNestedManyWithoutProjectInput
 }
 
@@ -308,10 +308,10 @@ export type ProjectUpdateInput = {
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  milestones?: Prisma.MilestoneUpdateManyWithoutProjectNestedInput
   application?: Prisma.ApplicationUpdateOneRequiredWithoutProjectNestedInput
   client?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
   freelancer?: Prisma.UserUpdateOneRequiredWithoutFreelancerProjectsNestedInput
-  milestones?: Prisma.MilestoneUpdateManyWithoutProjectNestedInput
   reviews?: Prisma.ReviewsUpdateManyWithoutProjectNestedInput
 }
 
@@ -565,9 +565,9 @@ export type ProjectCreateWithoutClientInput = {
   status?: $Enums.ProjectStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutProjectInput
   application: Prisma.ApplicationCreateNestedOneWithoutProjectInput
   freelancer: Prisma.UserCreateNestedOneWithoutFreelancerProjectsInput
-  milestones?: Prisma.MilestoneCreateNestedManyWithoutProjectInput
   reviews?: Prisma.ReviewsCreateNestedManyWithoutProjectInput
 }
 
@@ -599,9 +599,9 @@ export type ProjectCreateWithoutFreelancerInput = {
   status?: $Enums.ProjectStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutProjectInput
   application: Prisma.ApplicationCreateNestedOneWithoutProjectInput
   client: Prisma.UserCreateNestedOneWithoutProjectsInput
-  milestones?: Prisma.MilestoneCreateNestedManyWithoutProjectInput
   reviews?: Prisma.ReviewsCreateNestedManyWithoutProjectInput
 }
 
@@ -679,9 +679,9 @@ export type ProjectCreateWithoutApplicationInput = {
   status?: $Enums.ProjectStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutProjectInput
   client: Prisma.UserCreateNestedOneWithoutProjectsInput
   freelancer: Prisma.UserCreateNestedOneWithoutFreelancerProjectsInput
-  milestones?: Prisma.MilestoneCreateNestedManyWithoutProjectInput
   reviews?: Prisma.ReviewsCreateNestedManyWithoutProjectInput
 }
 
@@ -719,9 +719,9 @@ export type ProjectUpdateWithoutApplicationInput = {
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  milestones?: Prisma.MilestoneUpdateManyWithoutProjectNestedInput
   client?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
   freelancer?: Prisma.UserUpdateOneRequiredWithoutFreelancerProjectsNestedInput
-  milestones?: Prisma.MilestoneUpdateManyWithoutProjectNestedInput
   reviews?: Prisma.ReviewsUpdateManyWithoutProjectNestedInput
 }
 
@@ -807,10 +807,10 @@ export type ProjectCreateWithoutReviewsInput = {
   status?: $Enums.ProjectStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutProjectInput
   application: Prisma.ApplicationCreateNestedOneWithoutProjectInput
   client: Prisma.UserCreateNestedOneWithoutProjectsInput
   freelancer: Prisma.UserCreateNestedOneWithoutFreelancerProjectsInput
-  milestones?: Prisma.MilestoneCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutReviewsInput = {
@@ -847,10 +847,10 @@ export type ProjectUpdateWithoutReviewsInput = {
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  milestones?: Prisma.MilestoneUpdateManyWithoutProjectNestedInput
   application?: Prisma.ApplicationUpdateOneRequiredWithoutProjectNestedInput
   client?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
   freelancer?: Prisma.UserUpdateOneRequiredWithoutFreelancerProjectsNestedInput
-  milestones?: Prisma.MilestoneUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutReviewsInput = {
@@ -891,9 +891,9 @@ export type ProjectUpdateWithoutClientInput = {
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  milestones?: Prisma.MilestoneUpdateManyWithoutProjectNestedInput
   application?: Prisma.ApplicationUpdateOneRequiredWithoutProjectNestedInput
   freelancer?: Prisma.UserUpdateOneRequiredWithoutFreelancerProjectsNestedInput
-  milestones?: Prisma.MilestoneUpdateManyWithoutProjectNestedInput
   reviews?: Prisma.ReviewsUpdateManyWithoutProjectNestedInput
 }
 
@@ -925,9 +925,9 @@ export type ProjectUpdateWithoutFreelancerInput = {
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  milestones?: Prisma.MilestoneUpdateManyWithoutProjectNestedInput
   application?: Prisma.ApplicationUpdateOneRequiredWithoutProjectNestedInput
   client?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
-  milestones?: Prisma.MilestoneUpdateManyWithoutProjectNestedInput
   reviews?: Prisma.ReviewsUpdateManyWithoutProjectNestedInput
 }
 
@@ -1002,10 +1002,10 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  milestones?: boolean | Prisma.Project$milestonesArgs<ExtArgs>
   application?: boolean | Prisma.ApplicationDefaultArgs<ExtArgs>
   client?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   freelancer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  milestones?: boolean | Prisma.Project$milestonesArgs<ExtArgs>
   reviews?: boolean | Prisma.Project$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
@@ -1051,10 +1051,10 @@ export type ProjectSelectScalar = {
 
 export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "applicationId" | "clientId" | "freelancerId" | "title" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  milestones?: boolean | Prisma.Project$milestonesArgs<ExtArgs>
   application?: boolean | Prisma.ApplicationDefaultArgs<ExtArgs>
   client?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   freelancer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  milestones?: boolean | Prisma.Project$milestonesArgs<ExtArgs>
   reviews?: boolean | Prisma.Project$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1072,10 +1072,10 @@ export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Project"
   objects: {
+    milestones: Prisma.$MilestonePayload<ExtArgs>[]
     application: Prisma.$ApplicationPayload<ExtArgs>
     client: Prisma.$UserPayload<ExtArgs>
     freelancer: Prisma.$UserPayload<ExtArgs>
-    milestones: Prisma.$MilestonePayload<ExtArgs>[]
     reviews: Prisma.$ReviewsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1481,10 +1481,10 @@ readonly fields: ProjectFieldRefs;
  */
 export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  milestones<T extends Prisma.Project$milestonesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$milestonesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   application<T extends Prisma.ApplicationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ApplicationDefaultArgs<ExtArgs>>): Prisma.Prisma__ApplicationClient<runtime.Types.Result.GetResult<Prisma.$ApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   client<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   freelancer<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  milestones<T extends Prisma.Project$milestonesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$milestonesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.Project$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.

@@ -166,16 +166,16 @@ export type UserSkillWhereInput = {
   userId?: Prisma.StringFilter<"UserSkill"> | string
   skillId?: Prisma.StringFilter<"UserSkill"> | string
   createdAt?: Prisma.DateTimeFilter<"UserSkill"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   skill?: Prisma.XOR<Prisma.SkillScalarRelationFilter, Prisma.SkillWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type UserSkillOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   skillId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
   skill?: Prisma.SkillOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type UserSkillWhereUniqueInput = Prisma.AtLeast<{
@@ -186,8 +186,8 @@ export type UserSkillWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"UserSkill"> | string
   skillId?: Prisma.StringFilter<"UserSkill"> | string
   createdAt?: Prisma.DateTimeFilter<"UserSkill"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   skill?: Prisma.XOR<Prisma.SkillScalarRelationFilter, Prisma.SkillWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "userId_skillId">
 
 export type UserSkillOrderByWithAggregationInput = {
@@ -210,8 +210,8 @@ export type UserSkillScalarWhereWithAggregatesInput = {
 
 export type UserSkillCreateInput = {
   createdAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutUserSkillsInput
   skill: Prisma.SkillCreateNestedOneWithoutUserSkillsInput
+  user: Prisma.UserCreateNestedOneWithoutUserSkillsInput
 }
 
 export type UserSkillUncheckedCreateInput = {
@@ -222,8 +222,8 @@ export type UserSkillUncheckedCreateInput = {
 
 export type UserSkillUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutUserSkillsNestedInput
   skill?: Prisma.SkillUpdateOneRequiredWithoutUserSkillsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutUserSkillsNestedInput
 }
 
 export type UserSkillUncheckedUpdateInput = {
@@ -492,24 +492,24 @@ export type UserSkillSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   userId?: boolean
   skillId?: boolean
   createdAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   skill?: boolean | Prisma.SkillDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userSkill"]>
 
 export type UserSkillSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   userId?: boolean
   skillId?: boolean
   createdAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   skill?: boolean | Prisma.SkillDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userSkill"]>
 
 export type UserSkillSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   userId?: boolean
   skillId?: boolean
   createdAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   skill?: boolean | Prisma.SkillDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userSkill"]>
 
 export type UserSkillSelectScalar = {
@@ -520,23 +520,23 @@ export type UserSkillSelectScalar = {
 
 export type UserSkillOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "skillId" | "createdAt", ExtArgs["result"]["userSkill"]>
 export type UserSkillInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   skill?: boolean | Prisma.SkillDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type UserSkillIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   skill?: boolean | Prisma.SkillDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type UserSkillIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   skill?: boolean | Prisma.SkillDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $UserSkillPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "UserSkill"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
     skill: Prisma.$SkillPayload<ExtArgs>
+    user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     userId: string
@@ -936,8 +936,8 @@ readonly fields: UserSkillFieldRefs;
  */
 export interface Prisma__UserSkillClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   skill<T extends Prisma.SkillDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SkillDefaultArgs<ExtArgs>>): Prisma.Prisma__SkillClient<runtime.Types.Result.GetResult<Prisma.$SkillPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

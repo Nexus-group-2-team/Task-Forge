@@ -204,30 +204,6 @@ describe("Auth & Profile API contract tests", { timeout: 20000 }, () => {
     expect(postLogoutRefresh.status).toBe(401);
   });
 
-  it("should revoke every session via POST /api/auth/logout/all and kill access tokens", async () => {
-    const email = `logoutall_${Date.now()}@example.com`;
-    const reg = await request(app).post("/api/auth/register").send({
-      email,
-      password: "Password123!",
-      fullName: "Logout All Tester",
-      role: "FREELANCER",
-    });
-    expect(reg.status).toBe(201);
-    const token = reg.body.data.token;
-
-    const res = await request(app)
-      .post("/api/auth/logout/all")
-      .set("Authorization", `Bearer ${token}`)
-      .send({});
-    expect(res.status).toBe(200);
-    expect(res.body.success).toBe(true);
-    expect(res.body.data.revokedSessionsCount).toBeGreaterThanOrEqual(1);
-
-    // The access token used above must be dead now (its session was revoked).
-    const me = await request(app).get("/api/auth/me").set("Authorization", `Bearer ${token}`);
-    expect(me.status).toBe(401);
-  });
-
   it("should revoke every session via POST /api/auth/logout/all", async () => {
     const email = `logoutall_${Date.now()}@example.com`;
     await request(app).post("/api/auth/register").send({
